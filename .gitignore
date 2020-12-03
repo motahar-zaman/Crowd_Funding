@@ -51,3 +51,11 @@ Thumbs.db
 .env
 *.zip
 *.gz
+
+/vendor
+public/uploads/products/
+public/uploads/profile/
+public/uploads/projects/
+
+composer.lock
+package-lock.json
