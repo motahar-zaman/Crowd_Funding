@@ -97,7 +97,6 @@ class ProfileController extends Controller
 	    if ($request->hasFile('pic')) {
             $extension = $request->pic->extension();
             $name = time().rand(1000,9999).'.'.$extension;
-            // $path = $request->image->storeAs('products', $name);
             $img = Image::make($request->pic)->resize(300, 300);
             $img->save(public_path().'/uploads/profile/'.$name, 60);
             $User->pic = 'profile/'.$name;
@@ -187,7 +186,7 @@ class ProfileController extends Controller
 
         Mail::to('administrator@crofun.jp')->send(new Common($emailData));
 
-        return redirect()->back()->with('success', 'プロフィール情報を更新完了です。');
+        return redirect()->back()->with('success', 'プロフィール情報を更新しました。');
     }
 
     public function emailChange(Request $request)
@@ -242,7 +241,6 @@ class ProfileController extends Controller
             ->send(new Common($emailData));
         return redirect()->back()->with('success_message', 'メールアドレスが更新されました');
     }
-
 
     public function sendMessage(Request $request)
     {
