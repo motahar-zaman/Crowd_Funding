@@ -5,6 +5,10 @@
     margin-bottom: 0px;
 }
 
+a {
+    text-decoration: none !important;
+}
+
 .front {
     position: relative;
     min-height: 100vh;
