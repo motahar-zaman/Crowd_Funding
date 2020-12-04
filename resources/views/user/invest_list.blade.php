@@ -79,149 +79,7 @@
 			border-radius: 50%;
 			color: #ff3300;
 			background-color: #ffffff;
-
-
 		}
-		/* @media (max-width: 1370px) {
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 15px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-
-		@media (max-width: 1295px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 16px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 13px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		
-		@media (max-width: 1170px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 15px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 11px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 1080px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 12px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 8px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 930px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 11px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 7px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 870px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 10px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 7px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 830px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 9px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 6px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		} */
 		.invest_font{
 			font-size: 17px;
 		}
@@ -510,14 +368,6 @@
 			}
 		}
 
-		{{--@media (max-width: 575.98px){
-			.padding_search{
-				padding-left: 0px !important;
-    			padding-right: 0px !important;
-			}
-		}--}}
-
-
 		.frame {
 			height: 245px;      /* equals max image height */
 			width: auto;
@@ -581,19 +431,10 @@
 
 						@foreach ($investments as $investment)
 							<?php
- 									// $project = $investment->project;
 									$budget = $investment->budget;
 									$invested = $investment->investment()->where('investments.status', 1)->sum('investments.amount');
 									$done = $invested*100/$budget;
 									$done = round($done);
-
-
-									// $project = $investment->project;
-									// $budget = $project->budget;
-									// $invested = $project->investment()->where('investments.status', 1)->sum('investments.amount');
-									// $done = $invested*100/$budget;
-									// $done = round($done);
-									// dd($project->investment->where('investments.status', 1)->sum('investments.amount'));
 								 ?>
 
 							<?php
@@ -607,7 +448,6 @@
 
 							<div class="row horizontal">
 								<div class="col-md-12 col-12">
-
 
 									<div class="row inner">
 										<div class="col-md-12 col-12">
@@ -628,42 +468,12 @@
 												<div class="col-md-7 margin_top">
 													<div class="row ">
 														<div class="col-md-7 col-7">
-															<h6 class="category-name" style="color:#bfc5cc;"> <span style="color:#bfc5cc;"> 	<i class="fa fa-tag"></i> <a href="/?c={{ $investment->category->id }} ">{{$investment->category->name}}@if(!empty($investment->sub_category)) @endif</a>
-																</span></h6>
-															</div>
-														<div class="col-md-5 col-5">
-														{{--@php
-																$fav = 0;
-															@endphp
-															@foreach ($investment->favourite as $f)
-																@if ($f->user_id == Auth::user()->id)
-																	@php
-																		$fav = 1;
-																	@endphp
-																@endif
-															@endforeach
-															@if(Auth::check())
-																@if($investment->user_id==Auth::user()->id)
-																	<div class="col-md-4 col-sm-6 category_favourite"></div>
-																@elseif($investment->end < date("Y-m-d", strtotime('now')))
-																	@if ($fav == 0)
-																		<div href="" class="pull-right favfont" style="font-size:14px;"><span style="color:#555;"> <i class="fa fa-heart-o"></i> </span>お気に入りに追加</div>
-																	@else
-																		<span class="pull-right favfont" style="font-size:14px;"><span style="color:#ed49b6"> <i class="fa fa-heart"></i> </span>お気に入り</span>
-																	@endif
-																@else
-																	@if ($fav == 0)
-																		<a href="{{ route('user-favourite-add-project', $investment->id) }}" class="pull-right favfont" style="font-size:14px;"><span style="color:#555;"> <i class="fa fa-heart-o"></i> </span>お気に入りに追加 </a>
-																	@else
-																		<a href="{{ route('user-favourite-remove-project', $investment->id) }}" class="pull-right favfont" style="font-size:14px;"><span style="color:#ed49b6"> <i class="fa fa-heart"></i> </span>お気に入り</a>
-																	@endif
-																@endif
-															@endif
-															@if ($fav == 0)
-																<a  href="{{ route('user-favourite-add-project', $investment->id) }}" class="pull-right favfont" style="font-size:14px;"><span style="color:#ed49b6;"> <i class="fa fa-heart"></i> </span>お気に入りに追加 </a>
-															@else
-																<span class="pull-right favfont" style="font-size:14px;"><span style="color:#555"> <i class="fa fa-heart-o"></i> </span>お気に入り</span>
-															@endif--}}
+															<h6 class="category-name" style="color:#bfc5cc;">
+																<span style="color:#bfc5cc;">
+																	<i class="fa fa-tag"></i>
+																	<a href="/?c={{ $investment->category->id }} ">{{$investment->category->name}}@if(!empty($investment->sub_category)) @endif</a>
+																</span>
+															</h6>
 														</div>
 													</div>
 													<div class="row mt-1">
@@ -691,11 +501,12 @@
 												</div>
 												<div class="row mt-3">
 													<div class="col-md-offset-2 mr-0 div-radius ml-3  box-height-invest" style="height:80px; width:80px;">
-															<p class="text-center pt-2"><span class="pt-2 text-center" style="font-size:11px;">応援者</span>
-															<br>
-															<span class="p-0 m-0 text-cente font" style="font-size:21px;">{{ $investment->investment()->where('investments.status', 1)->count() }}人</span></p>
+															<p class="text-center pt-2">
+																<span class="pt-2 text-center" style="font-size:11px;">応援者</span>
+																<br>
+																<span class="p-0 m-0 text-cente font" style="font-size:21px;">{{ $investment->investment()->where('investments.status', 1)->count() }}人</span>
+															</p>
 													</div>
-
 
 													<?php
 														$start = strtotime("now");
@@ -715,15 +526,14 @@
 															</p>
 														@endif
 													</div>
-													<div class="edit-button offset-0">
+													{{--<div class="edit-button offset-0">
 														<div class="bg-dark div-radius1">
 															<a href="{{ route('front-project-details', ['id' => $investment->id] ) }}" class="p-2 fontSize editbtn text-white btn btn-md btn-block font-weight-bold" style="padding-top: 28px !important;padding-bottom: 28px !important;">詳細をみる</a>
 														</div>
-													</div>
+													</div>--}}
 													<div class="edit-button offset-0">
 														<p style="font-size:15px;" class="user-title">起案者: {{$investment->user->first_name}} {{$investment->user->last_name}}</p>
 														<div class="bg-dark div-radius1">
-															<!-- data-toggle="modal" data-target="#send-message" -->
 															<button class="p-2 text-white message-button btn btn-md btn-block w6-14 msg_send_btn btn-default" data-user_id="{{ $investment->user->id }}" data-project_username="{{ $investment->user->first_name.' '.$investment->user->last_name }}" style="cursor:pointer; color:#fff;"> <span style="color:#fff !important;"> <i class="fa fa-envelope"></i> </span>メッセージを送る</button>
 														</div>
 													</div>
@@ -740,7 +550,6 @@
 											支援日 : {{date('Y/m/d', strtotime($investment_history->created_at))}}　
 											利用ポイント : {{ $investment_history->point }}ポイント <br>
 											選択したリターン : {{ $investment_history->amount }} コース ; {{$investment_history->reward[0]->is_other}}<br>
-											{{-- お届け情報: 配送前 --}}
 										</p>
 										<hr>
 									</div>
@@ -749,25 +558,13 @@
 							</div>
 						@endforeach
 					@endif
-
-
-						{{-- repeat --}}
-
-
-
-						{{-- repeat ends --}}
-
-
-						@php
-						$error = 0;
-						if (empty($user->first_name) || empty($user->last_name) || empty($user->profile->phonetic) ||  empty($user->profile->phonetic2) ||  empty($user->profile->postal_code) || empty($user->profile->prefectures) || empty($user->profile->phone_no) || empty($user->profile->municipility)) {
-							$error = 1;
-						}
-						@endphp
-						<input type="hidden" name="getError" id="getError" value="{{ $error }}">
-
-
-
+					@php
+					$error = 0;
+					if (empty($user->first_name) || empty($user->last_name) || empty($user->profile->phonetic) ||  empty($user->profile->phonetic2) ||  empty($user->profile->postal_code) || empty($user->profile->prefectures) || empty($user->profile->phone_no) || empty($user->profile->municipility)) {
+						$error = 1;
+					}
+					@endphp
+					<input type="hidden" name="getError" id="getError" value="{{ $error }}">
 				</div>
 
 			</div>
@@ -794,31 +591,16 @@
 					$('#to_id').val(user_id);
 					$('#project_user_name').val(user_name);
 					$('#send-message').modal('show');
-					//$('#send-message').addClass('show');
 				});
 			});
-	</script>
 
 
-<script type="text/javascript">
-	    // var error = document.getElementById('getError').value;
 			var error = $('#getError').val();
-
-			// error = 1;
-				$(window).on('load',function(){
-					console.log('error = ' + error);
-						if (error == 1) {
-							$('#myModal').modal('show');
-						}
-				});
-
-
-
-
-			// $('#myModal').modal({
-    	// 	backdrop: 'static',
-    	// 	keyboard: false  // to prevent closing with Esc button (if you want this too)
-			// });
+			$(window).on('load',function(){
+				console.log('error = ' + error);
+					if (error == 1) {
+						$('#myModal').modal('show');
+					}
+			});
 	</script>
-
 @stop
