@@ -141,7 +141,7 @@
 
 <div class="container">
 	<div class="row container_div">
-	  <div class="col-md-12 col-12">
+		<div class="col-md-12 col-12">
 			<div class="mt20">
 				<div class="row">
 					<div class="col-md-3">
@@ -158,13 +158,6 @@
 								</div>
 							</div>
 						</div>
-						{{-- @php 
-							$message = '申請中は編集できません。<br/>
-							編集が必要な場合はお問い合わせよりお問い合わせください。<br/>
-							お問い合わせはこちら '; 
-						@endphp --}}
-						{{--@include('front.displaymodal')--}}
-
 						<div class="row">
 							<div class="col-md-12 col-12 pt-3">
 								<h4 class="heading">現在起案中のプロジェクト</h4>
@@ -181,7 +174,6 @@
 								 ?>
 							<div class="row horizontal">
 								<div class="col-md-12 col-12">
-									<div class="row inner"></div>
 									<div class="row inner">
 										<div class="col-md-12 col-12">
 											<div class="row inner_inner">
@@ -200,30 +192,28 @@
 																$days_between = $hours_between <= 24 ? $hours_between : $days_between;
 																$days_between = $days_between < 0 ? 0 : $days_between;
 															?>
-
-														<?php 
-														if ($days_between <= 0) {
-															$proStatus = 'status_3';
-															$proMsg = '終了';
-														} else {
-															if ($done >= 100) {
-																$proStatus = 'status_2';
-																$proMsg = '達成';
-															} else{
-																if ($project->starting_status == 1) {
-																	$proStatus = 'status_1';
-																	$proMsg = '募集中';
+															<?php
+																if ($days_between <= 0) {
+																	$proStatus = 'status_3';
+																	$proMsg = '終了';
 																} else {
-																	$proStatus = 'status_1';
-																	$proMsg = '募集前';
+																	if ($done >= 100) {
+																		$proStatus = 'status_2';
+																		$proMsg = '達成';
+																	} else{
+																		if ($project->starting_status == 1) {
+																			$proStatus = 'status_1';
+																			$proMsg = '募集中';
+																		} else {
+																			$proStatus = 'status_1';
+																			$proMsg = '募集前';
+																		}
+																	}
 																}
-															}
-														}
-													
-													?>
-
-															<div class="project_status {{$proStatus}}"><span>{{  $proMsg }}</span></div>
-															
+															?>
+															<div class="project_status {{$proStatus}}">
+																<span>{{  $proMsg }}</span>
+															</div>
 														</div>
 													</div>
 												</div>
@@ -261,11 +251,6 @@
 																	@endif
 																@endif
 															@endif
-															{{--@if ($fav == 0)
-																<a  href="{{ route('user-favourite-add-project', $project->id) }}" class="pull-right" style="font-size:14px;"><span style="color:#ed49b6;"> <i class="fa fa-heart"></i> </span>お気に入りに追加 </a>
-															@else
-																<span class="pull-right" style="font-size:14px;"><span style="color:#555"> <i class="fa fa-heart-o"></i> </span>お気に入り</span>
-															@endif--}}
 														</div>
 													</div>
 													<div class="row mt-1">
@@ -279,140 +264,91 @@
 															<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">現在 </span>{!!number_format($invested)!!} 円 </h5>
 															<div class="progress">
 																<div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{$done}}" aria-valuemin="0" aria-valuemax="100" style="width:{{$done}}%">
-																&nbsp;{{$done}}%
+																	&nbsp;{{$done}}%
 																</div>
+															</div>
 														</div>
 													</div>
-												</div>
-												<div class="row  mt-3">
-													<div class="col-md-12">
-														<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">目標</span> {!!number_format($budget)!!} 円</h5>
+													<div class="row  mt-3">
+														<div class="col-md-12">
+															<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">目標</span> {!!number_format($budget)!!} 円</h5>
+														</div>
 													</div>
-												</div>
-												<div class="row mt-2">
-													<div class="col-md-offset-2 mr-0 div-radius ml-3 box-height" style="height:80px; width:80px ">
-															<p class="text-center pt-2"><span class="pt-2 text-center" style="font-size:11px;">応援者</span>
-															<br><span class="p-0 m-0 text-center font" style="font-size:21px;">{{$project->investment->where('status', true)->count()}}人</span><p>
-													</div>
-													@php
-														$start = strtotime("now");
-														$end = strtotime(date('Y-m-d 23:59:59', strtotime($project->end)));
-														$days_between = ceil(abs($end - $start) / 86400);
-														$hours_between = round((strtotime(date('Y-m-d 23:59:59', strtotime($project->end))) - strtotime("now"))/3600);
-														$days_between = $hours_between <= 24?$hours_between:$days_between;
-													@endphp
+													<div class="row mt-2">
+														<div class="col-md-offset-2 mr-0 div-radius ml-3 box-height" style="height:80px; width:80px ">
+																<p class="text-center pt-2"><span class="pt-2 text-center" style="font-size:11px;">応援者</span>
+																<br><span class="p-0 m-0 text-center font" style="font-size:21px;">{{$project->investment->where('status', true)->count()}}人</span><p>
+														</div>
+														@php
+															$start = strtotime("now");
+															$end = strtotime(date('Y-m-d 23:59:59', strtotime($project->end)));
+															$days_between = ceil(abs($end - $start) / 86400);
+															$hours_between = round((strtotime(date('Y-m-d 23:59:59', strtotime($project->end))) - strtotime("now"))/3600);
+															$days_between = $hours_between <= 24?$hours_between:$days_between;
+														@endphp
 
-													<div class="col-md-offset-2 div-radius ml-2 box-height" style="height:80px; width:80px ">
-															{{--<p class="text-center pt-2"><span class="pt-2 text-center" style="font-size:11px;">残り日数</span>
-															<br>
-															@if($days_between > 0)
-																<span class="p-0 m-0 text-center" style="font-size:21px;">{{ $days_between }}日</span>
+														<div class="col-md-offset-2 div-radius ml-2 box-height" style="height:80px; width:80px ">
+															@if($end< strtotime("now"))
+																<div class="text-center my-auto " style="padding:35% 0 30% 0">終了</div>
 															@else
-																<span class="p-0 m-0 text-center" style="font-size:21px;"> 0 日</span>
+																<p class="text-center pt-2"><span class="pt-2 text-center" style="font-size:11px;">残り日数</span>
+																<br>
+																<span class="p-0 m-0 text-center font" style="font-size:21px;">{{ $days_between }}{{$hours_between <= 24? '時間':'日'}}</span>
+																</p>
 															@endif
-														</p>--}}
-														@if($end< strtotime("now"))
-															<div class="text-center my-auto " style="padding:35% 0 30% 0">終了</div>
-														@else
-															<p class="text-center pt-2"><span class="pt-2 text-center" style="font-size:11px;">残り日数</span>
-															<br>
-															<span class="p-0 m-0 text-center font" style="font-size:21px;">{{ $days_between }} {{$hours_between <= 24? '時間':'日'}}  </span>
-															</p>
-														@endif
-													</div>
-													<div class="edit-button offset-0 ml-2">
-														<div class="bg-dark div-radius1">
-															<a href="{{ route('user-project-details', $project->id) }}" class="p-2 fontSize text-white btn btn-md btn-block font-weight-bold my_project_list_see_more_button">詳細をみる</a>
+														</div>
+														<div class="edit-button offset-0 ml-2">
+															<div class="bg-dark div-radius1">
+																<a href="{{ route('user-project-details', $project->id) }}" class="p-2 fontSize text-white btn btn-md btn-block font-weight-bold my_project_list_see_more_button">詳細をみる</a>
+															</div>
 														</div>
 													</div>
 												</div>
-
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<?php //foreach($project->investment->where('status', true) as $in){?>
-								{{-- <div class="col-md-12">
-									<div class="p-3" style="font-size:18px">支援日:{{date('Y/m/d', strtotime($in->created_at))}}　　利用ポイント: {{$in->point}}ポイント <br>
-										選択したリターン: {{$in->amount}} コース<br>
-										起案者: {{$in->user->first_name.' '.$in->user->last_name}}
-										<br> {{ $in->user->profile->phonetic }} ({{ $in->user->profile->phonetic2 }})<br>
-										{{ $in->user->shipping_postal_code }} <br>
-										{{ $in->user->shipping_prefecture }} <br>
-										{{ $in->user->shipping_municipility }} <br>
-										{{ $in->user->shipping_address }} ,
-										{{ $in->user->shipping_room_num }} <br>
-										{{ $in->user->profile->phone_no }}
-									</div>
-										<hr>
-								</div> --}}
-							<?php // }?>
-							</div>
 						@endforeach
-					@endif
-					@if(($user->profile->phonetic) == null ||($user->profile->phonetic2) == null ||($user->profile->phone_no) == null||($user->profile->postal_code) == null||($user->profile->prefectures) == null||($user->profile->municipility) == null ||($user->first_name) == null ||($user->last_name) == null )
-						<div class="row" style="margin-top: 30px;margin-bottom: 30px;">
-							<div class="col-12 text-center">
-								<a href="" class="btn btn-primary">プロジェクトを起案申請する</a>
+						@endif
+						@if(($user->profile->phonetic) == null ||($user->profile->phonetic2) == null ||($user->profile->phone_no) == null||($user->profile->postal_code) == null||($user->profile->prefectures) == null||($user->profile->municipility) == null ||($user->first_name) == null ||($user->last_name) == null )
+							<div class="row" style="margin-top: 30px;margin-bottom: 30px;">
+								<div class="col-12 text-center">
+									<a href="" class="btn btn-primary">プロジェクトを起案申請する</a>
+								</div>
 							</div>
-						</div>
-					@else
-						<div class="row" style="margin-top: 30px;margin-bottom: 30px;">
-							<div class="col-12 text-center">
-								<a href="{{ route('user-project-add') }}" class="btn btn-primary">プロジェクトを起案申請する</a>
+						@else
+							<div class="row" style="margin-top: 30px;margin-bottom: 30px;">
+								<div class="col-12 text-center">
+									<a href="{{ route('user-project-add') }}" class="btn btn-primary">プロジェクトを起案申請する</a>
+								</div>
 							</div>
-						</div>
-					@endif
-						{{-- repeat --}}
-
-
-
-						{{-- repeat ends --}}
-
-
+						@endif
 						@php
-						$error = 0;
-						if (empty($user->first_name) || empty($user->last_name) || empty($user->profile->phonetic) ||  empty($user->profile->phonetic2) ||  empty($user->profile->postal_code) || empty($user->profile->prefectures) || empty($user->profile->phone_no) || empty($user->profile->municipility)) {
-							$error = 1;
-						}
+							$error = 0;
+							if (empty($user->first_name) || empty($user->last_name) || empty($user->profile->phonetic) ||  empty($user->profile->phonetic2) ||  empty($user->profile->postal_code) || empty($user->profile->prefectures) || empty($user->profile->phone_no) || empty($user->profile->municipility)) {
+								$error = 1;
+							}
 						@endphp
 						<input type="hidden" name="getError" id="getError" value="{{ $error }}">
-
-
-
+					</div>
 				</div>
-
 			</div>
-
-			</div>
-	  </div>
+		</div>
 	</div>
 </div>
-
-
 @include('user.layouts.profileModal')
 @stop
 
 @section('custom_js')
-<script type="text/javascript">
-	    // var error = document.getElementById('getError').value;
-			var error = $('#getError').val();
+	<script type="text/javascript">
+		var error = $('#getError').val();
 
-			// error = 1;
-				$(window).on('load',function(){
-					console.log('error = ' + error);
-						if (error == 1) {
-							$('#myModal').modal('show');
-						}
-				});
-
-
-
-
-			// $('#myModal').modal({
-    	// 	backdrop: 'static',
-    	// 	keyboard: false  // to prevent closing with Esc button (if you want this too)
-			// });
+		$(window).on('load',function(){
+			console.log('error = ' + error);
+				if (error == 1) {
+					$('#myModal').modal('show');
+				}
+		});
 	</script>
 @stop

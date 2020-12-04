@@ -180,172 +180,115 @@
 							?>
 
 							<div class="row horizontal">
-							<div class="col-md-12 col-12">
-
-
-								<div class="row ">
-									<div class="col-md-12 col-12">
-										<div class="row ">
-											<div class="col-md-5">
-												<div class="row">
-													<div class="col-md-12 project-item">
-														<div class="frame">
-															<span class="helper"></span>	
-															@php 
-															   $gapTxt = "";
-															   
-															   if(mb_strlen($project->title) > 34){
-																$cssStyle = 'max-height:245px;height:243px; margin-left:-5px';
-																	
-															   }else{
-																$cssStyle = 'max-height:245px;height:238px; margin-left:-5px';
-																 for($i=1;$i<= 34-mb_strlen($project->title); $i++ ) {
-																    $gapTxt .= "&nbsp;";		
-																 }
-															   }
-															@endphp														
-															<img src="{{$project->featured_image ?  asset('uploads/projects/'.$project->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}"  style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
-														</div>
-
-													<?php 
-														if ($days_between <= 0) {
-															$proStatus = 'status_3';
-															$proMsg = '終了';
-														} else {
-															if ($done >= 100) {
-																$proStatus = 'status_2';
-																$proMsg = '達成';
-															} else{
-																if ($project->starting_status == 1) {
-																	$proStatus = 'status_1';
-																	$proMsg = '募集中';
-																} else {
-																	$proStatus = 'status_1';
-																	$proMsg = '募集前';
-																}
-															}
-														}
-													
-													?>
-														
-
-
-
-														<div class="project_status {{$proStatus}}"><span>{{  $proMsg }}</span></div>
-
-														
-													</div>
-												</div>
-											</div>
-											<div class="col-md-7 margin_top">
-												<div class="row">
-													<div class="col-md-7 col-7">
-														<h6 class="category-name" style="color:#bfc5cc;"> <span style="color:#bfc5cc;"> 	<i class="fa fa-tag"></i> <a href="{{route('front-project-list-bycat',['c'=> $project->category->id,'s' => 'd'])}}">{{$project->category->name}}</a>
-												</span></h6>
-													</div>
-													<div class="col-md-5 col-5">
-													{{--@php
-															$fav = 0;
-														@endphp
-														@foreach ($project->favourite as $f)
-															@if ($f->user_id == Auth::user()->id)
+								<div class="col-md-12 col-12">
+									<div class="row ">
+										<div class="col-md-12 col-12">
+											<div class="row ">
+												<div class="col-md-5">
+													<div class="row">
+														<div class="col-md-12 project-item">
+															<div class="frame">
+																<span class="helper"></span>
 																@php
-																	$fav = 1;
+																   $gapTxt = "";
+
+																   if(mb_strlen($project->title) > 34){
+																	$cssStyle = 'max-height:245px;height:243px; margin-left:-5px';
+
+																   }else{
+																	$cssStyle = 'max-height:245px;height:238px; margin-left:-5px';
+																	 for($i=1;$i<= 34-mb_strlen($project->title); $i++ ) {
+																		$gapTxt .= "&nbsp;";
+																	 }
+																   }
 																@endphp
-															@endif
-														@endforeach
-
-														@if(Auth::check())
-															@if($project->user_id==Auth::user()->id)
-																<div class="col-md-4 col-sm-6 category_favourite"></div>
-															@elseif($project->end < date("Y-m-d", strtotime('now')))
-																@if ($fav == 0)
-																	<div href="" class="pull-right favfont" style="font-size:14px;"><span style="color:#555;"> <i class="fa fa-heart-o"></i> </span>お気に入りに追加</div>
-																@else
-																	<span class="pull-right favfont" style="font-size:14px;"><span style="color:#ed49b6"> <i class="fa fa-heart"></i> </span>お気に入り</span>
-																@endif
-															@else
-																@if ($fav == 0)
-																	<a href="{{ route('user-favourite-add-project', $project->id) }}" class="pull-right favfont" style="font-size:14px;"><span style="color:#ed49b6;"> <i class="fa fa-heart"></i> </span>お気に入りに追加</a>
-																@else
-																	<a href="{{ route('user-favourite-remove-project', $project->id) }}" class="pull-right favfont" style="font-size:14px;"><span style="color:#555"> <i class="fa fa-heart-o"></i> </span>お気に入り</a>
-																@endif
-															@endif
-														@endif
-
-
-
-														@if ($fav == 0)
-															<a  href="{{ route('user-favourite-add-project', $project->id) }}" class="pull-right favfont" style="font-size:14px;"><span style="color:#ed49b6;"> <i class="fa fa-heart"></i> </span> お気に入りに追加 </a>
-														@else
-															<span class="pull-right favfont" style="font-size:14px;"><span style="color:#555"> <i class="fa fa-heart-o"></i> </span>お気に入り</span>
-														@endif--}}
+																<img src="{{$project->featured_image ?  asset('uploads/projects/'.$project->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}"  style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
+															</div>
+															<?php
+																if ($days_between <= 0) {
+																	$proStatus = 'status_3';
+																	$proMsg = '終了';
+																} else {
+																	if ($done >= 100) {
+																		$proStatus = 'status_2';
+																		$proMsg = '達成';
+																	} else{
+																		if ($project->starting_status == 1) {
+																			$proStatus = 'status_1';
+																			$proMsg = '募集中';
+																		} else {
+																			$proStatus = 'status_1';
+																			$proMsg = '募集前';
+																		}
+																	}
+																}
+															?>
+															<div class="project_status {{$proStatus}}"><span>{{  $proMsg }}</span></div>
+														</div>
 													</div>
 												</div>
-												<div class="row mt-1">
-													<div class="col-md-12">													
-														<h5 style="font-size:20px;" class="font-weight-bold fontTitle">{!!$project->title!!}{!! $gapTxt !!}</h5>
+												<div class="col-md-7 margin_top">
+													<div class="row">
+														<div class="col-md-7 col-7">
+															<h6 class="category-name" style="color:#bfc5cc;">
+																<span style="color:#bfc5cc;">
+																	<i class="fa fa-tag"></i>
+																	<a href="{{route('front-project-list-bycat',['c'=> $project->category->id,'s' => 'd'])}}">{{$project->category->name}}</a>
+																</span>
+															</h6>
+														</div>
 													</div>
-												</div>
-												<?php
-														// $budget = $project->budget;
-														// $invested = $project->investment()->sum('amount');
-														// $done = $invested*100/$budget;
-														// $done = round($done);
-													 ?>
-												
-												 
-												<div class="row mt-2">												
-													<div class="col-md-12">
-														<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">現在 </span> {!!number_format($invested)!!} 円 </h5>
-														<div class="progress">
-															<div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{$done}}" aria-valuemin="0" aria-valuemax="100" style="width:{{$done}}%">
-																&nbsp;{{$done}}%
+													<div class="row mt-1">
+														<div class="col-md-12">
+															<h5 style="font-size:20px;" class="font-weight-bold fontTitle">{!!$project->title!!}{!! $gapTxt !!}</h5>
+														</div>
+													</div>
+													<div class="row mt-2">
+														<div class="col-md-12">
+															<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">現在 </span> {!!number_format($invested)!!} 円 </h5>
+															<div class="progress">
+																<div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{$done}}" aria-valuemin="0" aria-valuemax="100" style="width:{{$done}}%">
+																	&nbsp;{{$done}}%
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-												<div class="row  mt-3">
-													<div class="col-md-12">
-														<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">目標</span> {!!number_format($budget)!!} 円</h5>
+													<div class="row  mt-3">
+														<div class="col-md-12">
+															<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">目標</span> {!!number_format($budget)!!} 円</h5>
+														</div>
 													</div>
-												</div>
-												<div class="row mt-2"> 
-												<!-- <div class="row mt-2"> -->
-													<div class="col-md-offset-2 mr-0 div-radius ml-3 box-height" style="height:80px; width:80px ">
-														<p class="text-center pt-2"><span class="pt-2 text-center" style="font-size:11px;">応援者</span>
-															<br><span  style="font-family: w6;font-size: 21px;" class="p-0 m-0 text-center font investment-amount-number-text">{{ $project->investment()->where('investments.status', true)->count() }}人</span>
-														</p>
-													</div>
-													@php
-														$start = strtotime("now");
-														$end = strtotime(date('Y-m-d 23:59:59', strtotime($project->end)));
-														$days_between = ceil(abs($end - $start) / 86400);
-														$hours_between = round((strtotime(date('Y-m-d 23:59:59', strtotime($project->end))) - strtotime("now"))/3600);
-														$days_between = $hours_between <= 24?$hours_between:$days_between;
-													@endphp
-
-
-													<div class="col-md-offset-2 div-radius ml-2 box-height" style="height:80px; width:80px ">
-														@if($end< strtotime("now"))
-															<div class="text-center my-auto" style="font-family:w3;padding:35% 0 30% 0">終了</div>
-														@else
-															<p class="text-center pt-2"><span class="pt-2 text-center" style="font-family: w3;font-size:11px;">残り日数</span>
-															<br>
-															<span class="p-0 m-0 text-center font" style="font-family: w6;font-size:21px;">{{ $days_between }}{{$hours_between <= 24? '時間':' 日'}}  </span>
+													<div class="row mt-2">
+													<!-- <div class="row mt-2"> -->
+														<div class="col-md-offset-2 mr-0 div-radius ml-3 box-height" style="height:80px; width:80px ">
+															<p class="text-center pt-2"><span class="pt-2 text-center" style="font-size:11px;">応援者</span>
+																<br><span  style="font-family: w6;font-size: 21px;" class="p-0 m-0 text-center font investment-amount-number-text">{{ $project->investment()->where('investments.status', true)->count() }}人</span>
 															</p>
-														@endif
-													</div>
-													<div class=" offset-0  edit-button ml-2">
-														{{--@if($project->status != 0)--}}
+														</div>
+														@php
+															$start = strtotime("now");
+															$end = strtotime(date('Y-m-d 23:59:59', strtotime($project->end)));
+															$days_between = ceil(abs($end - $start) / 86400);
+															$hours_between = round((strtotime(date('Y-m-d 23:59:59', strtotime($project->end))) - strtotime("now"))/3600);
+															$days_between = $hours_between <= 24?$hours_between:$days_between;
+														@endphp
+
+
+														<div class="col-md-offset-2 div-radius ml-2 box-height" style="height:80px; width:80px ">
+															@if($end< strtotime("now"))
+																<div class="text-center my-auto" style="font-family:w3;padding:35% 0 30% 0">終了</div>
+															@else
+																<p class="text-center pt-2"><span class="pt-2 text-center" style="font-family: w3;font-size:11px;">残り日数</span>
+																<br>
+																<span class="p-0 m-0 text-center font" style="font-family: w6;font-size:21px;">{{ $days_between }}{{ $hours_between <= 24? '時間':'日'}}</span>
+																</p>
+															@endif
+														</div>
+														<div class=" offset-0  edit-button ml-2">
 															<div class="bg-dark div-radius1">
 																<a href="{{ route('user-project-details', $project->id) }}" class="p-2 fontSize text-white btn btn-md btn-block font-weight-bold see-details-link-btn my_project_list_see_more_button">詳細をみる</a>
 															</div>
-														{{--@else
-															<div class="bg-dark div-radius1">
-																<a href="#" class="p-2  text-white btn btn-md btn-block font-weight-bold notyet see-details-link-btn my_project_list_see_more_button">詳細をみる</a>
-															</div>
-														@endif--}}
+														</div>
 													</div>
 												</div>
 											</div>
@@ -353,8 +296,6 @@
 									</div>
 								</div>
 							</div>
-						</div>
-
 						@endforeach
 					@endif
 					@if(($user->profile->phonetic) == null ||($user->profile->phonetic2) == null ||($user->profile->phone_no) == null||($user->profile->postal_code) == null||($user->profile->prefectures) == null||($user->profile->municipility) == null ||($user->first_name) == null ||($user->last_name) == null )
@@ -398,12 +339,6 @@
 							?>
 							<div class="row mb-5">
 							<div class="col-md-12 col-12">
-								{{-- <div class="row inner">
-									<div class="col-md-12 col-12 pt-3">
-										<h4 class="heading">現在支援中のプロジェクト</h4>
-									</div>
-								</div> --}}
-
 								<div class="row inner">
 									<div class="col-md-12 col-12">
 										<div class="row inner_inner">
@@ -427,40 +362,6 @@
 														 		<a href="/?c={{ $invested_project->category->id }} ">{{$invested_project->category->name}}</a>
 															</span>
 														</h6>
-													</div>
-													<div class="col-md-5 col-5">
-													{{--@php
-															$fav = 0;
-														@endphp
-														@foreach ($invested_project->favourite as $f)
-															@if ($f->user_id == Auth::user()->id)
-																@php
-																	$fav = 1;
-																@endphp
-															@endif
-														@endforeach
-														@if(Auth::check())
-															@if($invested_project->user_id==Auth::user()->id)
-																<div class="col-md-4 col-sm-6 category_favourite"></div>
-															@elseif($invested_project->end < date("Y-m-d", strtotime('now')))
-																@if ($fav == 0)
-																	<div href="" class="pull-right favfont" ><span style="color:#555 ;"> <i class="fa fa-heart-o"></i> </span>お気に入りに追加</div>
-																@else
-																	<span class="pull-right favfont" ><span style="color:#ed49b6"> <i class="fa fa-heart"></i> </span>お気に入り</span>
-																@endif
-															@else
-																@if ($fav == 0)
-																	<a href="{{ route('user-favourite-add-project', $invested_project->id) }}" class="pull-right favfont" ><span style="color:#555;"> <i class="fa fa-heart-o"></i> </span>お気に入りに追加</a>
-																@else
-																	<a href="{{ route('user-favourite-remove-project', $invested_project->id) }}" class="pull-right favfont" ><span style="color:#ed49b6"> <i class="fa fa-heart"></i> </span> お気に入り</a>
-																@endif
-															@endif
-														@endif
-														@if ($fav == 0)
-															<a  href="{{ route('user-favourite-add-project', $invested_project->id) }}" class="pull-right favfont" ><span style="color:#ed49b6;"> <i class="fa fa-heart"></i> </span>お気に入りに追加</a>
-														@else
-															<span class="pull-right favfont" ><span style="color:#555"> <i class="fa fa-heart-o"></i> </span>  お気に入り</span>
-														@endif--}}
 													</div>
 												</div>
 												<div class="row mt-1">
@@ -490,18 +391,11 @@
 															<br><span class="p-0 m-0 text-center font" style="font-family:w6;font-size:12px;">{{ $invested_project->investment()->where('investments.status', 1)->count() }}人</span><p/>
 													</div>
 													@php
-													// $start = strtotime("now");
-													// $end = strtotime($invested_project->end);
-													// $days_between = ceil(abs($end - $start) / 86400);
-													// $datediff = round($datediff / (60 * 60 * 24));
-
-
-													$start = strtotime("now");
-													$end = strtotime(date('Y-m-d 23:59:59', strtotime($invested_project->end)));
-													$days_between = ceil(abs($end - $start) / 86400);
-													$hours_between = round((strtotime(date('Y-m-d 23:59:59', strtotime($invested_project->end))) - strtotime("now"))/3600);
-													$days_between = $hours_between <= 24?$hours_between:$days_between;
-
+														$start = strtotime("now");
+														$end = strtotime(date('Y-m-d 23:59:59', strtotime($invested_project->end)));
+														$days_between = ceil(abs($end - $start) / 86400);
+														$hours_between = round((strtotime(date('Y-m-d 23:59:59', strtotime($invested_project->end))) - strtotime("now"))/3600);
+														$days_between = $hours_between <= 24?$hours_between:$days_between;
 													@endphp
 													<div class="col-md-offset-2 div-radius ml-2   box-height-invest" style="height:80px; width:80px ;">
 														@if($end< strtotime("now"))
@@ -527,7 +421,6 @@
 								</div>
 							</div>
 						</div>
-
 						@endforeach
 					@endif
 						<div class="row">
@@ -543,8 +436,6 @@
 						@foreach ($products as $product)
 							<div class="row mb-5">
 								<div class="col-md-12 col-12">
-															
-
 									<div class="row inner">
 										<div class="col-md-12 col-12">
 											<div class="row inner_inner">
@@ -596,11 +487,6 @@
 																	@endif
 																@endif
 															@endif
-															{{--@if ($fav == 0)
-																<a  href="{{ route('user-favourite-add-product', $product->id) }}" class="pull-right favfont" ><span style="color:#ed49b6;"> <i class="fa fa-heart"></i> </span>お気に入りに追加 </a>
-															@else
-																<span class="pull-right favfont" ><span style="color:#555"> <i class="fa fa-heart-o"></i> </span>お気に入り</span>
-															@endif--}}
 														</div>
 													</div>
 													<div class="row mt-1">
@@ -708,32 +594,6 @@
 																<h6 class="category-name" style="color:#bfc5cc;"> <span style="color:#bfc5cc;"> <i class="fa fa-tag"></i> {{ $orderDetail->product->subCategory->category->name }}</h6>
 															</div>
 															<div class="col-md-5 col-5">
-															{{--@php
-																	$fav = 0;
-																@endphp
-																@foreach ($orderDetail->product->favourite as $f)
-																	@if ($f->user_id == Auth::user()->id)
-																		@php
-																			$fav = 1;
-																		@endphp
-																	@endif
-																@endforeach
-																@if(Auth::check())
-																	@if($orderDetail->product->user_id==Auth::user()->id)
-																		<div class="col-md-4 col-sm-6 category_favourite"></div>
-																	@else
-																		@if ($fav == 0)
-																			<a href="{{ route('user-favourite-add-product',$orderDetail->product->id) }}" class="pull-right favfont" style="font-size:14px;"><span style="color:#555 ;"> <i class="fa fa-heart-o"></i> </span>お気に入りに追加</a>
-																		@else
-																			<a href="{{ route('user-favourite-remove-product', $orderDetail->product->id) }}" class="pull-right favfont" style="font-size:14px;"><span style="color:#ed49b6"> <i class="fa fa-heart"></i> </span>お気に入り</a>
-																		@endif
-																	@endif
-																@endif
-																@if ($fav == 0)
-																	<a  href="{{ route('user-favourite-add-product', $orderDetail->id) }}" class="pull-right favfont" style="font-size:14px;"><span style="color:#ed49b6;"> <i class="fa fa-heart"></i> </span>お気に入りに追加</a>
-																@else
-																	<span class="pull-right favfont" style="font-size:14px;"><span style="color:#555"> <i class="fa fa-heart-o"></i> </span> お気に入り</span>
-																@endif--}}
 															</div>
 														</div>
 														<div class="row mt-1">
@@ -808,7 +668,6 @@
 								</div>
 							@endforeach
 					@endif
-
 					@php
 						$error = 0;
 
@@ -835,24 +694,13 @@
 
 @section('custom_js')
 	<script type="text/javascript">
-	    // var error = document.getElementById('getError').value;
 			var error = $('#getError').val();
-
-			// error = 1;
 				$(window).on('load',function(){
 					console.log('error = ' + error);
 						if (error == 1) {
 							$('#myModal').modal('show');
 						}
 				});
-
-
-
-
-			// $('#myModal').modal({
-    	// 	backdrop: 'static',
-    	// 	keyboard: false  // to prevent closing with Esc button (if you want this too)
-			// });
 	</script>
 
 
@@ -956,5 +804,4 @@
 				});
 				});
 		</script>
-
 @stop

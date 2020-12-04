@@ -350,16 +350,6 @@
 							<div class="col-md-3 side_padding col-3 bg-dark">
 								<p class="pt-3 side_title">性別 </p>
 							</div>
-							{{-- <div class="col-md-9 col-9">
-								<div class="row pt-2">
-								<div class="col-md-6 col-6">
-									<select name="sex" class="form-control">
-									<option value="1" {{old('sex', $user->profile->sex) == 1?'selected':''}}>男性</option>
-									<option value="2" {{old('sex', $user->profile->sex) == 2 ?'selected':''}}>女性</option>
-									</select>
-								</div>
-								</div>
-							</div> --}}
 								<div class="col-md-9 col-9 ">
 									<div class="row pt-2">
 										<div class="col-md-6 col-10 p-0 ml-4">
@@ -522,34 +512,22 @@
 	</div>
 </div>
 
-
-
-
-
-
-
-
 <?php 
-$defaultDate = '';
+	$defaultDate = '';
 ?>
-
 
 @stop
 
 @section('custom_js')
-
-	{{-- <script src="{{Request::root().'/js/jquery.date-dropdowns.js'}}"></script> --}}
 	<script src="https://cdn.jsdelivr.net/npm/jquery-dropdown-datepicker@1.2.2/dist/jquery-dropdown-datepicker.min.js"></script>
-
 
 	<script type="text/javascript">
 		function removealert(name)
 		{
 			$('#'+name).html(' ');
 		}
+
 		$(document).ready(function(){
-
-
 			$("#dob").dropdownDatepicker({
 
 				// Populate the widget with a default date.
@@ -617,7 +595,6 @@ $defaultDate = '';
 				// Ordinal indicators (can be overridden for internationalisation purposes)
 				// daySuffixValues: ['st', 'nd', 'rd', 'th']
 				daySuffixValues: ['日', '日', '日', '日']
-
 			});
 
 
@@ -632,7 +609,6 @@ $defaultDate = '';
 					$('#lastname_error').html('氏名’名’を入力して下さい！');
 					flag = 1;
 				}
-				console.log(flag);
 
 				//Katakana validation
 				var code = 0;
@@ -650,7 +626,6 @@ $defaultDate = '';
 						}
 					});
 				}
-				console.log(flag);
 
 				var code = 0;
 				var katakana_second = $('input[name=phonetic2]').val();
@@ -668,7 +643,6 @@ $defaultDate = '';
 						}
 					});
 				}
-				console.log(flag);
 
 				//phone validations
 				if ($('input[name=phone_no]').val() == '' || $('input[name=phone_no]').val() == null){
@@ -726,9 +700,7 @@ $defaultDate = '';
 				$( this ).text($( this ).text())
 			});
 		});
-	</script>
 
-	<script type="text/javascript">
 		function readURL(input) {
 			if (input.files && input.files[0]) {
 				var reader = new FileReader();
@@ -742,8 +714,7 @@ $defaultDate = '';
 				reader.readAsDataURL(input.files[0]);
 			}
 		}
-	</script>
-	<script type="text/javascript">
+
 		$(function() { 
 			$("input[name='phone_no']").on('input', function(e) { 
 				$(this).val($(this).val().replace(/[^0-9]/g, '')); 
@@ -753,5 +724,4 @@ $defaultDate = '';
 			}); 
 		});
 	</script>
-
 @stop
