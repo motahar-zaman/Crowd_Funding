@@ -36,28 +36,17 @@ class OrderController extends Controller
         $data['user_id'] = 0;
         $data['category_id'] = 0;
         $data['status'] = null;
-        // if(!empty($request->user_id)){
-        //     $data['user_id'] = $request->user_id;
-        // }
-        // if(!empty($request->category_id)){
-        //     $data['category_id'] = $request->category_id;
-        // }
-        // if($request->status !== null){
-        //     $data['status'] = $request->status;
-        // }
     	return view('admin.order.list', $data);
     }
 
     public function data()
     {
-        // $OrderDetail = OrderDetail::query()->get();
         $OrderDetail = OrderDetail::whereHas('order', function ($query) {
             $query->where('status', 1);
         })->get();
 
         return Datatables::of($OrderDetail)
 
-        // ->editColumn('created_at', '{!! date("Y M j h:i A", strtotime($created_at)) !!}')
         ->editColumn('created_at', function($result){
             return str_limit($result->created_at, $limit=11, $end='');
         })
@@ -121,7 +110,6 @@ class OrderController extends Controller
                             <option  class="color3" style="color:green;font-size:14px" value="3" >入金完了</option>
                         </select>
                         ';
-                    // $returnData .= '';
                 }
                 else if ($result->order->payment_status==3) {
                     $returnData .= '
@@ -129,10 +117,6 @@ class OrderController extends Controller
                             <option class="color3" style="color:green;font-size:14px" value="3" selected>入金完了</option>
                         </select>
                     ';
-                    // $returnData .= '';
-                }
-                else{
-                    //
                 }
             }
         return $returnData;
@@ -190,8 +174,7 @@ class OrderController extends Controller
 		      <i class="fa fa-caret-down"></i>
 		    </button>
 		    <div class="dropdown-content"><a href="'.route('user-order-status-change',['id'=>$result->order_details_id, 'status'=>1]).'" class="">Active</a> <a href="'.route('user-order-status-change',['id'=>$result->order_details_id, 'status'=>4]).'" class="">R</a>    </div>
-			  </div>'; //last_interest_at = current date time
-                // $returnData .= '<a href="'.route('user-order-status-change',['id'=>$result->order_details_id, 'status'=>4]).'" class="btn btn-sm btn-danger inline">Reject</a> ';
+			  </div>';
             }
             else if ($result->status==1) {
                 $returnData .= '<div class="dropdown">
@@ -199,7 +182,6 @@ class OrderController extends Controller
 		      <i class="fa fa-caret-down"></i>
 		    </button>
 		    <div class="dropdown-content"><a href="'.route('user-order-status-change',['id'=>$result->order_details_id, 'status'=>3]).'" class="">Hold</a> <a href="'.route('user-order-status-change',['id'=>$result->order_details_id, 'status'=>4]).'" class="">R</a> </div></div>';
-                // $returnData .= '<a href="'.route('user-order-status-change',['id'=>$result->order_details_id, 'status'=>4]).'" class="btn btn-sm btn-danger inline">Reject</a> ';
             }
             else if ($result->status==3) {
                 $returnData .= '<div class="dropdown">
@@ -207,14 +189,8 @@ class OrderController extends Controller
 		      <i class="fa fa-caret-down"></i>
 		    </button>
 		    <div class="dropdown-content"><a href="'.route('user-order-status-change',['id'=>$result->order_details_id, 'status'=>1]).'" class="">Active</a>   </div>  </div>';
-                // $returnData .= '<a href="'.route('user-order-status-change',['id'=>$result->order_details_id, 'status'=>4]).'" class="btn btn-sm btn-danger inline">Reject</a> ';
             }
-            else{
-                //
-            }
-
             return $returnData;
-
         })
         ->rawColumns(['order_no','created_at', 'order_by', 'action', 'status'])
         ->make(true);
@@ -223,7 +199,6 @@ class OrderController extends Controller
     public function statusChange(Request $request)
     {
         $OrderDetail = OrderDetail::find($request->id);
-				// dd($request->status);
         $OrderDetail->status = $request->status;
         $OrderDetail->save();
         //send mail to seller
