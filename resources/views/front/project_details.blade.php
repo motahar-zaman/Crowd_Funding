@@ -287,23 +287,16 @@
 	</style>
 @stop
 
-
 <?php
 	$budget = $project->budget;
 	$invested = $project->investment->where('status', true)->sum('amount');
 	$done = $invested*100/$budget;
 	$done = round($done);
 ?>
-
-
 @section('ecommerce')
-
 @stop
 
-
-
 @section('content')
-	{{-- @include('front.layouts.project-details-breadcrump') --}}
 	<div class="row breadcrump p-0 m-0 project_sorting">
 		<div class="container">
 			<div class="container_div row">
@@ -320,8 +313,6 @@
 			</div>
 		</div>
 	</div>
-
-	
 
 <div class="container">
 	<div class="row">
@@ -361,9 +352,6 @@
 									}
 								}
 							?>
-							{{-- <div class="project_status status_1 text-white" >募集中</div> --}}
-							{{-- <div class="project_status {{strtotime($project->end) > strtotime(date('Y--d H:i:s')) ? 'status_1' : 'status_2'}}"><span>{{strtotime($project->end) > strtotime(date('Y-m-d H:i:s')) ? '募集中' : '達成！'}}</span></div> --}}
-
 							<!-- <div class="project_status {{$days_between <= 0 ? 'status_3' : ($done >= 100?'status_2':'status_1')}}"> -->
 							<div class="project_status {{$proStatus}}">
 								<span>{{ $proMsg }}</span>
@@ -377,7 +365,11 @@
 					<div class="">
 						<div class="row">
 							<div class="col-md-8 col-sm-6 category_favourite">
-								<h6 class="category-name" style="color:#bfc5cc;"> <span style="color:#bfc5cc;"> 	<i class="fa fa-tag"></i> <a href="{{route('front-project-list', ['c' => $project->category->id])}} ">{{  $project->category->name }} </a>
+								<h6 class="category-name" style="color:#bfc5cc;">
+									<span style="color:#bfc5cc;">
+										<i class="fa fa-tag"></i>
+										<a href="{{route('front-project-list', ['c' => $project->category->id])}} ">{{  $project->category->name }} </a>
+									</span>
 								</h6>
 							</div>
 							@php
@@ -429,18 +421,6 @@
 									<a title="" href="{{route('front-project-details-login', ['id' => $project->id])}}"><span class="pull-right category_favourite" style="font-size:14px;"><span style="color:#555"> <i class="fa fa-heart-o"></i> </span>お気に入り</span></a>
 								@endif
 							@endif
-							{{-- @if (empty($isFavourite))
-								<div class="col-md-4 col-sm-6 category_favourite">
-									@if ($fav == 0)
-									<div class="">1 {{$fav}}</div>
-										<a href="{{ route('user-favourite-add-project', $project->id) }}" class="pull-right" style="font-size:14px;"><span style="color:#ed49b6;"> <i class="fa fa-heart-o"></i> </span>お気に入りに追加</a>
-									@else
-									<div class="">2 {{$fav}}</div>
-										<span class="pull-right" style="font-size:14px;"><span style="color:#ed49b6"> <i class="fa fa-heart"></i> </span>お気に入り</span>
-									@endif
-								</div>
-							@endif
-							{{ $project->Investment->isFavourite() }} --}}
 						</div>
 						<div class="row mt-1">
 							<div class="col-12">
@@ -464,24 +444,11 @@
 						</div>
 						<div class="row mt-1" style="margin-bottom: 15px;">
 							<div class="col-12">
-								{{--<h5 class="text-right" style="font-size:18px; letter-spacing:2px;">目標 {{App\Helpers\Number::number_format_short($budget)}} 円</h5>--}}
 								<h5 class="text-right" style="font-size:18px; letter-spacing:2px;">目標 {{number_format($budget)}} 円</h5>
 							</div>
 						</div>
 						<div class="row mt-0">
 							<input type="hidden" name="" id="linkUrl" value="{{ asset('project-details/'.$project->id) }}">
-							{{-- <div class="col-md-2  p-2 ml-2">
-								<a href="#" class="btn btn-sm btn-block text-white" style="background:#4267b2; font-size:10px;"> <span class="fa fa-facebook" style="color:#fff;"></span> facebook</a>
-							</div>
-							<div class="col-md-2 p-2">
-								<a href="#" class="btn btn-sm btn-block text-white" style="background:#4267b2; font-size:10px;"> <span class="fa fa-facebook" style="color:#fff;"></span> facebook</a>
-							</div>
-							<div class="col-md-2 p-2">
-								<a href="#" class="btn btn-sm btn-block text-white" style="background:#4267b2; font-size:10px;"> <span class="fa fa-facebook" style="color:#fff;"></span> facebook</a>
-							</div>
-							<div class="col-md-2 p-2">
-								<a href="#" class="btn btn-sm btn-block text-white" style="background:#4267b2; font-size:10px;"> <span class="fa fa-facebook" style="color:#fff;"></span> facebook</a>
-							</div> --}}
 							<div class="ml-md-3" id="shareIcons">
 
 							</div>
@@ -594,7 +561,6 @@
 	@include('user.layouts.message_modal', ['modal_title' => '起案者へのメッセージ'])
 @endif
 
-
 @stop
 
 @section('custom_js')
@@ -621,7 +587,6 @@
 	</script>
 
 	<script type="text/javascript">
-
 			$(function() {
 				var linkurl  = $('#linkUrl').val();
 				$('#shareIcons').jsSocials({
@@ -681,66 +646,4 @@
 			}
 		});
 	</script>
-	<script type="text/javascript">
-		$('.details_description_all').ready(function(){
-
-				// console.log($(this).data(details-description))
-
-				console.log($('.details_description').attr('data-details-description'));
-
-				// console.log($('.details_description').attr('data-details-description'));
-
-
-			// var details_description = [];
-			// var details_description_details=[];
-			// var details_description_details1=[];
-			// var details_description_details_extend=[];
-			// var details_description_details_extend2=[];
-			// $('.details_description[data-description]').each(function(){
-			// 	// console.log($(this).attr('data-details_description'));
-			// })
-			// // console.log()
-			// // console.log($('.details_description').attr('data-details_description'));
-			// $('.details_description').each(function(item,key) {
-			// 	// console.log( $(this).attr('data-details_description'));
-			// });
-			// console.log(details_description)
-			// .split('\n').map(function(item,i){
-			// 	console.log(item)
-			// 	details_description.push(item);
-			// })
-			// 	if(details_description.length==1){
-			// 		if(details_description[0].length>160){
-			// 			$('.details_description').html(details_description[0].substring(0,160))
-			// 			$('.details_description_extend').html(details_description[0].substring(160))
-			// 		}else{
-			// 			$('.details_description').html(details_description[0].substring(0,160))
-			// 			$('.details_description_extend').html()
-			// 		}
-			// 	}else{
-			// 		for(var j=4;j<details_description.length;j++)
-			// 		{
-			// 			details_description_details_extend.push(details_description[j])
-			// 		}
-			// 		details_description_details.push(details_description[0])
-			// 		details_description_details.push(details_description[1])
-			// 		details_description_details.push(details_description[2])
-			// 		details_description_details.map(function(item){
-			// 			// console.log(item)
-			// 			details_description_details1.push('<div>'+item+'</div>')
-			// 		})
-			// 		details_description_details_extend.map(function(item){
-			// 			console.log(item)
-			// 			details_description_details_extend2.push('<div>'+item+'</div>')
-			// 		})
-			// 		$('.description').html(details_description_details1);
-			// 		$('.description_extend').html(details_description_details_extend2)
-			// 	}
-		});
-		// };
-	</script>
-
-
-
-
 @stop

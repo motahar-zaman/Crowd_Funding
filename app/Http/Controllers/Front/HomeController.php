@@ -470,7 +470,6 @@ class HomeController extends Controller
           $data['isFavourite'] = Investment::where('project_id', $request->id)->where('user_id', Auth::user()->id)->first();
           $data['favourite'] = FavouriteProject::where('project_id', $request->id)->where('user_id', Auth::user()->id)->first();
         }
-
         if(Auth::check()){
             $query = $query->withCount(['favourite' => function($q){
                 $q->where('user_id', Auth::user()->id);
@@ -478,7 +477,6 @@ class HomeController extends Controller
             $user = User::where('id', Auth::user()->id)->with('profile')->first();
             $data['user'] = $user;
             $data['user_profile'] = User::where('id', Auth::user()->id)->first();
-            
         }
         $data['supports'] = Investment::where('project_id', $request->id)->where('status', true)->count();
         $data['project'] = $query->with('user')->first();
@@ -487,7 +485,7 @@ class HomeController extends Controller
         $data['social_image'] = asset('uploads/projects/'. $data['project']->featured_image);
         $data['social_description'] = $data['project']->description ;
         $data['title'] = 'プロジェクト - '. $data['project']->title .' | Crofun';
-        // dd($data);
+
         return view('front.project_details', $data);
     }
 
