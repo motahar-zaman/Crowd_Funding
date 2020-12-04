@@ -651,11 +651,7 @@ class HomeController extends Controller
     public function cartRemove(Request $request)
     {
         Cart::remove($request->id);
-        if(Cart::count() == 0){
-            return redirect()->route( 'front-cart-empty' );
-        } else {
-            return redirect()->route( 'front-cart' );
-        }
+        return redirect()->route( 'front-cart' );
     }
 
     public function cart(Request $request)
@@ -687,7 +683,8 @@ class HomeController extends Controller
             }
             $data['title'] = 'カート | Crofun';
             return view('front.cartEmpty', $data);
-        }else{
+        }
+        else{
             return redirect()->route('front-cart-login');
         }
     }
@@ -705,6 +702,7 @@ class HomeController extends Controller
             return redirect()->route('front-cart-empty');
         }
     }
+
     public function cartAfterLogin(Request $request){
         return view('auth.login-cart');
     }
@@ -730,45 +728,53 @@ class HomeController extends Controller
     {
         return view('front.user_project_details');
     }
+
     public function about()
     {
         $data['content'] = Content::find(1);
         $data['title'] = 'クロファンとは? | Crofun';
         return view('front.content', $data);
     }
+
     public function faq()
     {
         $data['content'] = Content::find(2);
         return view('front.faq', $data);
     }
+
     public function howToUse()
     {
         $data['content'] = Content::find(3);
         return view('front.content', $data);
     }
+
     public function media()
     {
         $data['content'] = Content::find(4);
         $data['title'] = 'メディア実績 | Crofun';
         return view('front.content', $data);
     }
+
     public function profile(Request $request)
     {
         $data['profile'] = User::find($request->id);
         return view('front.profile', $data);
     }
+
     public function terms()
     {
         $data['content'] = Content::find(6);
         $data['title'] = '利用規約 | Crofun';
         return view('front.content', $data);
     }
+
     public function privacy()
     {
         $data['content'] = Content::find(7);      
         $data['title'] = 'プライバシーポリシー | Crofun';  
         return view('front.content', $data);
     }
+
     public function transactionLaw()
     {
         $data['content'] = Content::find(8);

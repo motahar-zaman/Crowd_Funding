@@ -337,162 +337,17 @@
 			}
 		}
 
-.padding-table{
-	padding-top:1.25rem !important;
-}
-/* 
-		@media (max-width: 1370px) {
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 15px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
+		.padding-table{
+			padding-top:1.25rem !important;
 		}
-
-		@media (max-width: 1295px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 17px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 13px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		
-		@media (max-width: 1170px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 15px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 11px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 1080px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 12px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 9px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 930px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 11px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 8px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 870px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 10px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 7px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 870px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 9px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 6px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		} */
-
-		/*steps end*/
 	</style>
 @stop
-
 
 @section('ecommerce')
 
 @stop
 
 @section('content')
-{{-- @include('user.layouts.tab') --}}
 
 <div class="row breadcrump p-0 m-0 project_sorting">
 	<div class="row container_div">
@@ -513,11 +368,6 @@
 	</div>
 </div>
 
-
-
-
-
-
 <div class="container" id="new-project">
 	<div class="card commonError hide offset-md-1 mt-3">
 		<h4 class='p-3' style="color:red;">正しく入力されてない項目があります。メッセージをご確認の上、もう一度入力ください。</h4>
@@ -531,11 +381,14 @@
 			</div>
 		</div>
 	@endif
-	<div class="mt20">
-		<div class="row justify-content-center container_div">
-			<div class="col-md-12">
-			{{--@if(Cart::count() > 0)
-				<h1 class="text-center page_title_product_register">商品を登録する</h1> --}}
+	@if(Cart::count() <= 0)
+		<div class="text-center">
+			<h3 style="font-weight:bold; color: red"> カートに商品はありません </h3>
+		</div>
+	@else
+		<div class="mt20">
+			<div class="row justify-content-center container_div">
+				<div class="col-md-12">
 					<form id="example-form" action="{{route('user-product-purchase')}}" class="mt20" method="post" enctype="multipart/form-data">
 						{{ csrf_field() }}
 						<div class="mt20">
@@ -548,91 +401,80 @@
 									<div class="row ">
 										<h5 class="col-md-12  font-weight-bold ">商品情報確認</h5>
 									</div>
-										<div class="row justify-content-center mt-5">
-											<div class="mt20 table col-md-12 text-nowrap " style="overflow-x:auto;overflow-y: hidden">
-												<table class="table table-sm " id="data-table">
-													<tr class="bg-dark table-style" >
-														<th class="text-center" style="width:300px;">商品名</th>
-														<th class="text-center" colspan="2">数量</th>
-														<th class="text-center" colspan="2" style="width:200px;">必要ポイント</th>
-														<th class="text-center" style="width:50px;"></th>
-													</tr>
-													<input type="hidden" id="checkCart" value="{{ !Cart::content()->isEmpty() ? 1:0 }}">
-													
-														@foreach(Cart::content() as $p)
-															@php
-															//dd($p);
-															$product = App\Models\Product::find($p->id)
-															@endphp
-															<tr class="">
-																<td style="" class="" style="width:300px;">
-																	<div class="d-flex flex-row">
-																		{{--<img src="{{$product->image ?  asset('uploads/products/'.$product->image) : asset('uploads/projects/1615154785167836.jpeg')}}" alt="" class="" width="300px" height="300px">--}}
-																		
-																			{{ $product->title }} <br>
-																			@if(!empty($p->options['size']) && !empty($p->options['color']))
-																			{{$p->options['size']}}/{{$p->options['color']}}
-																			@endif
-																			<br> {{ $p->price }} ポイント
-																		
-																	</div>
-																</td>
-																<td class="text-center" colspan="2">
-																	<div class="d-flex flex-row padding-table justify-content-center">
-																		<button class="px-3 py-1 align-self-end border text-center bg-light decrease_btn" data-rowid="{{ $p->rowId }} " data-price="{{ $p->price }}">-</button>
-																			<input type="hidden" name="row_id" value="{{$p->rowId}}">
-																			<input type="text" class="px-1 py-1 qty border align-self-start text-center cart_qty_{{ $p->rowId }}" name="quantity" value="{{ $p->qty }}" style="width:50px;">
-																		<button class="px-3 py-1 align-self-end border text-center bg-light increase_btn" data-rowid="{{ $p->rowId }}" data-price="{{ $p->price }}">+</button>
-																	</div>
-																</td>
+									<div class="row justify-content-center mt-5">
+										<div class="mt20 table col-md-12 text-nowrap " style="overflow-x:auto;overflow-y: hidden">
+											<table class="table table-sm " id="data-table">
+												<tr class="bg-dark table-style" >
+													<th class="text-center" style="width:300px;">商品名</th>
+													<th class="text-center" colspan="2">数量</th>
+													<th class="text-center" colspan="2" style="width:200px;">必要ポイント</th>
+													<th class="text-center" style="width:50px;"></th>
+												</tr>
+												<input type="hidden" id="checkCart" value="{{ !Cart::content()->isEmpty() ? 1:0 }}">
 
-																<td text-align="center" class="text-center" style="width:200px;" colspan="2">
-																	<div class="padding-table">
-																		<h4>
-																			<span class="setPrice_{{ $p->rowId }} price" style="letter-spacing:1px;">
-																				{{ $p->qty*$p->price }}
-																			</span>
-																		</h4>
-																	</div>
-																</td>
-																<td style="width:50px;">
-																	<div class="d-flex flex-row padding-table justify-content-center">
-																		<a href="{{route('front-cart-remove', ['id' => $p->rowId])}}" class="pull-right text-danger">
-																			<i class="fa fa-trash"></i>
-																		</a>
-																	</div>
-																</td>
-															</tr>
-														@endforeach
-													@if(Cart::count()>0)
+													@foreach(Cart::content() as $p)
+														@php
+															$product = App\Models\Product::find($p->id)
+														@endphp
 														<tr class="">
-															<td class=" text-center" style="width:300px;"> </td>
-															<td colspan="2" class="text-center">
-																<div class="col-md-12 row">
-																	<div class="col-md-6 text-right">合計数</div>
-																	<div class="col-md-6" style="padding-left:7px"><h5 class="text-left  totalQty" style="font-size:18px">{{Cart::count()}}</h5></div>
+															<td style="" class="" style="width:300px;">
+																<div class="d-flex flex-row">
+																	{{ $product->title }} <br>
+																	@if(!empty($p->options['size']) && !empty($p->options['color']))
+																	{{$p->options['size']}}/{{$p->options['color']}}
+																	@endif
+																	<br>
+																	{{ $p->price }} ポイント
 																</div>
-																{{--<h5 class="totalQty">合計数 &nbsp; {{Cart::count()}}</h5>--}}
-																</td>
-															<td class="text-center" colspan="2" style="width:200px;">
-																<div class="col-md-12 row">
-																
-																	<div class="col-md-2 "></div>
-																	<div class="col-md-3 text-center">合計ポイント</div>
-																	<div class="col-md-3 pl-2"><h5 class="text-danger text-center  totalPrice"></h5></div>
-																	<div class="col-md-4 "></div>
-																</div>
-															{{--合計ポイント <h5 class="text-danger totalPrice"></h5>--}}
 															</td>
-															<td style="width:50px;" class="text-center"> </td>
+															<td class="text-center" colspan="2">
+																<div class="d-flex flex-row padding-table justify-content-center">
+																	<button class="px-3 py-1 align-self-end border text-center bg-light decrease_btn" data-rowid="{{ $p->rowId }} " data-price="{{ $p->price }}">-</button>
+																		<input type="hidden" name="row_id" value="{{$p->rowId}}">
+																		<input type="text" class="px-1 py-1 qty border align-self-start text-center cart_qty_{{ $p->rowId }}" name="quantity" value="{{ $p->qty }}" style="width:50px;">
+																	<button class="px-3 py-1 align-self-end border text-center bg-light increase_btn" data-rowid="{{ $p->rowId }}" data-price="{{ $p->price }}">+</button>
+																</div>
+															</td>
+
+															<td text-align="center" class="text-center" style="width:200px;" colspan="2">
+																<div class="padding-table">
+																	<h4>
+																		<span class="setPrice_{{ $p->rowId }} price" style="letter-spacing:1px;">
+																			{{ $p->qty*$p->price }}
+																		</span>
+																	</h4>
+																</div>
+															</td>
+															<td style="width:50px;">
+																<div class="d-flex flex-row padding-table justify-content-center">
+																	<a href="{{route('front-cart-remove', ['id' => $p->rowId])}}" class="pull-right text-danger">
+																		<i class="fa fa-trash"></i>
+																	</a>
+																</div>
+															</td>
 														</tr>
-													@endif
-												</table>
-											</div>
-										</div>
-									<div class="row justify-content-center">
-										<div class="col-md-5 ">
-											{{-- <a href="{{route('front-checkout')}}" class=" offset-md-2 text-center btn btn-md btn-primary">プロジェクトの起案者へメッセージを送る</a> --}}
+													@endforeach
+												@if(Cart::count()>0)
+													<tr class="">
+														<td class=" text-center" style="width:300px;"> </td>
+														<td colspan="2" class="text-center">
+															<div class="col-md-12 row">
+																<div class="col-md-6 text-right">合計数</div>
+																<div class="col-md-6" style="padding-left:7px"><h5 class="text-left  totalQty" style="font-size:18px">{{Cart::count()}}</h5></div>
+															</div>
+														</td>
+														<td class="text-center" colspan="2" style="width:200px;">
+															<div class="col-md-12 row">
+																<div class="col-md-2 "></div>
+																<div class="col-md-3 text-center">合計ポイント</div>
+																<div class="col-md-3 pl-2"><h5 class="text-danger text-center  totalPrice"></h5></div>
+																<div class="col-md-4 "></div>
+															</div>
+														</td>
+														<td style="width:50px;" class="text-center"> </td>
+													</tr>
+												@endif
+											</table>
 										</div>
 									</div>
 								</div>
@@ -653,14 +495,14 @@
 											<div class="form-check">
 												<label class="form-check-label check-first  pt-3">
 													<input type="radio" class="form-check-input checkDefault" name="optradio" value="1" checked>
-															登録されている住所
-															<br> {{ $user->first_name }} {{ $user->last_name }} ({{ $user->profile->phonetic }} {{ $user->profile->phonetic2 }})<br>
-															{{ $user->shipping_postal_code }} <br>
-															{{ $user->shipping_prefecture }} <br>
-															{{ $user->shipping_municipility }} <br>
-															{{ $user->shipping_address }}    <br>
-															{{ $user->shipping_room_num }} <br>
-															{{ $user->profile->phone_no }}
+														登録されている住所
+														<br> {{ $user->first_name }} {{ $user->last_name }} ({{ $user->profile->phonetic }} {{ $user->profile->phonetic2 }})<br>
+														{{ $user->shipping_postal_code }} <br>
+														{{ $user->shipping_prefecture }} <br>
+														{{ $user->shipping_municipility }} <br>
+														{{ $user->shipping_address }}    <br>
+														{{ $user->shipping_room_num }} <br>
+														{{ $user->profile->phone_no }}
 												</label>
 												</div>
 											</div>
@@ -907,11 +749,11 @@
 												<div class="col-md-12">
 													<div class="row ">
 														<div class="col-md-12 defaultAddress">
-															<span> 
+															<span>
 																	<br> {{ $user->first_name }} {{ $user->last_name }} ({{ $user->profile->phonetic }} {{ $user->profile->phonetic2 }})<br>
 																	{{ $user->shipping_postal_code }} <br>
 																	{{ $user->shipping_prefecture }} <br>
-																	{{ $user->shipping_municipility }} <br> 
+																	{{ $user->shipping_municipility }} <br>
 																	{{ $user->shipping_address }}    <br>
 																	{{ $user->shipping_room_num }} <br>
 																	{{ $user->profile->phone_no }}
@@ -922,12 +764,12 @@
 												<div class="col-md-12 setAddress hide">
 													<div class="row ">
 														<div class="col-md-12">
-															<span> 
-																<span class="set_first_name"></span> <span class="set_last_name"></span>   
-																( <span class="set_phonetic1"></span> <span class="set_phonetic2"></span> ) 
+															<span>
+																<span class="set_first_name"></span> <span class="set_last_name"></span>
+																( <span class="set_phonetic1"></span> <span class="set_phonetic2"></span> )
 																<br>
 																<span class="set_postal_code"></span>  <br>
-																<span class="set_prefecture"></span>  
+																<span class="set_prefecture"></span>
 																<br>
 																<span class="set_municipility"></span>  <br>
 																<span class="set_address"></span> <br>
@@ -1009,19 +851,12 @@
 							</section>
 						</div>
 					</form>
-					{{--@else
-					<div class="text-center" style="font-weight:bold;min-height:300px">カートには商品ありません！</div>
-				@endif--}}
+				</div>
 			</div>
 		</div>
-	</div>
+	@endif
 </div>
 
-
-
-
-
-{{-- @include('user.layouts.add-project') --}}
 @stop
 
 @section('custom_js')
@@ -1038,9 +873,7 @@
 			}
 			$('.totalPrice').html(totalPrice + ' ' + 'P');
 		});
-	</script>
 
-	<script type="text/javascript">
 		$(document).ready(function(){
 			$(document).on('click', '.decrease_btn', function(e){
 				var row_id = $(this).attr("data-rowid");
@@ -1104,9 +937,7 @@
 
 			$('.error').addClass('text-danger');
 		});
-	</script>
 
-	<script type="text/javascript">
 		var form = $("#example-form");
 		var restAmount = 0;
 		form.validate({
@@ -1249,9 +1080,7 @@
 			$('#totalDay').val(diffDays);
 		}
 
-
 		calculateDay();
-
 
 		$('select').each(function() {
 		  $(this).data('lastSelectedIndex', this.selectedIndex);
@@ -1270,34 +1099,13 @@
 		$('.add_details').on('click', function(){
 			var content = $('.details').html();
 			$('.details_container').before(content);
-			// CKEDITOR.replace( 'ckeditor' );
-			// CKEDITOR.replaceClass = 'ckeditor';
 		})
 		$('.add_reward').on('click', function(){
 			var content = $('.reward').html();
 			$('.reward_container').before(content);
 		});
 
-		// console.log('new project');
-		// $(function(){
-			// CKEDITOR.replace( 'editor', {
-			//     toolbar: basic
-			// } );
-			// CKEDITOR.replaceClass = 'ckeditor';
-			// CKEDITOR.replace( 'description' ,{
-				// filebrowserBrowseUrl : 'ckeditor1/plugins/imageuploader/imgbrowser.php',
-				// filebrowserUploadUrl : '/browser1/upload/type/all',
-			    // filebrowserImageBrowseUrl : '{{Request::root()}}/ckeditor/plugins/imageuploader/imgbrowser.php',
-				// filebrowserImageUploadUrl : '/browser3/upload/type/image',
-			    // filebrowserWindowWidth  : 800,
-			    // filebrowserWindowHeight : 500,
-				// extraPlugins: 'imageuploader'
-				// extraPlugins: 'dropler'
-			// });
-		// });
-	</script>
 
-	<script type="text/javascript">
 		$(document).ready(function(){
 			var checkVal = $('.checkDefault').val();
 			if (checkVal == 1) {
@@ -1321,5 +1129,4 @@
 			});
 		})
 	</script>
-
 @stop

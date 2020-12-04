@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,9 +12,7 @@
 if (env('APP_ENV') === 'production') {
     URL::forceSchema('https');
 }
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+
 Route::get('/', 'Front\HomeController@index')->name('front-home');
 Route::get('/test', 'Front\HomeController@test');
 Route::get('/project-list', 'Front\HomeController@projectList')->name('front-project-list');
@@ -61,8 +58,6 @@ Route::post('/register-request', 'User\AuthController@registerRequestAction')->n
 Route::get('/register/{token}', 'User\AuthController@register')->name('user-register');
 Route::post('/register/{token}', 'User\AuthController@registerAction')->name('user-register-action');
 
-
-
 Route::get('/about', 'Front\HomeController@about')->name('front-about');
 Route::get('/faq', 'Front\HomeController@faq')->name('front-faq');
 Route::get('/how-to-use', 'Front\HomeController@howToUse')->name('front-how-to-use');
@@ -70,25 +65,17 @@ Route::get('/media', 'Front\HomeController@media')->name('front-media');
 Route::get('/terms', 'Front\HomeController@terms')->name('front-terms');
 Route::get('/privacy', 'Front\HomeController@privacy')->name('front-privacy');
 Route::get('/transaction-law', 'Front\HomeController@transactionLaw')->name('front-transaction-law');
-
 Route::get('/reset-password-faq', 'Front\HomeController@passwordReset')->name('user-reset-password-faq');
-
 Route::get('/search', 'Front\HomeController@search')->name('front-search');
 
 Route::group(['middleware' => ['auth','activecheck']], function () {
-
 	Route::get('/cart-add', 'Front\HomeController@cartAdd')->name('front-cart-add');
 	Route::get('/cart-add-favourite', 'Front\HomeController@cartAddFavourite')->name('front-cart-add-favourite');
 	Route::get('/cart-update', 'Front\HomeController@cartUpdate')->name('front-cart-update');
 	Route::get('/cart-remove', 'Front\HomeController@cartRemove')->name('front-cart-remove');
-
 });
 
-
-
-
 Route::get('/profile/{id}', 'Front\HomeController@profile')->name('front-profile');
-
 
 Route::get('/facebook', 'User\AuthController@facebook')->name('front-facebook');
 Route::any('/facebook-action', 'User\AuthController@facebookAction')->name('front-facebook-action');
@@ -102,16 +89,10 @@ Route::get('/line', 'User\AuthController@line')->name('front-line');
 Route::any('/line-action', 'User\AuthController@lineAction')->name('front-line-action');
 
 
-
-
 Route::post('invest-payment-response', 'User\InvestController@investPaymentResponse')->name('invest-payment-response');
 Route::get('invest-payment-response', 'User\InvestController@investPaymentResponse')->name('invest-payment-response-test');
 Route::post('purchase-payment-response', 'User\ProductController@purchasePaymentResponse')->name('purchase-payment-response');
 Route::get('purchase-payment-response', 'User\ProductController@purchasePaymentResponse')->name('purchase-payment-response-test');
-
-
-
-
 
 Route::group(['prefix' => 'admin'], function () {
 
@@ -119,12 +100,10 @@ Route::group(['prefix' => 'admin'], function () {
 	Route::post('/login', 'Admin\AuthController@loginAction')->name('admin-login-action');
 	Route::get('/logout', 'Admin\AuthController@logout')->name('admin-logout');
 
-
 	Route::group(['middleware' => 'admin-auth'], function () {
         Route::get('/', 'Admin\DashboardController@index')->name('admin-dashboard');
         Route::get('/change-password', 'Admin\ProfileController@changePassword')->name('admin-change-password');
         Route::post('/change-password', 'Admin\ProfileController@changePasswordAction')->name('admin-change-password-action');
-
 
         Route::group(['prefix' => 'project-category'], function () {
 	        Route::get('/list', 'Admin\ProjectCategoryController@categoryList')->name('admin-project-category-list');
@@ -250,22 +229,14 @@ Route::group(['prefix' => 'admin'], function () {
 			Route::get('/cancel', 'Admin\OrderController@orderCancel')->name('admin-order-cancel');
 			Route::get('/details/{id}', 'Admin\OrderController@orderDetails')->name('admin-order-details');
 		});
-
 	    Route::get('/user-quit-request/{id}/{status}', 'Admin\UserController@quitRequest')->name('admin-user-quit-request');
-
-
     });
 });
-
-
 
 Route::group(['prefix' => 'user'], function () {
 	Route::group(['middleware' => ['auth', 'activecheck']], function () {
 
 		Route::get('my-page', 'User\ProfileController@mypage')->name('user-my-page');
-
-
-
 
 		Route::get('/invest-list', 'User\InvestController@index')->name('user-invest-list');
 		Route::get('/invest/{id}', 'User\InvestController@invest')->name('user-invest');
@@ -307,7 +278,6 @@ Route::group(['prefix' => 'user'], function () {
 		Route::post('/send-reply', 'User\ProfileController@replyMessage')->name('send-reply');
 		Route::get('/delete-message', 'User\ProfileController@deleteMessage')->name('delete-message');
 
-
 		Route::post('/message/inbox', 'User\ProfileController@deleteMultipleMessage')->name('user-delete-multiple-message');
 
 		Route::get('/show-message/{id}', 'User\ProfileController@showMessage')->name('show-message');
@@ -321,22 +291,17 @@ Route::group(['prefix' => 'user'], function () {
 		Route::post('/project-payment', 'User\ProjectController@payment')->name('user-project-payment');
 		Route::post('/product-payment', 'User\ProductController@payment')->name('user-product-payment');
 
-
 		Route::post('/product-purchase', 'User\ProductController@purchase')->name('user-product-purchase');
-
 
 		Route::get('/checkout', 'Front\HomeController@checkout')->name('front-checkout');
 		Route::post('/cart', 'Front\HomeController@checkout')->name('front-checkout');
-
 
 		Route::get('/change-password', 'User\AuthController@changePassword')->name('user-change-password');
 		Route::post('/change-password', 'User\AuthController@changePasswordAction')->name('user-change-password-action');
 
 		Route::get('/reset-password', 'User\AuthController@kickAndSend')->name('user-reset-password');
 
-
 		Route::get('/sub-category/{id}', 'User\ProductController@getSubCategory')->name('user-sub-category');
-
 
 		Route::get('/profile', 'User\ProfileController@index')->name('user-profile-update');
 		Route::post('/profile', 'User\ProfileController@indexAction')->name('user-profile-update-action');
@@ -355,9 +320,7 @@ Route::group(['prefix' => 'user'], function () {
 		Route::get('/order-shipping-info', 'User\OrderController@shippingInfo')->name('user-order-shipping-info');
 		Route::get('/order-cancel', 'User\OrderController@orderCancel')->name('user-order-cancel');
 
-
 		Route::get('/order-details/{id}', 'User\OrderController@orderDetails')->name('user-order-details');
-
 
 		Route::get('/donate-list', 'User\DonateController@index')->name('user-donate-list');
 		Route::get('/donate-list-data', 'User\DonateController@data')->name('user-donate-list-data');
@@ -366,7 +329,6 @@ Route::group(['prefix' => 'user'], function () {
 
 		Route::get('/donate-shipping-info', 'User\DonateController@shippingInfo')->name('user-donate-shipping-info');
 		// Route::get('/donate-cancel', 'User\OrderController@orderCancel')->name('user-order-cancel');
-
 
 		Route::get('/donate-details/{id}', 'User\DonateController@donateDetails')->name('user-donate-details');
 
@@ -382,7 +344,6 @@ Route::group(['prefix' => 'user'], function () {
 	        Route::get('/status-change/{id}/{status}', 'User\CardController@statusChange')->name('user-cards-status-change');
 	    });
 
-
 		Route::get('/social', 'User\ProfileController@social')->name('user-social');
 
 		Route::get('/video', 'User\VideoController@index')->name('user-video');
@@ -391,7 +352,6 @@ Route::group(['prefix' => 'user'], function () {
 		Route::get('/logout', 'User\AuthController@logout')->name('user-logout');
 	});
 });
-
 
 Auth::routes();
 
