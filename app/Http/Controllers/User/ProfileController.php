@@ -51,68 +51,25 @@ class ProfileController extends Controller
 
     public function indexAction(Request $request)
     {
-    	// $this->validate($request, [
-        //     'first_name' => 'required|max:10',
-        //     'last_name' => 'required|max:10',
-        //     'phonetic' => 'required|regex:/[\x{30A0}-\x{30FF}]/u',
-        //     'phonetic2' => 'required|regex:/[\x{30A0}-\x{30FF}]/u',
-        //     'url' => 'nullable|url',
-        //     // 'profile' => 'required',
-        //     // 'birth_year' => 'required',
-        //     // 'birth_month' => 'required',
-        //     // 'birth_day' => 'required',
-        //     'postal_code' => 'required',
-        //     // 'division' => 'required',
-        //     // 'municipility' => 'required',
-        //     // 'address' => 'required',
-        //     // 'room_no' => 'required',
-        //     // 'phone_no' => 'required|min:10|max:11',
-        //     // 'sex' => 'required'
-        //     'phone_no' => ['min:10','max:11']
-        // ],[
-        //     'phonetic.regex' => 'カタカナで入力してください ',
-        //     'phonetic2.regex' => 'カタカナで入力してください ',
-        //     'phone_no.min' => '電話番号は10文字以上にする必要があります。',
-        //     'phone_no.max' => '電話番号は11文字を超えることはできません。'
-        // ]);
-        
-
         $validator =\Validator::make($request->all() ,
-                    [
-                        'first_name' => 'required|max:10',
-                        'last_name' => 'required|max:10',
-                        'phonetic' => 'required|regex:/[\x{30A0}-\x{30FF}]/u',
-                        'phonetic2' => 'required|regex:/[\x{30A0}-\x{30FF}]/u',
-                        'url' => 'nullable|url',
-                        // 'profile' => 'required',
-                        // 'birth_year' => 'required',
-                        // 'birth_month' => 'required',
-                        // 'birth_day' => 'required',
-                        'postal_code' => 'required',
-                        // 'division' => 'required',
-                        // 'municipility' => 'required',
-                        // 'address' => 'required',
-                        // 'room_no' => 'required',
-                        // 'phone_no' => 'required|min:10|max:11',
-                        // 'sex' => 'required'
-                        'phone_no' => ['min:10','max:11']
-                    ],[
-                        'phonetic.regex' => 'カタカナで入力してください ',
-                        'phonetic2.regex' => 'カタカナで入力してください ',
-                        'phone_no.min' => '電話番号は10文字以上にする必要があります。',
-                        'phone_no.max' => '電話番号は11文字を超えることはできません。'
-                    ]);
-                    
-
-                    // dd($request->all(), $request->toArray());
-              
-                    // exit();
+            [
+                'first_name' => 'required|max:10',
+                'last_name' => 'required|max:10',
+                'phonetic' => 'required|regex:/[\x{30A0}-\x{30FF}]/u',
+                'phonetic2' => 'required|regex:/[\x{30A0}-\x{30FF}]/u',
+                'url' => 'nullable|url',
+                'postal_code' => 'required',
+                'phone_no' => ['min:10','max:11']
+            ],[
+                'phonetic.regex' => 'カタカナで入力してください ',
+                'phonetic2.regex' => 'カタカナで入力してください ',
+                'phone_no.min' => '電話番号は10文字以上にする必要があります。',
+                'phone_no.max' => '電話番号は11文字を超えることはできません。'
+            ]);
         if ($validator->fails()) {           
             return redirect()->back()->with('test', $request->all())
             ->withErrors($validator);
         }
-
-        // dd($request->all());
 
         $User = User::find(Auth::user()->id);
         
@@ -202,16 +159,14 @@ class ProfileController extends Controller
             'address3' => $Profile->municipility,
             'address4' => $Profile->address,
             'address5' => $Profile->room_no,
-            'phone_number' => $Profile->phone_no, 
-            
-
+            'phone_number' => $Profile->phone_no,
         ];
 
         Mail::to($User->email)
             ->send(new Common($emailData));
 
          //send mail to admin
-         $emailData = [
+        $emailData = [
             'name' => '',
             'register_token' => $User->register_token,
             'subject' => '【Crofun管理者用】アカウントの変更通知',
@@ -228,26 +183,16 @@ class ProfileController extends Controller
             'address4' => $Profile->address,
             'address5' => $Profile->room_no,
             'phone_number' => $Profile->phone_no,
-            
-
         ];
 
-        Mail::to('administrator@crofun.jp')
-            ->send(new Common($emailData));
-        
-
+        Mail::to('administrator@crofun.jp')->send(new Common($emailData));
 
         return redirect()->back()->with('success', 'プロフィール情報を更新完了です。');
-
     }
 
     public function emailChange(Request $request)
     {
         $user = User::where('id', Auth::user()->id)->with('profile')->first();
-        // dd($user);
-        // if ($user->facebook_id != null || $user->google_id != null || $user->twitter_id !=null || $user->facebook_id != '' || $user->google_id != '' || $user->twitter_id != ''){
-        //     return redirect()->route('front-home');
-        // }
         $data['user'] = $user;
         $data['title'] = 'メールアドレス変更 | Crofun';
     	return view('user.change_email',$data);
@@ -255,13 +200,11 @@ class ProfileController extends Controller
 
     public function emailChangeAction(Request $request)
     {
-        // dd($request);
     	$this->validate($request, [
-            // 'currentemail' => 'required',
             'email' => 'required',
             'email_confirmation' => 'required'
-            // |email|confirmed|unique:users,email,'.Auth::user()->id
-        ],[
+        ],
+        [
             'email.email' => '正しいメールアドレスを入力してください。',
         ]);
         
@@ -270,10 +213,6 @@ class ProfileController extends Controller
 
         $allUsers = User::where('email',$request->email)->first();
 
-        // dd($request->email_confirmation);
-        // if($old_email != $request->currentemail){
-        //     return redirect()->back()->with('error_message', '現在のメールが一致しません');
-        // }else 
         if(!empty($request->email != $request->email_confirmation)){
             return redirect()->back()->with('error_message', 'メールアドレスが一致しません');
         } else if($old_email == $request->email ){
@@ -302,16 +241,11 @@ class ProfileController extends Controller
         Mail::to($old_email)
             ->send(new Common($emailData));
         return redirect()->back()->with('success_message', 'メールアドレスが更新されました');
-        
-
-        
     }
 
 
     public function sendMessage(Request $request)
     {
-        // dd($request->id);
-
         if($request->id !=null){
             $thread_id = 0;
             $is_exist = Threads::where('title', $request->subject)->first();
@@ -406,9 +340,7 @@ class ProfileController extends Controller
             $Message->message = $request->message;
             $Message->save();
         }
- 
 
-       
         // send mail to msg receiver
         $Receiver = User::find($Message->to_id);
         $emailData = [
@@ -420,9 +352,7 @@ class ProfileController extends Controller
             'template' => 'user.email.12',
             'root'     => $request->root(),
             'email'     => $Receiver->email,
-    
         ];
-    
         Mail::to($Receiver->email)
             ->send(new Common($emailData));
 
@@ -432,8 +362,6 @@ class ProfileController extends Controller
     public function inboxMessage(Request $request)
     {
         $data['current_user'] = User::where('id', Auth::user()->id)->first();
-
-        // dd($currentUser);
 
         $user = User::where('id', Auth::user()->id)->with('profile')->first();
         $data['user'] = $user;
@@ -448,11 +376,8 @@ class ProfileController extends Controller
                             ->with('side1')
                             ->with('side2')
                             ->orderBy('last_message_time', 'desc')
-                            // ->get();
                             ->paginate(20);
-                            // dd( $data['threads']);
         return view('user.message_inbox', $data);
-
     }
 
     public function sentMessage(Request $request)
@@ -472,9 +397,7 @@ class ProfileController extends Controller
                                 ->with('side2')
                                 ->orderBy('last_message_time', 'desc')
                                 ->paginate(20);
-        // return view('user.read_message', $data);
-				return view('user.message_inbox', $data);
-
+        return view('user.message_inbox', $data);
     }
     
     public function trashMessage(Request $request)
@@ -494,8 +417,7 @@ class ProfileController extends Controller
                                 ->with('side2')
                                 ->orderBy('last_message_time', 'desc')
                                 ->paginate(20);
-        // return view('user.read_message', $data);
-				return view('user.message_inbox', $data);
+        return view('user.message_inbox', $data);
     }
 
     public function showMessage(Request $request){
@@ -507,22 +429,21 @@ class ProfileController extends Controller
             Threads::where('id', $request->id)->update(['read_status_side2' => 2]);
         }
 
-
         $thread = Threads::where('id', $request->id)->update(['read_status' => 2]);
 
         $user = User::where('id', Auth::user()->id)->with('profile')->first();
         $data['user'] = $user;
         $message = Message::where('thread_id', $request->id)->get();
         $lastMessage = Message::where('thread_id', $request->id)->orderBy('id','desc')->get();
-        // dd($message);
+
         $data['messages'] = $message;
         $data['lastMessage'] = $lastMessage;
         $data['thread'] = Threads::where('id', $request->id)->with('side1')->with('side2')->first();
+
         return view('user.show-message', $data);
     }
 
     public function replyMessage(Request $request){
-        // dd($request->input('to_id'));
         $messageReply = new Message();
         $messageReply->subject = $request->input('subject');
         $messageReply->to_id = $request->input('to_id');
@@ -531,7 +452,6 @@ class ProfileController extends Controller
 
         $messageReply->from_id = Auth::user()->id;
         $messageReply->message = $request->input('message');
-        // dd($messageReply);
         $messageReply->save();
         
         $thrd = Threads::where('id', $request->input('thread_id'))->first();
@@ -562,7 +482,8 @@ class ProfileController extends Controller
          
              Mail::to('administrator@crofun.jp')
                  ->send(new Common($emailData));
-        }else{
+        }
+        else{
             // send mail to msg receiver
             $Receiver = User::find($messageReply->to_id);
             $emailData = [
@@ -580,9 +501,6 @@ class ProfileController extends Controller
             Mail::to($Receiver->email)
                 ->send(new Common($emailData));
         }
-             
-
-        // return redirect()->back()->with('success', '返信メッセージを送信しました');
         return redirect()->back();
     }
 
@@ -617,22 +535,6 @@ class ProfileController extends Controller
     public function shippingAddressUpdateAction(Request $request)
     {
         $this->validate($request, [
-            //'first_name' => 'required|max:10',
-            //'last_name' => 'required|max:10',
-            //'phonetic' => 'required|regex:/[\x{30A0}-\x{30FF}]/u',
-           // 'phonetic2' => 'required|regex:/[\x{30A0}-\x{30FF}]/u',
-            //'url' => 'nullable|url',
-            // 'profile' => 'required',
-            // 'birth_year' => 'required',
-            // 'birth_month' => 'required',
-            // 'birth_day' => 'required',
-            //'postal_code' => 'required',
-            // 'division' => 'required',
-            // 'municipility' => 'required',
-            // 'address' => 'required',
-            // 'room_no' => 'required',
-            // 'phone_no' => 'required|min:10|max:11',
-            // 'sex' => 'required'
             'shipping_phone_num' => ['min:10','max:11']
         ],[
             'phone_no.min' => '電話番号は10文字以上にする必要があります。',
@@ -646,11 +548,9 @@ class ProfileController extends Controller
         $User->shipping_room_num = $request->input('shipping_room_num');
         $User->shipping_postal_code = $request->input('shipping_postal_code');
         $User->shipping_phone_num = $request->input('shipping_phone_num');
-				//
         $User->first_name = $request->input('first_name');
         $User->last_name = $request->input('last_name');
-				//
-				//
+
         $User->save();
 
         $User->profile->phonetic = $request->input('phonetic1');
@@ -658,7 +558,6 @@ class ProfileController extends Controller
         $User->profile->save();
         
         return redirect()->back()->with('success', '配送先情報を更新完了です。');
-				// return $User->shipping_prefecture;
     }
 
     public function quitMembership()
@@ -668,14 +567,9 @@ class ProfileController extends Controller
 
     public function quitMembershipUpdate(Request $request)
     {
-        // $this->validate($request, [
-        //     'checkbox' => 'required'
-        // ]);
-
         $User = User::find(Auth::user()->id);
         $User->quit_request = true;
         $User->save();
-        // Auth::logout();
         return redirect()->back()->with('success_message', 'Your request is submitted,we will get back to you soon.');
     }
 
@@ -686,38 +580,36 @@ class ProfileController extends Controller
 
     public function mypage(Request $request)
     {
-				$user_id = Auth::user()->id;
-                $user = User::where('id', Auth::user()->id)->with('profile')->first();
-				$data['user'] = $user;
-				$projects = Project::where('user_id', $user_id )->where('end', '>=', Carbon::now()->subDays(365)->toDateTimeString())->with('favourite')->orderBy('created_at', 'desc')->get();
+        $user_id = Auth::user()->id;
+        $user = User::where('id', Auth::user()->id)->with('profile')->first();
+        $data['user'] = $user;
+        $projects = Project::where('user_id', $user_id )->where('end', '>=', Carbon::now()->subDays(365)->toDateTimeString())->with('favourite')->orderBy('created_at', 'desc')->get();
 
-				$data['projects'] = $projects;
-				$data['products'] = Product::where('user_id', $user_id )->orderBy('created_at','desc')->get();
-                $invested_projects = Project::where('end', '>=', Carbon::now()->subDays(365)->toDateTimeString())
-                                            ->whereIn('status', [1,3])
-                                            ->whereHas('investment', function ($query) {
-                                                    $query->where('user_id', Auth::user()->id)->where('status', 1);
+        $data['projects'] = $projects;
+        $data['products'] = Product::where('user_id', $user_id )->orderBy('created_at','desc')->get();
+        $invested_projects = Project::where('end', '>=', Carbon::now()->subDays(365)->toDateTimeString())
+                                    ->whereIn('status', [1,3])
+                                    ->whereHas('investment', function ($query) {
+                                            $query->where('user_id', Auth::user()->id)->where('status', 1);
+                                    })
+                                    ->orderBy('created_at', 'desc')
+                                    ->get();
+        $data['invested_projects'] = $invested_projects;
+        $data['OrderDetails'] = OrderDetail::where('status', 1)
+                                            ->whereHas('order', function($q){
+                                                $q->where('user_id', Auth::user()->id)->where('status', 1);
                                             })
                                             ->orderBy('created_at', 'desc')
                                             ->get();
-				$data['invested_projects'] = $invested_projects;
-                $data['OrderDetails'] = OrderDetail::where('status', 1)
-                                                    ->whereHas('order', function($q){
-                                                        $q->where('user_id', Auth::user()->id)->where('status', 1);
-                                                    })
-                                                    ->orderBy('created_at', 'desc')
-                                                    ->get();
-                $data['OrderDetailsNotification'] = OrderDetail::where('status', 1)
-                                                    ->whereHas('product', function($q){
-                                                        $q->where('user_id', Auth::user()->id)->where('status', 1);
-                                                    })
-                                                    ->whereHas('order', function($q){
-                                                        $q->where('status', 1);
-                                                    })
-                                                    ->orderBy('created_at', 'desc')
-                                                    ->get();
-                // dd($data);
-
+        $data['OrderDetailsNotification'] = OrderDetail::where('status', 1)
+                                            ->whereHas('product', function($q){
+                                                $q->where('user_id', Auth::user()->id)->where('status', 1);
+                                            })
+                                            ->whereHas('order', function($q){
+                                                $q->where('status', 1);
+                                            })
+                                            ->orderBy('created_at', 'desc')
+                                            ->get();
         return view('user.my_page', $data);
     }
 }

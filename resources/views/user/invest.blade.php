@@ -518,18 +518,11 @@
 
 </style>
 @stop
-
-
 @section('ecommerce')
-
 @stop
 
 @section('content')
 @include('user.layouts.invest-breadcrump')
-
-
-
-
 
 <div class="container" id="new-project">	
 	<div class="mt20">
@@ -547,7 +540,6 @@
 					@endif
 				</div>		
 			</div>
-
 
 			<div class="col-md-10">
 				<h1 class="text-center page_title_product_register">プロジェクトを支援する</h1>
