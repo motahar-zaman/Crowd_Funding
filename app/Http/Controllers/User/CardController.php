@@ -59,7 +59,6 @@ class CardController extends Controller
             $output .= '<a href="'.route('user-cards-edit', ['id' => $result->id]).'" class="btn btn-xs btn-sm btn-info">Edit</a> 
                     <a href="'.route('user-cards-delete', ['id' => $result->id]).'" class="btn btn-xs btn-sm btn-danger delete-sure">Delete</a>';
             return $output;
-            
         })
         ->rawColumns(['created_at', 'action', 'status'])
         ->make(true);
@@ -67,7 +66,6 @@ class CardController extends Controller
 
     public function statusChange(Request $request)
     {
-    	// dd($request->status);
     	$UserCard = UserCard::find($request->id);
     	$UserCard->status = $request->status;
     	$UserCard->save();
@@ -103,13 +101,15 @@ class CardController extends Controller
 	    $UserCard->save();
 
 	    return redirect()->route('user-cards-list')->with('success_message', 'Card Successfully Added !!');
-    } 
+    }
+
     public function edit(Request $request)
     {
     	$data['title'] = "Update Card";
     	$data['details'] = UserCard::find($request->id);
     	return view('user.cards.edit', $data);
     }
+
     public function editAction(Request $request)
     {
     	$this->validate($request, [

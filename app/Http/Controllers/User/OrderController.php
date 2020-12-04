@@ -50,7 +50,6 @@ class OrderController extends Controller
                                 ->orderby('id','DESC')
                                 ->paginate(10);
         Order::where('user_id', Auth::user()->id)->update(['read_all'=>true]);
-        // dd($data);
         $data['title'] = '受援履歴 | Crofun';
     	return view('user.my_order_list', $data);
     }
@@ -102,8 +101,7 @@ class OrderController extends Controller
 																  <div class="dropdown-content">
 																		<a href="'.route('user-order-status-change',['id'=>$result->id, 'status'=>1]).'" class="">Active</a>
 																	  <a href="'.route('user-order-status-change',['id'=>$result->id, 'status'=>4]).'" class="">Reject</a>
-	 															</div> </div>'; //last_interest_at = current date time
-                // $returnData .= '';
+	 															</div> </div>';
             }
             else if ($result->status==1) {
                 $returnData .= '<div class="dropdown">
@@ -114,8 +112,6 @@ class OrderController extends Controller
 																    <a href="'.route('user-order-status-change',['id'=>$result->id, 'status'=>4]).'">Reject</a>
 																  </div>
 																</div>';
-                // $returnData .= '';
-                // $returnData .= '';
             }
             else if ($result->status==3) {
                 $returnData .= '<div class="dropdown">
@@ -124,10 +120,6 @@ class OrderController extends Controller
 																	<a href="'.route('user-order-status-change',['id'=>$result->id, 'status'=>1]).'" >Active</a>
 																	<a href="'.route('user-order-status-change',['id'=>$result->id, 'status'=>4]).'">Reject</a>
 															</div> </div> ';
-                // $returnData .= '';
-            }
-            else{
-                //
             }
             return $returnData;
         })
@@ -198,10 +190,6 @@ class OrderController extends Controller
 		      <i class="fa fa-caret-down"></i>
 		    </button>
 		    <div class="dropdown-content"><a href="'.route('user-order-status-change',['id'=>$result->order_details_id, 'status'=>1]).'" class="">Active</a>   </div>  </div>';
-                // $returnData .= '<a href="'.route('user-order-status-change',['id'=>$result->order_details_id, 'status'=>4]).'" class="btn btn-sm btn-danger inline">Reject</a> ';
-            }
-            else{
-                //
             }
             return $returnData;
         })
@@ -212,7 +200,6 @@ class OrderController extends Controller
     public function statusChange(Request $request)
     {
         $OrderDetail = OrderDetail::find($request->id);
-				// dd($request->status);
         $OrderDetail->status = $request->status;
         $OrderDetail->save();
         //send mail to seller
@@ -330,7 +317,6 @@ class OrderController extends Controller
     public function orderStatusChange(Request $request)
     {
         $Order = Order::find($request->id);
-                // dd($request->status);
         $Order->status = $request->status;
         $Order->save();
         return redirect()->back()->with('success_message', 'status updated');
@@ -338,7 +324,6 @@ class OrderController extends Controller
 
     public function shippingInfo(Request $request){
         $Order = Order::where('id', $request->id)->first();
-        // dd($request->id);
         $Order->document_number = $request->document_number;
         $Order->shipping_company = $request->shipping_company;
         $Order->save();
@@ -349,13 +334,8 @@ class OrderController extends Controller
             return redirect()-> route('user-order-status-change',['id'=>$request->detail_id, 'status'=>$request->status]);
         }
         return redirect()-> route('user-order-details-status-change',['id'=>$request->id, 'status'=>$request->status]);
-
-            // code...
-
-        // return ($request->status);
-        // return ($request->id);
-
     }
+
     public function orderCancel(Request $request){
         $Order = Order::where('id', $request->id)->first();
         $Order->cancel_content = $request->cancel_content;
@@ -363,12 +343,7 @@ class OrderController extends Controller
         if ($request->detail_id) {
             return redirect()-> route('user-order-status-change',['id'=>$request->detail_id, 'status'=>$request->status]);
         }
-        // dd($request->status);
         return redirect()-> route('user-order-details-status-change',['id'=>$request->id, 'status'=>$request->status]);
-
-        // return ($request->status);
-        // return ($request->id);
-
     }
 
     public function orderDetails(Request $request)
@@ -382,8 +357,6 @@ class OrderController extends Controller
                     $q->where('user_id', Auth::user()->id);
                 })->get();
         $data['orderDetailsFull'] = OrderDetail::where('order_id', $request->id)->get();
-        // dd($data['orderDetails']);
-
         return view('user.my_order_details', $data);
     }
 
