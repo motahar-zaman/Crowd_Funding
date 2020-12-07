@@ -149,7 +149,6 @@
 		        margin-left: 0px !important;
 		    }
 		}
-
 		@media (max-width: 1370px) {
 			.first_tabs ul li a {
 				color: #333333;
@@ -162,7 +161,6 @@
 				display: inline-block;
 			}
 		}
-
 		@media (max-width: 1295px) {
 			.top_menu li a {
 				color: #333333;
@@ -290,8 +288,6 @@
 				display: inline-block;
 			}
 		}
-
-
 		@media (max-width: 1300px) {
 			.wizard>.steps .stepinfo{
 				font-size: 14px;
@@ -438,7 +434,6 @@
 				font-size: 14px;
 				text-transform: uppercase;
 			}
-			
 		}
 		@media (max-width: 900px) {
 			.page_title_product_register {
@@ -499,11 +494,8 @@
 				/* border-left: none; */
 			}
 		}
-
-
 	</style>
 @stop
-
 
 @section('ecommerce')
 
@@ -527,7 +519,6 @@
 						<section class="mt-3">
 							<div class="form-group">
 								<label for="">プロジェクト名
-									{{-- <span id="length35_1" class="text-danger"></span> --}}
 									<span id="project_title_message" class="text-danger"></span>
 								</label>
 								<input type="text" id="project_title" class="form-control project_title required col-12 length35_1" placeholder="" maxlength="36" name="title">
@@ -538,18 +529,15 @@
 									<option value="">選択する</option>
 									<?php foreach($category as $c){?>
 										<option value="{{$c->id}}">{{$c->name}}</option>
-										<?php }?>
-									</select>
+									<?php }?>
+								</select>
 							</div>
 							<div class="form-group">
 								<label for="featured_image">画像
 									<span id="featured_image" class="text-danger"></span>
 								</label> 
-								
-								{{-- <br> --}}
-								<!-- <button class="btn btn-sm btn-default" id="upfile1">ファイルを選択</button> -->
+
 								<input type="file" id="file1" style="padding-left:0px" class="col-12 btn featured_image project_image required" name="featured_image" accept=".jpg,.png,.jpeg">
-								<!-- <span id="select_file" class="ml-3">選択されていません</span> -->
 								<div class="">
 									<span style="font-size:12px;">*画像は 2MB 以下である必要があります。</span>
 								</div>
@@ -563,10 +551,8 @@
 
 							<div class="form-group">
 								<label for="purpose">目的
-									<!-- <span id="length200_1" class="text-danger"></span> -->
 									<span id="purpose_message" class="text-danger"></span>
 								</label>
-								<!-- {{--<input type="text" class="form-control required col-12 project_purpose length200_1" placeholder="" name="purpose">--}} -->
 								<textarea  id="purpose" row="6" cols="60" class="form-control required col-12 project_purpose length200_1" maxlength="201" placeholder="" name="purpose"></textarea>
 							</div>
 							<div class="form-group">
@@ -638,7 +624,6 @@
 														<span class="is_crofun_point_msg hide text-danger">金額以上のCrofunポイントを設定できません。</span>
 													</div>
 													<sub class="p-0 mt-4 mr-3">pt</sub>
-													{{-- <div class="col-md-3 p-0">pt</div> --}}
 												</div>
 											</div>
 
@@ -703,8 +688,6 @@
 										</div>
 
 										<div class="form-group file_upload_section">
-											<!-- <button class="btn btn-sm btn-default upfile_step3" id="">ファイルを選択</button> -->
-											<!-- <span id="" class="ml-3 select_file_step3">選択されていません</span> -->
 											<label for="draft_file[]" class="">写真</label>
 											<br>
 											<input type="file" id="" class=" col-10 file_step3 additional_details_file" placeholder="" name="draft_file[]" accept=".jpg,.png,.jpeg">
@@ -720,8 +703,6 @@
 											</div>
 										</div>
 									</section>
-
-
 
 									<h3 class="step_title_area">
 										<span class="steptext">Step</span><span class="stepcount">4</span>
@@ -879,9 +860,7 @@
 						</div>
 
 						<div class="form-group file_upload_section">
-								<!-- <button class="btn btn-sm btn-default upfile_step3">ファイルを選択</button> -->
-								<!-- <span id="" class="ml-3 select_file_step3">選択されていません</span> -->
-								<!-- <label for="draft_file[]" class="col-md-12">見出しタイトル</label> -->
+
 							<input type="file" id="" class=" col-10 file_step3 additional_details_file" placeholder="" name="draft_file[]" accept=".jpg,.png,.jpeg">
 							<div class="">
 								<span style="font-size:12px;">*画像は 2MB 以下である必要があります。</span>
@@ -891,25 +870,15 @@
 				</div>
 			</div>
 
-
-
 @include('user.layouts.add-project')
 
 @include('user.layouts.submit_modal')
 
 @stop
 @section('custom_js')
-
-	<!-- <script src="//cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script> -->
 	<script src="{{Request::root()}}/ckeditor/ckeditor.js"></script>
-
-	{{-- <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script> --}}
 	<script type="text/javascript" src="{{Request::root()}}/js/jquery.validate.min.js"></script>
-	{{-- <script type="text/javascript" src="js/bootstrap-filestyle.min.js"> </script> --}}
-
 	<script src="https://cdn.jsdelivr.net/npm/jquery-dropdown-datepicker@1.3.0/dist/jquery-dropdown-datepicker.min.js"></script>
-
-
 
 	 <script>
 		$(document).ready(function(){
@@ -997,37 +966,6 @@
 		
 	 </script>
 
-
-	<!-- <script type="text/javascript">
-		$(document).on('click', '#upfile1', function(){
-			$("#file1").trigger('click');
-			$('#file1').change(function() {
-				var filename = $('#file1').val();
-				$('#select_file').html(filename);
-			});
-			return false;
-		});
-	</script>
-
-	<script type="text/javascript">
-		$(document).on('click', '.upfile_step3', function(){
-			$(this).parent('.file_upload_section').find('.file_step3').trigger('click');
-			$(this).parent('.file_upload_section').find('.file_step3').change(function() {
-				var filename = $(this).parent('.file_upload_section').find('.file_step3').val();
-				$(this).parent('.file_upload_section').find('.select_file_step3').html(filename);
-			});
-			return false;
-		});
-
-
-		$(document).on('click', '.close', function(){
-			$(this).closest('.'+$(this).attr('data-target')).remove();
-		});
-	</script> -->
-
-
-
-
 	<script type="text/javascript">
 		var form = $("#example-form");
 		form.validate({
@@ -1076,7 +1014,6 @@
 						check = 1;
 					}else {
 						$('#length35_1').html('');
-						// check = 0;
 					}
 
 					console.log($('.length2k_2').val());
@@ -1085,7 +1022,6 @@
 						check = 1;
 					}else {
 						$('#length2k_2').html('');
-						// check = 0;
 					}
 
 					if ($('.length30_2').val().length > 30) {
@@ -1093,7 +1029,6 @@
 						check = 1;
 					}else {
 						$('#length30_2').html('');
-						// check = 0;
 					}
 
 					if ($('.length30_3').val().length > 30) {
@@ -1101,7 +1036,6 @@
 						check = 1;
 					}else {
 						$('#length30_3').html('');
-						// check = 0;
 					}
 
 					if ($('.length200_1').val().length > 200) {
@@ -1109,7 +1043,6 @@
 						check = 1;
 					}else {
 						$('#length200_1').html('');
-						// check = 0;
 					}
 					if (check == 1) {
 						console.log('validation error');
@@ -1125,20 +1058,16 @@
 					var point = [];
 					var reward = [];
 					$('.body .amount').each(function(i, item){
-						// console.log(i, $(this).val());
 						amount.push($(this).val())
 					});
 					$('.body .is_crofun_point').each(function(i, item){
-						// console.log(i, $(this).val());
 						point.push($(this).val());
-						// point.push($(this).val())
 					});
 					if(amount.length != point.length){
 						return false;
 					}
 					for(var i=0;i<amount.length;i++){
 						if(amount[i] == '' || point[i] == '' || (parseFloat(amount[i]) < parseFloat(point[i]))){
-							// return false;
         					return form.valid();
 						}
 					}
@@ -1155,30 +1084,13 @@
 						}
 					}
 
-					// console.log(amount);
-					// console.log(point);
-					// return false;
-					// var point = $('.body input[name="is_crofun_point[]"]').val();
-					// console.log(amount, point);
-					// return false;
 					form.validate().settings.ignore = ":disabled,:hidden";
         			return form.valid();
 				}
-
-				console.log(newIndex)
-				console.log(currentIndex)
-		        // if(newIndex > currentIndex){
-				// 	form.validate().settings.ignore = ":disabled,:hidden";
-        		// 	return form.valid();
-				// }
 				return true;
 		    },
 		    onStepChanged: function (event, currentIndex, newIndex)
 		    {
-		        // if(currentIndex == 2){
-		        // 	$('.actions > ul > li:last-child').attr('style', '');
-		        // 	$('.actions > ul > li:nth-child(2)').attr('style', 'display:none;');
-		        // }
 		        if(currentIndex == 3){
 		        	$('.actions > ul > li:last-child').attr('style', '');
 		        	$('.actions > ul > li:nth-child(2)').attr('style', 'display:none;');
@@ -1522,7 +1434,6 @@
 				}
 			})
 
-
 			$('.body').on('keyup', '.amount', function(e){
 				//alert('working');
 				var amount = $(this).val();
@@ -1562,10 +1473,6 @@
 					return false;
 				}
 				var reward1 = $(this).parent('div').parent('div').parent('div').siblings('.amount_div').find('.amount').val();
-				//console.log('amount');
-				//console.log(amount);
-				//console.log('is_crofun_point');
-				//console.log(is_crofun_point);
 
 				if (reward1 =='') {
 					$(this).siblings('.is_crofun_point_msg').removeClass('hide');
