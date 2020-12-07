@@ -226,41 +226,33 @@ class HomeController extends Controller
     public function projectList(Request $request)
     {
         $data['projects'] = $this->projectData($request);
-        // return view('front.project_list', $data);
-       
+
         if($request->s == 'd'){
             $data['totalProjects'] = Project::where('projects.status', 1)->count('projects.id');
-        } elseif($request->s == 'per'){
-            $data['totalProjects'] = Project::select('projects.*', 
-                                                    DB::raw('SUM(investments.amount)/projects.budget As total'), 
+        }
+        elseif($request->s == 'per'){
+            $data['totalProjects'] = Project::select('projects.*',
+                                                    DB::raw('SUM(investments.amount)/projects.budget As total'),
                                                     DB::raw('SUM(investments.amount) As x'),
                                                     DB::raw('projects.budget As y'))
-                                    // ->leftJoin('investments', 'investments.project_id', '=', 'projects.id')
                                     ->where('projects.status', 1)
-                                    // ->where('investments.status', 1)
-                                    // ->groupBy('projects.id')
                                     ->count('projects.id');
-            // $data = Project::where('status', 1);
-        } elseif($request->s == 'c'){
-            // $data = Project::where('status', 1);
+        }
+        elseif($request->s == 'c'){
             $data['totalProjects'] = Project::select('projects.*', DB::raw('SUM(investments.amount) As total'))
                     ->where('projects.status', 1)
-                    // ->where('investments.status', 1)
                     ->leftJoin('investments', 'investments.project_id', '=', 'projects.id')
                     ->groupBy('projects.id')
-                    // ->orderBy('projects.starting_status', 'asc')
-                    // ->orderby('total','desc')
                     ->count('projects.id');
-        } elseif($request->s == 'i'){
+        }
+        elseif($request->s == 'i') {
             $data['totalProjects']= Project::select('projects.*', DB::raw('COUNT(investments.amount) As total'))
                         ->where('projects.status', 1)
-                        // ->where('investments.status', 1)
                         ->leftJoin('investments', 'investments.project_id', '=', 'projects.id')
                         ->groupBy('projects.id')
-                        // ->orderBy('projects.starting_status', 'asc')
-                        // ->orderby('total','desc')
                         ->count('projects.id');
-        } elseif($request->s == 'p'){
+        }
+        elseif($request->s == 'p'){
             $data['totalProjects']= Project::where('status', 1)->count('id');
         }
 
@@ -298,11 +290,9 @@ class HomeController extends Controller
                                             })
                                             ->count('id');
         }
-
-        
-			return view('front.project_list', $data);
-
+        return view('front.project_list', $data);
     }
+
     public function projectListbycat(Request $request)
     {
         $data['projects'] = $this->projectDataNewtop($request);
@@ -532,42 +522,34 @@ class HomeController extends Controller
         
         if($request->s == 'd'){
             
-            $data = Project::select('projects.*', 
-                                        DB::raw('projects.end  >=  CURRENT_TIMESTAMP() As current_projects')
-                                    )
-                            ->where('status', 1)
-                            ->orderBy('current_projects','desc')
-                            ->orderBy('starting_status', 'asc')
-                            ->orderBy('start','desc');
-                            // dd($data->get());
-        } elseif($request->s == 'per'){
+        $data = Project::select('projects.*', DB::raw('projects.end  >=  CURRENT_TIMESTAMP() As current_projects'))
+                        ->where('status', 1)
+                        ->orderBy('current_projects','desc')
+                        ->orderBy('starting_status', 'asc')
+                        ->orderBy('start','desc');
+        }
+        elseif($request->s == 'per'){
             $data = Project::select('projects.*', 
                                     DB::raw('SUM(investments.amount)/projects.budget As total'), 
                                     DB::raw('SUM(investments.amount) As x'),
                                     DB::raw('projects.budget As y'))
                     ->where('projects.status', 1)
-                    // ->where('projects.end', '>=', Carbon::now()->subDays(365)->toDateTimeString())
-                    // ->where('investments.status', 1)
                     ->leftJoin('investments', 'investments.project_id', '=', 'projects.id')
                     ->groupBy('projects.id')
                     ->orderBy('projects.starting_status', 'asc')
                     ->orderby('total','desc');
-            // $data = Project::where('status', 1);
-        } elseif($request->s == 'c'){
-            // $data = Project::where('status', 1);
+        }
+        elseif($request->s == 'c'){
             $data = Project::select('projects.*', DB::raw('SUM(investments.amount) As total'))
                     ->where('projects.status', 1)
-                    // ->where('projects.end', '>=', Carbon::now()->subDays(365)->toDateTimeString())
-                    // ->whereOr('insvestments.project_id', null)
-                    // ->where('investments.status', 1)
                     ->leftJoin('investments', 'investments.project_id', '=', 'projects.id')
                     ->groupBy('projects.id')
                     ->orderBy('projects.starting_status', 'asc')
                     
                     ->orderby('total','desc')
                     ->orderby('projects.end','desc');
-                //    dd($data->get());
-        } elseif($request->s == 'r'){
+        }
+        elseif($request->s == 'r'){
             $data = Project::select('projects.*', 
                         DB::raw('COUNT(investments.amount) As total'),
                         DB::raw('projects.end  >=  CURRENT_TIMESTAMP() As current_projects'),
@@ -581,85 +563,21 @@ class HomeController extends Controller
             ->orderBy('is_100%','asc')
             ->orderBy('total','desc')
             ->orderBy('start','desc');
-            // $data = Project::where('status',1)->where('end', '>=', Carbon::now()->subDays(365)->toDateTimeString())
-            // $data = Project::select('projects.*', 
-            //                         DB::raw('COUNT(investments.amount) As total'),
-            //                         DB::raw('projects.end  >=  CURRENT_TIMESTAMP() As current_projects'),
-            //                         DB::raw('(CASE WHEN SUM(investments.amount)/projects.budget > 0 THEN SUM(investments.amount)/projects.budget ELSE 0 END) As total_percentage')
-            //                         )
-            //             ->whereIn('projects.status', [1,2])
-            //             ->where('projects.end', '>=', Carbon::now()->subDays(365)->toDateTimeString())
-            //             ->leftJoin('investments', 'investments.project_id', '=', 'projects.id')
-            //             ->groupBy('projects.id')
-            //             ->orderBy('current_projects','desc')
-            //             ->orderBy('status','asc')
-            //             ->orderBy('total','desc')
-            //             ->orderBy('start','desc');
-                        // dd($data->get());
-        } elseif($request->s == 'p'){
-           
-
-            //  ======== old code block
-            // $data = Project::selectRaw('projects.*,count(favourite_projects.project_id) as total_fav')
-            //                 ->where('projects.status', 1)
-            //                 ->where('projects.end', '>=', Carbon::now()->subDays(365)->toDateTimeString())
-            //                 ->leftJoin('favourite_projects','projects.id','=','favourite_projects.project_id')
-            //                 ->groupBy('projects.id')
-            //                 ->orderBy('total_fav','desc')
-            //                 ->orderby('projects.end','desc');
-           
- 
-
-
-            $data = Project::selectRaw('projects.*,count(favourite_projects.project_id) as total_fav')                            
-                            // ->where('projects.end', '>=', Carbon::now()->subDays(365)->toDateTimeString())
+        }
+        elseif($request->s == 'p'){
+            $data = Project::selectRaw('projects.*,count(favourite_projects.project_id) as total_fav')
                             ->leftJoin('favourite_projects','projects.id','=','favourite_projects.project_id')
                             ->where('projects.status', 1)
                             ->whereOr('favourite_projects.project_id', null)
                             ->groupBy('projects.id')
                             ->orderBy('total_fav','desc')
                             ->orderby('projects.end','desc');
-           
-
-            
-            // dd($data->get());
-            
-
-            // $data = DB::raw("SELECT p.id, p.user_id, p.category_id, p.sub_category, p.is_featured, p.title, p.purpose, p.beneficiary, p.description, p.colors, p.budget, 
-            //         p.budget_usage_breakdown, p.start, p.end, p.featured_image, p.status, p.starting_status, p.`is_100%`,
-            //         p.created_at, p.updated_at,count(fp.project_id) as total_fav
-            //         FROM favourite_projects as fp
-            //         right join  `projects` as p on (fp.project_id = p.id)
-            //         where p.status=1
-            //         GROUP by p.id
-            //         order by total_fav desc,p.end DESC
-            // ");
-                        
-            
-            // dd($data->get());
-            
-            
-            // FavouriteProject::selectRaw('projects.*, count(fp.project_id) as total_fav')
-            //                 ->where('projects.status', 1)                           
-            //                 ->rightJoin('favourite_projects as fp','projects.id','=','fp.project_id')
-            //                 ->groupBy('projects.id')
-            //                 ->orderBy('total_fav','desc'); 
-            // select * from favourite_projects RIGHT JOIN projects on (favourite_projects.project_id = projects.id) where projects.status=1
-
-            // \DB::enableQueryLog();
-            // dd(\DB::getQueryLog());
-            // dd($projectsList->get(), $projectsFavouriteList);
         }
 
         if(!empty($request->c) && $request->c != 'p'){
             $data = $data->where('category_id', $request->c);
         }
-        // if((!empty($request->s) && $request->s == 'd') || (empty($request->s) && empty($request->c))){
-        //     $data = $data->orderBy('start', 'desc');
-        // }
-        // if(!empty($request->s) && $request->s == 'c'){
-        //     $data = $data->orderBy('end', 'asc');
-        // }
+
         if(!empty($request->title)){
             $data = $data->where('title', 'like', '%'.$request->title.'%');
         }
@@ -672,32 +590,10 @@ class HomeController extends Controller
         $paginated_data = $data->paginate(9);
         $data = false;
 
-       // dd($data,$paginated_data);
-        // if($request->c == 'p' || $request->s == 'p'){
-        //     $data = $paginated_data->sortByDesc(function($project)
-        //     {
-        //         return $project->favourite->count();
-        //     });
-        // }
-        // if($request->s == 'c'){
-        //     $data = $paginated_data->sortByDesc(function($project)
-        //     {
-        //         return $project->investment->sum('amount');
-        //     });
-        // }
-        // if($request->s == 'per'){
-        //     $data = $paginated_data->sortByDesc(function($project)
-        //     {
-        //         return $project->investment->where('status', 1)->sum('amount')/$project->budget;
-        //     });
-        // }
-
         if($data){
             return new LengthAwarePaginator($data, $paginated_data->total(), $paginated_data->perPage());
         }
         return $paginated_data;
-
-
     }
 
     public function projectDetails(Request $request)
@@ -720,35 +616,19 @@ class HomeController extends Controller
         }
         $data['supports'] = Investment::where('project_id', $request->id)->where('status', true)->count();
         $data['project'] = $query->with('user')->first();
-				// dd($data['project']);
-				// dd($data['project']);
-        // dd($data['project']);
+
         $data['social_title'] = $data['project']->title;
         $data['social_image'] = asset('uploads/projects/'. $data['project']->featured_image);
         $data['social_description'] = $data['project']->description ;
         $data['title'] = 'プロジェクト - '. $data['project']->title .' | Crofun';
-        // dd($data);
         return view('front.project_details', $data);
     }
 
-    // public function projectDoneStatus(Request $request){
-    //     $project = Project::find($request->id);
-    //     $project->status = $request->status;
-    //     $project->save();
-    //     return redirect()->back()->with('success_message', 'status updated');
-    // }
-
     public function projectDetailsAfterLogin(Request $request){
-        //  dd( $request->id);
-        // return $request->id;
-
-
         return view('auth.login-project-details');
     }
 
     public function homeAfterLogin(){
-
-        // return $request->id;
         return view('auth.login-project-details');
     }
 
@@ -757,7 +637,6 @@ class HomeController extends Controller
         return redirect()->back()->with('error', 'Credentials do not match');
         }
         return redirect()->route('front-home');
-        // return 'hi';
     }
 
     public function login_project_details_action(Request $request){
@@ -765,12 +644,9 @@ class HomeController extends Controller
         return redirect()->back()->with('error', 'Credentials do not match');
         }
         return redirect()->route('front-project-details', $request->id);
-        // return 'hi';
     }
 
     public function productDetailsAfterLogin(Request $request){
-        // dd( $request->id);
-        // return $request->id;
         return view('auth.login-product-details');
     }
 
@@ -779,27 +655,12 @@ class HomeController extends Controller
             return redirect()->back()->with('error', 'Credentials do not match');
         }
         return redirect()->route('front-product-details', $request->id);
-        // return 'hi';
     }
 
     public function productList(Request $request)
     {
-
         $pdata = $this->productData($request);
         $data['products'] = $pdata['data'];
-        
-
-
-       // dd($data);
-        // $data['title'] = $pdata['title'];
-        // dd($data);
-        // $data['recent_products'] = [];
-
-        // if(Auth::check()){
-        //     $data['recent_products'] = RecentlyViewedProduct::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
-        // }
-        // dd($data['recent_products']);
-        // $data['featured_products'] = Product::where('status', 1)->where('is_featured', 1)->where('id', '!=', $request->id)->limit(8)->get();
         $data['title'] = $pdata['title'];
         return view('front.product_list', $data);
     }
@@ -809,10 +670,6 @@ class HomeController extends Controller
         $title = 'カタログ一覧';
         $sampleData  = null;
         if($request->s == 'most'){
-            // $products = Product::where('status', 1)->with('orderDetails')->sortByDesc(function($most_solds)
-            //         {
-            //             return $most_solds->orderDetails->where('status', 2)->count();
-            //         });
             $products = Product::select('products.*', DB::raw('COUNT(order_details.id) As total'))
                     ->where('products.status', 1)
                     // ->where('investments.status', 1)
@@ -820,37 +677,22 @@ class HomeController extends Controller
                     ->groupBy('products.id')
                     ->orderby('is_featured', 1)
                     ->orderby('total','desc');
-                    
+
             $title = '人気の商品';
         } 
         if($request->s == 'p'){
-            // echo "favourite";         
-
-
-            //             select products.*, COUNT(*) AS TOTAL from `products`
-            // left join `favourite_products` on `favourite_products`.`product_id` = `products`.`id`  
-            // GROUP BY products.id
-            //  order by `products`.`is_featured` desc, TOTAL desc
-
             $products = Product::select('products.*', DB::raw('COUNT(*) As total'))                                                     
                     ->leftJoin('favourite_products', 'favourite_products.product_id', '=', 'products.id') 
                     ->where('products.status', 1)                                    
                     ->groupBy('products.id')                       
                     ->orderByRaw('products.is_featured desc, total desc');
-                    // ->orderby('total','desc');
-
-                  
             $title = '人気の商品';
         } 
         
         else {
-            // echo "others";
             $products = Product::where('status', 1)          
                         ->orderby('is_featured', 1)
-                        ->orderBy('created_at', 'desc')            
-                        ;
-
-                         
+                        ->orderBy('created_at', 'desc');
         }
         if(!empty($request->c)){
             $products = $products->whereHas('subCategory', function($q) use ($request) {
@@ -862,7 +704,6 @@ class HomeController extends Controller
             $products = $products->where('subcategory_id', $request->sc);
             $catDetail = ProductSubCategory::with('category')->find($request->sc);
             $title = $catDetail->category->name.' / '.$catDetail->name;
-            // $title = ProductSubCategory::find($request->sc)->name;
         }
 
         if(!empty($request->title)){
@@ -873,30 +714,20 @@ class HomeController extends Controller
 
         $paginated_data = $products->paginate(9)->setPath('/product-list');
 
-        //  dd($paginated_data); 
         $data = false;
 
-
-        // dd($products[0]->orderDetails);
         if($request->s == 'p'){            
             $data = $paginated_data->sortByDesc(function($product)
             {
-                // return $data->orderDetails->sum('qty');
                 return $product->favourite->count();
             });
             $title = 'お気に入り順';
         }
 
-         
-        if($data){        
-            //  dd($data); 
-            
+        if($data){
             $paginated_data = new LengthAwarePaginator($data, $paginated_data->total(), $paginated_data->perPage());
             $paginated_data->setPath('/product-list');
-            //  dd($paginated_data);
         }
-       
-        // dd($paginated_data);
         
         return ['data' => $paginated_data, 'title' => $title];
     }
@@ -917,7 +748,6 @@ class HomeController extends Controller
         $data['any_two'] = Product::where('user_id', $user_id)-> where('id', '!=', $request->id)->where('status',1)->orderBy('created_at','DESC')->take(3)->get();
         $data['title'] = 'プロダクト - '.  $data['product']->title .' | Crofun';
 
-        // dd($data);
         return view('front.product_details', $data);
     }
 
@@ -957,7 +787,6 @@ class HomeController extends Controller
         } else {
             return redirect()->route( 'front-cart' );
         }
-        // Cart::destroy();
     }
 
     public function cart(Request $request)
@@ -1006,8 +835,8 @@ class HomeController extends Controller
             }
             return redirect()->route('front-cart-empty');
         }
-        // return 'hi';
     }
+
     public function cartAfterLogin(Request $request){
         return view('auth.login-cart');
     }
@@ -1022,8 +851,6 @@ class HomeController extends Controller
         $data['content'] = Content::find(5);
         $data['title'] = '運営会社 | Crofun';
         return view('front.content', $data);
-        // $data['iframeUrl'] = 'http://road-frontier.com/company';
-        // return view('front.iframe', $data);
     }
 
     public function userProfile()
@@ -1035,47 +862,53 @@ class HomeController extends Controller
     {
         return view('front.user_project_details');
     }
+
     public function about()
     {
         $data['content'] = Content::find(1);
         $data['title'] = 'クロファンとは? | Crofun';
         return view('front.content', $data);
     }
+
     public function faq()
     {
         $data['content'] = Content::find(2);
         return view('front.faq', $data);
     }
+
     public function howToUse()
     {
         $data['content'] = Content::find(3);
         return view('front.content', $data);
     }
+
     public function media()
     {
         $data['content'] = Content::find(4);
         $data['title'] = 'メディア実績 | Crofun';
         return view('front.content', $data);
-        // $data['iframeUrl'] = 'http://road-frontier.com/media';
-        // return view('front.iframe', $data);
     }
+
     public function profile(Request $request)
     {
         $data['profile'] = User::find($request->id);
         return view('front.profile', $data);
     }
+
     public function terms()
     {
         $data['content'] = Content::find(6);
         $data['title'] = '利用規約 | Crofun';
         return view('front.content', $data);
     }
+
     public function privacy()
     {
         $data['content'] = Content::find(7);      
         $data['title'] = 'プライバシーポリシー | Crofun';  
         return view('front.content', $data);
     }
+
     public function transactionLaw()
     {
         $data['content'] = Content::find(8);
@@ -1090,7 +923,6 @@ class HomeController extends Controller
             $data['username'] = $user->first_name.' '.$user->last_name;
             $data['useremail'] = $user->email;
             $data['user'] = $user;
-            // dd($data['useremail'] );            
             return view('front.contact',$data);
         }else{
             
@@ -1099,7 +931,6 @@ class HomeController extends Controller
     }
 
     public function contactAction(Request $request){
-        // dd($request['g-recaptcha-response']);
         if($request['g-recaptcha-response'] == null){
             $data = [
                 'captcha_err' => 'あなたが人間であることを確認してください！'
@@ -1157,7 +988,6 @@ class HomeController extends Controller
             ];
             Mail::to($request->email)
                 ->send(new Common($emailData));
-  
 
         return redirect()->back()->with('success_message', 'お問い合わせありがとうございました。');
     }
@@ -1170,5 +1000,4 @@ class HomeController extends Controller
             return redirect()->route('password.request');
         }
     }
-
 }

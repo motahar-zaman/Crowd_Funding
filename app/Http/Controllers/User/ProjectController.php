@@ -261,9 +261,7 @@ class ProjectController extends Controller
                             ->where('user_id', Auth::user()->id)
                             ->orderBy('created_at','dsec')
                             ->get();
-
         return view('user.favourite_project_list', $data);
-
     }
 
     public function removeFavourite(Request $request)
