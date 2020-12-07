@@ -1279,9 +1279,9 @@ ul.pagination li.active {
 .title:hover{
     color: #039AFF;
 }
-.category:hover{
+/*.category:hover{
     color: #039AFF;
-}
+}*/
 
 .see_all_button {
     border: 1px solid #2196F3;
@@ -1802,5 +1802,8 @@ ul.pagination li.active {
 .my_project_list_see_more_button{
     padding-top: 30px !important;
     padding-bottom: 30px !important;
+}
+.noHover{
+    pointer-events: none;
 }
 

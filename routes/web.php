@@ -12,7 +12,6 @@
 if (env('APP_ENV') === 'production') {
     URL::forceSchema('https');
 }
-
 Route::get('/', 'Front\HomeController@index')->name('front-home');
 Route::get('/test', 'Front\HomeController@test');
 Route::get('/project-list', 'Front\HomeController@projectList')->name('front-project-list');
@@ -35,7 +34,6 @@ Route::post('/login/{id}', 'Front\HomeController@login_project_details_action')-
 
 Route::post('/login-here', 'Front\HomeController@home_action')->name('login-home-action');
 Route::get('/login-here', 'Front\HomeController@homeAfterLogin')->name('front-home-login');
-
 
 Route::get('/cart', 'Front\HomeController@cart')->name('front-cart');
 
@@ -95,7 +93,6 @@ Route::post('purchase-payment-response', 'User\ProductController@purchasePayment
 Route::get('purchase-payment-response', 'User\ProductController@purchasePaymentResponse')->name('purchase-payment-response-test');
 
 Route::group(['prefix' => 'admin'], function () {
-
 	Route::get('/login', 'Admin\AuthController@login')->name('admin-login');
 	Route::post('/login', 'Admin\AuthController@loginAction')->name('admin-login-action');
 	Route::get('/logout', 'Admin\AuthController@logout')->name('admin-logout');
@@ -131,7 +128,6 @@ Route::group(['prefix' => 'admin'], function () {
 			Route::get('/donate-data/{id}', 'Admin\ProjectController@dataDonate')->name('admin-project-list-donate');
 			Route::get('/expired', 'Admin\ProjectController@projectEndMail');
 	    });
-
         Route::group(['prefix' => 'product-category'], function () {
 	        Route::get('/list', 'Admin\ProductCategoryController@categoryList')->name('admin-product-category-list');
 	        Route::get('/list-data', 'Admin\ProductCategoryController@data')->name('admin-product-category-list-data');
@@ -142,7 +138,6 @@ Route::group(['prefix' => 'admin'], function () {
 	        Route::get('/delete/{id}', 'Admin\ProductCategoryController@delete')->name('admin-product-category-delete');
 	        Route::get('/status-change/{id}/{status}', 'Admin\ProductCategoryController@statusChange')->name('admin-product-category-status-change');
 	    });
-
         Route::group(['prefix' => 'product-subcategory'], function () {
 	        Route::get('/list', 'Admin\ProductSubcategoryController@categoryList')->name('admin-product-subcategory-list');
 	        Route::get('/list-data', 'Admin\ProductSubcategoryController@data')->name('admin-product-subcategory-list-data');
@@ -153,7 +148,6 @@ Route::group(['prefix' => 'admin'], function () {
 	        Route::get('/delete/{id}', 'Admin\ProductSubcategoryController@delete')->name('admin-product-subcategory-delete');
 	        Route::get('/status-change/{id}/{status}', 'Admin\ProductSubcategoryController@statusChange')->name('admin-product-subcategory-status-change');
 	    });
-
 	    Route::group(['prefix' => 'product'], function () {
 	        Route::get('/list', 'Admin\ProductController@productList')->name('admin-product-list');
 	        Route::get('/list-data', 'Admin\ProductController@data')->name('admin-product-list-data');
@@ -164,7 +158,6 @@ Route::group(['prefix' => 'admin'], function () {
 	        Route::get('/delete/{id}', 'Admin\ProductController@delete')->name('admin-product-delete');
 	        Route::get('/details/{id}', 'Admin\ProductController@details')->name('admin-product-details');
 	    });
-
 	    Route::group(['prefix' => 'user'], function () {
 	        Route::get('/list', 'Admin\UserController@index')->name('admin-user-list');
 	        Route::get('/list-data', 'Admin\UserController@data')->name('admin-user-list-data');
@@ -174,7 +167,6 @@ Route::group(['prefix' => 'admin'], function () {
 	        Route::get('/cancel-request-show', 'Admin\UserController@cancelRequest')->name('admin-cancel-request-show');
 			Route::get('/cancel-requests/{id}', 'Admin\UserController@cancelRequestShow')->name('admin-cancel-requests');
 	    });
-
 	    Route::group(['prefix' => 'admin-user'], function () {
 	        Route::get('/list', 'Admin\AdminUserController@index')->name('admin-admin-user-list');
 	        Route::get('/list-data', 'Admin\AdminUserController@data')->name('admin-admin-user-list-data');
@@ -185,7 +177,6 @@ Route::group(['prefix' => 'admin'], function () {
 	        Route::get('/delete/{id}', 'Admin\AdminUserController@delete')->name('admin-admin-user-delete');
 	        Route::get('/status-change/{id}/{status}', 'Admin\AdminUserController@statusChange')->name('admin-admin-user-status-change');
 	    });
-
 	    Route::group(['prefix' => 'videos'], function () {
 	        Route::get('/list', 'Admin\VideoController@categoryList')->name('admin-videos-list');
 	        Route::get('/list-data', 'Admin\VideoController@data')->name('admin-videos-list-data');
@@ -196,7 +187,6 @@ Route::group(['prefix' => 'admin'], function () {
 	        Route::get('/delete/{id}', 'Admin\VideoController@delete')->name('admin-videos-delete');
 	        Route::get('/status-change/{id}/{status}', 'Admin\VideoController@statusChange')->name('admin-videos-status-change');
 	    });
-
         Route::group(['prefix' => 'content'], function () {
 	        Route::get('/list', 'Admin\ContentController@contentList')->name('admin-content-list');
 	        Route::get('/list-data', 'Admin\ContentController@data')->name('admin-content-list-data');
@@ -235,7 +225,6 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::group(['prefix' => 'user'], function () {
 	Route::group(['middleware' => ['auth', 'activecheck']], function () {
-
 		Route::get('my-page', 'User\ProfileController@mypage')->name('user-my-page');
 
 		Route::get('/invest-list', 'User\InvestController@index')->name('user-invest-list');

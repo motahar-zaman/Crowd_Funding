@@ -148,7 +148,6 @@
 		        margin-left: 0px !important;
 		    }
 		}
-
 		@media (max-width: 1370px) {
 			.first_tabs ul li a {
 				color: #333333;
@@ -161,7 +160,6 @@
 				display: inline-block;
 			}
 		}
-
 		@media (max-width: 1295px) {
 			.top_menu li a {
 				color: #333333;
@@ -289,8 +287,6 @@
 				display: inline-block;
 			}
 		}
-
-
 		@media (max-width: 1300px) {
 			.wizard>.steps .stepinfo{
 				font-size: 14px;
@@ -437,7 +433,6 @@
 				font-size: 14px;
 				text-transform: uppercase;
 			}
-			
 		}
 		@media (max-width: 900px) {
 			.page_title_product_register {
@@ -878,12 +873,10 @@
 @stop
 @section('custom_js')
 	<script src="{{Request::root()}}/ckeditor/ckeditor.js"></script>
-
 	<script type="text/javascript" src="{{Request::root()}}/js/jquery.validate.min.js"></script>
-
 	<script src="https://cdn.jsdelivr.net/npm/jquery-dropdown-datepicker@1.3.0/dist/jquery-dropdown-datepicker.min.js"></script>
 
-	<script type="text/javascript">
+	 <script>
 		$(document).ready(function(){
 			var maxDate = null, minDate = null;
 			$("#from").dropdownDatepicker({
@@ -967,7 +960,6 @@
 			createToDate();
 		});
 
-
 		var form = $("#example-form");
 		form.validate({
 			errorPlacement: function errorPlacement(error, element) { element.before(error); },
@@ -1041,7 +1033,6 @@
 						check = 1;
 					}else {
 						$('#length200_1').html('');
-						// check = 0;
 					}
 					if (check == 1) {
 						console.log('validation error');
@@ -1085,7 +1076,6 @@
 					form.validate().settings.ignore = ":disabled,:hidden";
         			return form.valid();
 				}
-
 				return true;
 		    },
 		    onStepChanged: function (event, currentIndex, newIndex)
@@ -1424,7 +1414,6 @@
 					$(this).prev('.other_description_message').html('');
 				}
 			})
-
 
 			$('.body').on('keyup', '.amount', function(e){
 				var amount = $(this).val();

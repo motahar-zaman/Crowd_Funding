@@ -77,13 +77,7 @@ class ProjectController extends Controller
             $fullPath = 'uploads/projects/'.$name;
             $fullPathOriginal = 'uploads/projects/original/'.$name;
             $img = Image::make($request->featured_image);
-            // $img->resize(320, 240);
-            // $img->save($fullPathOriginal);
-            // $img->resize(200, 200, function ($constraint) {
-            //     $constraint->aspectRatio();
-            // });
             $img->save($fullPath);
-
         }
 
         $Project->featured_image = $name;
@@ -266,7 +260,6 @@ class ProjectController extends Controller
                             ->where('user_id', Auth::user()->id)
                             ->orderBy('created_at','dsec')
                             ->get();
-
         return view('user.favourite_project_list', $data);
     }
 
