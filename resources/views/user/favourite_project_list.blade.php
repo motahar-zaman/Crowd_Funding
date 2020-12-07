@@ -530,92 +530,92 @@
 							</div>
 						</div>
 
-							<div class="row">
-								<div class="col-md-12 col-12">
-
-											<ul class="nav nav-tabs" role="tablist">
-													<li class="nav-item">
-														<a class="nav-link {{Route::currentRouteName()=='user-favourite-project-list'?'active':''}}" href="{{route('user-favourite-project-list')}}">プロジェクト</a>
-													</li>
-													<li class="nav-item">
-														<a class="nav-link {{Route::currentRouteName()=='user-favourite-product-list'?'active':''}}" href="{{route('user-favourite-product-list')}}">カタログ商品</a>
-													</li>
-											</ul>
-
-
-											<div class="tab-content">
-												<div id="home" class="tab-pane active row  mt-5">
-													@foreach ($projects as $p)
+						<div class="row">
+							<div class="col-md-12 col-12">
+								<ul class="nav nav-tabs" role="tablist">
+									<li class="nav-item">
+										<a class="nav-link {{Route::currentRouteName()=='user-favourite-project-list'?'active':''}}" href="{{route('user-favourite-project-list')}}">プロジェクト</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link {{Route::currentRouteName()=='user-favourite-product-list'?'active':''}}" href="{{route('user-favourite-product-list')}}">カタログ商品</a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div id="home" class="tab-pane active row  mt-5">
+										@foreach ($projects as $p)
+											<?php
+												$budget = $p->project->budget;
+												$invested = $p->project->investment->where('status', true)->sum('amount');
+												$done = $invested*100/$budget;
+												$done = round($done);
+											?>
+											<?php
+												$start = strtotime("now");
+												$end = strtotime(date('Y-m-d 23:59:59', strtotime($p->project->end)));
+												$days_between = ceil(abs($end - $start) / 86400);
+												$hours_between = round((strtotime(date('Y-m-d 23:59:59', strtotime($p->project->end))) - strtotime("now"))/3600);
+												$days_between = $hours_between <= 24?$hours_between:$days_between;
+												$days_between = $days_between<0?0:$days_between;
+											?>
+											<div class="col-md-12 col-12 padding_mobile p-0 m-0 horizontal ">
+												<div class="row inner_inner ml-md-3">
+													<div class="col-md-5 ">
+														<div class="row">
+															<div class="col-md-12 project-item">
+																<div class="frame">
+																	<span class="helper"></span>
+																	<img src="{{Request::root()}}/uploads/projects/{{$p->project->featured_image}}" style="max-height:242px;margin-left:-5px" alt="" class="img-fluid imageResize">
+																</div>
+																<div class="project_status {{$days_between <= 0 ? 'status_3' : ($done >= 100?'status_2':'status_1')}}"><span>{{$days_between <= 0 ? '終了' : ($done >= 100?'達成':'募集中')}}</span></div>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-7 margin_top">
+														<div class="row ">
+															<div class="col-md-7 col-7">
+																<h6 class="category-name" style="font-size:11px; color:#bfc5cc;">
+																	<span style="color:#bfc5cc;"> 	<i class="fa fa-tag"></i>
+																		<a href="/?c={{ $p->project->category->id }} ">{{$p->project->category->name}}</a>
+																	</span>
+																</h6>
+															</div>
+															<div class="col-md-5 col-5">
+																<a href="{{route('user-favourite-remove-project', ['id' => $p->project->id])}}" class="pull-right favfont" style="font-size:14px;"><span style="color:#ed49b6;"> <i class="fa fa-heart"></i> </span>お気に入り削除</a>
+															</div>
+														</div>
+														<div class="row mt-1">
+															<a class="col-md-12" href="{{route('front-project-details', ['id' => $p->project->id])}}">
+																<h5 style="font-size:20px;" class="font-weight-bold fontTitle">{{$p->project->title}}</h5>
+															</a>
+														</div>
 														<?php
 															$budget = $p->project->budget;
 															$invested = $p->project->investment->where('status', true)->sum('amount');
 															$done = $invested*100/$budget;
 															$done = round($done);
 														?>
-														<?php
-															$start = strtotime("now");
-															$end = strtotime(date('Y-m-d 23:59:59', strtotime($p->project->end)));
-															$days_between = ceil(abs($end - $start) / 86400);
-															$hours_between = round((strtotime(date('Y-m-d 23:59:59', strtotime($p->project->end))) - strtotime("now"))/3600);
-															$days_between = $hours_between <= 24?$hours_between:$days_between;
-															$days_between = $days_between<0?0:$days_between;
-														?>
-												<div class="col-md-12 col-12 padding_mobile p-0 m-0 horizontal ">
-													<div class="row inner_inner ml-md-3">
-														<div class="col-md-5 ">
-															<div class="row">
-																<div class="col-md-12 project-item">
-																	<div class="frame">
-																		<span class="helper"></span>
-																		<img src="{{Request::root()}}/uploads/projects/{{$p->project->featured_image}}" style="max-height:242px;margin-left:-5px" alt="" class="img-fluid imageResize">
+														<div class="row mt-3">
+															<div class="col-md-12">
+																<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">現在</span> {{$invested}}円 </h5>
+																<div class="progress">
+																	<div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{ $done }}%" aria-valuemin="0" aria-valuemax="100" style="width:{{$done}}%">
+																		&nbsp;{{ $done }}%
 																	</div>
-																	<div class="project_status {{$days_between <= 0 ? 'status_3' : ($done >= 100?'status_2':'status_1')}}"><span>{{$days_between <= 0 ? '終了' : ($done >= 100?'達成':'募集中')}}</span></div>
 																</div>
 															</div>
 														</div>
-														<div class="col-md-7 margin_top">
-															<div class="row ">
-																<div class="col-md-7 col-7">
-																	<h6 class="category-name" style="font-size:11px; color:#bfc5cc;"> <span style="color:#bfc5cc;"> 	<i class="fa fa-tag"></i> <a href="/?c={{ $p->project->category->id }} ">{{$p->project->category->name}}</a>
-																</div>
-																<div class="col-md-5 col-5">
-																	<a href="{{route('user-favourite-remove-project', ['id' => $p->project->id])}}" class="pull-right favfont" style="font-size:14px;"><span style="color:#ed49b6;"> <i class="fa fa-heart"></i> </span>お気に入り削除</a>
-																</div>
+														<div class="row  mt-3">
+															<div class="col-md-12">
+																<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">目標 </span>{{$budget}} 円</h5>
 															</div>
-															<div class="row mt-1">
-																<a class="col-md-12" href="{{route('front-project-details', ['id' => $p->project->id])}}">
-																	<h5 style="font-size:20px;" class="font-weight-bold fontTitle">{{$p->project->title}}</h5>
-																	{{-- <h5 style="font-size:16px;" class="font-weight-bold"> こに入ります</h5> --}}
-																</a>
+														</div>
+														<div class="row mt-2">
+															<div class="col-md-offset-2 mr-0 div-radius ml-3 box-height-invest" style="height:75px; width:75px ">
+																<p class="text-center pt-1"><span class="pt-2 text-center" style="font-size:11px;">応援者</span><br>
+																	<span class="p-0 m-0 text-center font" style="font-size:21px;">{{ $p->project->investment->where('status', true)->count() }}人</span>
+																</p>
 															</div>
-															<?php
-																$budget = $p->project->budget;
-																$invested = $p->project->investment->where('status', true)->sum('amount');
-																$done = $invested*100/$budget;
-																$done = round($done);
-															?>
-															<div class="row mt-3">
-																<div class="col-md-12">
-																	<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">現在</span> {{$invested}}円 </h5>
-																	<div class="progress">
-																		<div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{ $done }}%" aria-valuemin="0" aria-valuemax="100" style="width:{{$done}}%">
-																			&nbsp;{{ $done }}%
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="row  mt-3">
-																<div class="col-md-12">
-																	<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">目標 </span>{{$budget}} 円</h5>
-																</div>
-															</div>
-															<div class="row mt-2">
-																<div class="col-md-offset-2 mr-0 div-radius ml-3 box-height-invest" style="height:75px; width:75px ">
-																<p class="text-center pt-1"><span class="pt-2 text-center" style="font-size:11px;">応援者</span>
-																	<br>	<span class="p-0 m-0 text-center font" style="font-size:21px;">{{ $p->project->investment->where('status', true)->count() }}人</span></p>
-																</div>
-																<div class="col-md-offset-2 div-radius ml-2 box-height-invest" style="height:75px; width:75px ">
-
+															<div class="col-md-offset-2 div-radius ml-2 box-height-invest" style="height:75px; width:75px ">
 																@php
 																	$start = strtotime("now");
 																	$end = strtotime(date('Y-m-d 23:59:59', strtotime($p->project->end)));
@@ -624,57 +624,31 @@
 																	$days_between = $hours_between <= 24?$hours_between:$days_between;
 																@endphp
 																@if($end< strtotime("now"))
-															<div class="text-center my-auto " style="padding:35% 0 30% 0">終了</div>
+																<div class="text-center my-auto " style="padding:35% 0 30% 0">終了</div>
 																@else
 																	<p class="text-center pt-1"><span class=" pt-2 text-center" style="font-size:11px;">残り日数</span>
 																	<br>
 																	<span class="p-0 m-0 text-center font" style="font-size:21px;">{{ $days_between }} {{$hours_between <= 24? '時間':'日'}}  </span>
 																	</p>
 																@endif
-																{{--<p class="text-center pt-1"><span class="pt-2 text-center" style="font-size:11px;">残り日数</span>
-																<br>	<span class="p-0 m-0 text-center" style="font-size:21px;">{{$days_between}}日</span></p>--}}
-																</div>
-																<div class=" edit-button p-md-0 ml-md-2">
-																	<div style="font-size:15px;"  class="user-title">起案者：{{$p->project->user->first_name}} {{$p->project->user->last_name}}</div>
-																	{{-- <div class=" div-radius1 m-0 p-0" style="height:40px"> --}}
-																	@if($end< strtotime("now"))
-																		<a class="  p-2 text-white message-button btn btn-md btn-block font-weight-bold" style="background-color:#cccccc; padding:12px !important; margin-top: 5px;">プロジェクトを支援する</a>
-																	@else
-																		<a href="{{route('front-project-details', ['id' => $p->project->id])}}" class=" bg-primary p-2 text-white message-button btn btn-md btn-block font-weight-bold" style="padding:12px !important; margin-top: 5px;">プロジェクトを支援する</a>
-																	@endif
-																	{{-- </div> --}}
-																</div>
+															</div>
+															<div class=" edit-button p-md-0 ml-md-2">
+																<div style="font-size:15px;"  class="user-title">起案者：{{$p->project->user->first_name}} {{$p->project->user->last_name}}</div>
+																@if($end< strtotime("now"))
+																	<a class="noHover p-2 text-white message-button btn btn-md btn-block font-weight-bold" style="background-color:#cccccc; padding:12px !important; margin-top: 5px;">プロジェクトを支援する</a>
+																@else
+																	<a href="{{route('front-project-details', ['id' => $p->project->id])}}" class=" bg-primary p-2 text-white message-button btn btn-md btn-block font-weight-bold" style="padding:12px !important; margin-top: 5px;">プロジェクトを支援する</a>
+																@endif
 															</div>
 														</div>
 													</div>
 												</div>
-											@endforeach
-
-
-												</div>
-										</div>
-
-										{{--@php
-											$error = 0;
-
-											if (empty($user->first_name) || empty($user->last_name) || empty($user->profile->phonetic) ||  empty($user->profile->phonetic2) ||  empty($user->profile->postal_code) || empty($user->profile->prefectures) || empty($user->profile->phone_no) || empty($user->profile->municipility)) {
-												$error = 1;
-
-											}
-										@endphp
-										<input type="hidden" name="getError" id="getError" value="{{ $error }}">--}}
-
-
+											</div>
+										@endforeach
+									</div>
 								</div>
-
 							</div>
-
-						{{-- repeat --}}
-
-
-
-						{{-- repeat ends --}}
-
+						</div>
 				</div>
 
 			</div>
@@ -683,8 +657,6 @@
 	  </div>
 	</div>
 </div>
-
-{{--@include('user.layouts.notifications')--}}
 @include('user.layouts.profileModal')
 
 @stop
