@@ -26,17 +26,12 @@ class AuthController extends Controller
 {
 	public function __construct()
     {
-
     }
 
     public function kickAndSend()
     {
-        // if(Auth::check()){
-            Auth::logout();
-            return redirect()->route('password.request');
-        // }else{
-        //     return redirect()->route('password.request');
-        // }
+        Auth::logout();
+        return redirect()->route('password.request');
     }
 
     public function user_registration_rules(array $data)
@@ -90,11 +85,8 @@ class AuthController extends Controller
             'email'     => $request->email
         ];
 
-        Mail::to($request->email)
-            ->send(new Common($emailData));
-
+        Mail::to($request->email)->send(new Common($emailData));
         return redirect()->back()->with('success_message', 'メールを送信しました。');
-
     }
 
     public function register(Request $request)
@@ -105,12 +97,10 @@ class AuthController extends Controller
             return view('auth.register', $data);
         }
         abort(404);
-
     }
 
     public function registerAction(Request $request)
     {
-        // dd(2);
         $this->validate($request, [
             'first_name' => 'required|max:10',
             'last_name' => 'required|max:10',
@@ -119,7 +109,6 @@ class AuthController extends Controller
             'min:8',
             'confirmed']
         ],[
-            // 'password.regex'=> 'パスワードの書式が間違えています。確認してください。',
             'password.min' => 'パスワードは８文字以上にする必要があります',
             'password.confirmed' => 'パスワードの確認が一致しません'
         ]);
@@ -134,13 +123,10 @@ class AuthController extends Controller
         if(preg_match('/([0-9])/', $request->password)){
             $count++;
         }
-        //if(preg_match('/([!@#$%^&*])/', $request->password)){
-        //     $count++;
-        // }
+
         if($count < 2 || preg_match('/([!$%^&*]+)/', $request->password)){
             return redirect()->back()->withInput()->with('error_message', 'パスワードの書式が間違えています。確認してください。');
         }
-        // dd($count);
         
         $User = User::where('register_token', $request->token)->first();
         $User->first_name = $request->first_name;
@@ -155,7 +141,6 @@ class AuthController extends Controller
         $Profile->user_id = $User->id;
         $Profile->save();
 
-
         $emailData = [
             'name' => $User->first_name.' '.$User->last_name,
             'contact_person' => 'Smith',
@@ -169,7 +154,6 @@ class AuthController extends Controller
         Mail::to($request->email)
             ->send(new Common($emailData));
 
-
         $adminEmailData = [
             'name' => $User->first_name.' '.$User->last_name,
             'contact_person' => 'Smith',
@@ -180,22 +164,13 @@ class AuthController extends Controller
             'root'     => $request->root()
         ];
 
-        // Mail::to($request->email)
-        //     ->send(new Common($emailData));
-
-        Mail::to('administrator@crofun.jp')
-            ->send(new Common($adminEmailData));
-
+        Mail::to('administrator@crofun.jp')->send(new Common($adminEmailData));
         return redirect()->to(route('login'))->with('success_message', '<span style="font-size:10px;">ユーザー登録が完了しました。　下記より、ログインしてCrofunをご利用ください。<br> よろしくお願いいたします。</span>');
-
     }
 
     public function changePassword(Request $request)
     {
         $user = User::where('id', Auth::user()->id)->with('profile')->first();
-        // if ($user->facebook_id != null || $user->google_id != null || $user->twitter_id !=null || $user->facebook_id != '' || $user->google_id != '' || $user->twitter_id != ''){
-        //     return redirect()->route('front-home');
-        // }
         $data['user'] = $user;
         $data['title'] = 'パスワード変更 | Crofun';
         return view('user.change_password',$data);
@@ -203,10 +178,8 @@ class AuthController extends Controller
 
     public function changePasswordAction(Request $request)
     {
-        // dd($request);
     	$this->validate($request, [
             'current_password' => 'required',
-            // 'password' => 'required|confirmed'
             'password' => ['required', 
             'min:8',
             'confirmed']
@@ -223,9 +196,6 @@ class AuthController extends Controller
         if(preg_match('/([0-9])/', $request->password)){
             $count++;
         }
-        //if(preg_match('/([!@#$%^&*])/', $request->password)){
-        //     $count++; 
-        // }
         if($count < 2 || preg_match('/([!$%^&*]+)/', $request->password)){
             return redirect()->back()->withInput()->with('error_message', 'パスワードの書式が間違えています。確認してください。');
         }
@@ -242,7 +212,6 @@ class AuthController extends Controller
     public function facebook(Request $request)
     {
 		$redirectUrl = $request->root().'/facebook-action';
-				// $redirectUrl = 'https://crofun.jp/facebook-action';
         return Socialite::driver('facebook')->setScopes(['email'])->redirectUrl($redirectUrl)->redirect();
     }
 
@@ -260,7 +229,8 @@ class AuthController extends Controller
             $check->status = true;
             $check->save();
             $userId = $check->id;
-        }else{
+        }
+        else{
             $User = new User();
             $User->facebook_id = $user->id;
             $User->first_name = $user->name;
@@ -278,24 +248,14 @@ class AuthController extends Controller
             $Profile->save();
 
             $userId = $User->id;
-
-
-            // $this->updateProfile($User);
-
         }
-
-
         if(Auth::check()){
             return redirect()->to(route('user-social'))->with('success_message', 'Facebook connected!');
         }
 
         Auth::loginUsingId($userId, true);
-        // return redirect()->intended(route('user-profile-update'));
         return redirect()->intended(route('user-my-page'));
-
-
     }
-
 
     public function google(Request $request)
     {
@@ -305,11 +265,6 @@ class AuthController extends Controller
 
     public function googleAction(Request $request)
     {
-        // if (!$request->has('code') || $request->has('denied')) {
-        //     return redirect()->to(route('login'));
-        // }
-        $redirectUrl = $request->root().'/google-action';
-        // $user = Socialite::driver('google')->redirectUrl($redirectUrl)->user();
         $user = Socialite::driver('google')->user();
         $check = User::where('email', $user->email)->first();
         if($check){
@@ -343,16 +298,11 @@ class AuthController extends Controller
             $Profile->save();
             $userId = $User->id;
         }
-
-
         if(Auth::check()){
-            return redirect()->to(route('user-social'))->with('success_message', 'Google connected!');
+            return redirect()->to(route('user-social'))->with('success_message', 'ソーシャル連携が完了しました！');
         }
         Auth::loginUsingId($userId, true);
-        // return redirect()->intended(route('user-profile-update'));
         return redirect()->intended(route('user-my-page'));
-
-
     }
 
 
@@ -366,7 +316,7 @@ class AuthController extends Controller
     {
         $redirectUrl = $request->root().'/twitter-action';
         $user = Socialite::driver('twitter')->user();
-        // dd($user);
+
         $check = User::where('twitter_id', $user->id)->first();
         if($check){
             $check->twitter_id = $user->id;
@@ -374,7 +324,8 @@ class AuthController extends Controller
             $check->status = true;
             $check->save();
             $userId = $check->id;
-        }else{
+        }
+        else{
             $User = new User();
             $User->twitter_id = $user->id;
             $User->first_name = $user->name;
@@ -392,20 +343,14 @@ class AuthController extends Controller
             $Profile->save();
 
             $userId = $User->id;
-
-            // $this->updateProfile($User);
-
         }
-
 
         if(Auth::check()){
             return redirect()->to(route('user-social'))->with('success_message', 'Twitter connected!');
         }
 
         Auth::loginUsingId($userId, true);
-        // return redirect()->intended(route('user-profile-update'));
         return redirect()->intended(route('user-my-page'));
-
     }
 
 
@@ -419,7 +364,6 @@ class AuthController extends Controller
     {
         $redirectUrl = $request->root().'/line-action';
         $user = Socialite::driver('line')->user();
-        // dd($user);
         $check = User::where('line_id', $user->id)->first();
         if($check){
             $check->line_id = $user->id;
@@ -445,22 +389,14 @@ class AuthController extends Controller
             $Profile->save();
 
             $userId = $User->id;
-
-            // $this->updateProfile($User);
-
         }
-
 
         if(Auth::check()){
             return redirect()->to(route('user-social'))->with('success_message', 'Line connected!');
         }
-
         Auth::loginUsingId($userId, true);
-        // return redirect()->intended(route('user-profile-update'));
         return redirect()->intended(route('user-my-page'));
-
     }
-
 
     public function yahoo(Request $request)
     {
@@ -472,7 +408,7 @@ class AuthController extends Controller
     {
         $redirectUrl = $request->root().'/yahoo-action';
         $user = Socialite::driver('yahoo')->user();
-        // dd($user);
+
         $check = User::where('email', $user->email)->first();
         if($check){
             $check->twitter_id = $user->id;
@@ -480,7 +416,8 @@ class AuthController extends Controller
             $check->status = true;
             $check->save();
             $userId = $check->id;
-        }else{
+        }
+        else{
             $User = new User();
             $User->google_id = $user->id;
             $User->first_name = $user->name;
@@ -498,22 +435,14 @@ class AuthController extends Controller
             $Profile->save();
 
             $userId = $User->id;
-
-            // $this->updateProfile($User);
-
         }
 
         if(Auth::check()){
             return redirect()->to(route('user-social'))->with('success_message', 'Yahoo connected!');
         }
-
         Auth::loginUsingId($userId, true);
-        // return redirect()->intended(route('user-profile-update'));
         return redirect()->intended(route('user-my-page'));
-
     }
-
-
 
     public function logout()
     {
