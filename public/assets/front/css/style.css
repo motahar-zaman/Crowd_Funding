@@ -1275,9 +1275,9 @@ ul.pagination li.active {
 .title:hover{
     color: #039AFF;
 }
-.category:hover{
+/*.category:hover{
     color: #039AFF;
-}
+}*/
 
 .see_all_button {
     border: 1px solid #2196F3;
