@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,9 +12,6 @@
 if (env('APP_ENV') === 'production') {
     URL::forceSchema('https');
 }
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 Route::get('/', 'Front\HomeController@index')->name('front-home');
 Route::get('/test', 'Front\HomeController@test');
 Route::get('/project-list', 'Front\HomeController@projectList')->name('front-project-list');
@@ -39,7 +35,6 @@ Route::post('/login/{id}', 'Front\HomeController@login_project_details_action')-
 Route::post('/login-here', 'Front\HomeController@home_action')->name('login-home-action');
 Route::get('/login-here', 'Front\HomeController@homeAfterLogin')->name('front-home-login');
 
-
 Route::get('/cart', 'Front\HomeController@cart')->name('front-cart');
 
 Route::get('/cart-empty', 'Front\HomeController@cartempty')->name('front-cart-empty');
@@ -60,8 +55,6 @@ Route::post('/register-request', 'User\AuthController@registerRequestAction')->n
 
 Route::get('/register/{token}', 'User\AuthController@register')->name('user-register');
 Route::post('/register/{token}', 'User\AuthController@registerAction')->name('user-register-action');
-
-
 
 Route::get('/about', 'Front\HomeController@about')->name('front-about');
 Route::get('/faq', 'Front\HomeController@faq')->name('front-faq');
@@ -84,11 +77,7 @@ Route::group(['middleware' => ['auth','activecheck']], function () {
 
 });
 
-
-
-
 Route::get('/profile/{id}', 'Front\HomeController@profile')->name('front-profile');
-
 
 Route::get('/facebook', 'User\AuthController@facebook')->name('front-facebook');
 Route::any('/facebook-action', 'User\AuthController@facebookAction')->name('front-facebook-action');
@@ -101,30 +90,21 @@ Route::any('/yahoo-action', 'User\AuthController@yahooAction')->name('front-yaho
 Route::get('/line', 'User\AuthController@line')->name('front-line');
 Route::any('/line-action', 'User\AuthController@lineAction')->name('front-line-action');
 
-
-
-
 Route::post('invest-payment-response', 'User\InvestController@investPaymentResponse')->name('invest-payment-response');
 Route::get('invest-payment-response', 'User\InvestController@investPaymentResponse')->name('invest-payment-response-test');
 Route::post('purchase-payment-response', 'User\ProductController@purchasePaymentResponse')->name('purchase-payment-response');
 Route::get('purchase-payment-response', 'User\ProductController@purchasePaymentResponse')->name('purchase-payment-response-test');
 
 
-
-
-
 Route::group(['prefix' => 'admin'], function () {
-
 	Route::get('/login', 'Admin\AuthController@login')->name('admin-login');
 	Route::post('/login', 'Admin\AuthController@loginAction')->name('admin-login-action');
 	Route::get('/logout', 'Admin\AuthController@logout')->name('admin-logout');
-
 
 	Route::group(['middleware' => 'admin-auth'], function () {
         Route::get('/', 'Admin\DashboardController@index')->name('admin-dashboard');
         Route::get('/change-password', 'Admin\ProfileController@changePassword')->name('admin-change-password');
         Route::post('/change-password', 'Admin\ProfileController@changePasswordAction')->name('admin-change-password-action');
-
 
         Route::group(['prefix' => 'project-category'], function () {
 	        Route::get('/list', 'Admin\ProjectCategoryController@categoryList')->name('admin-project-category-list');
@@ -152,7 +132,6 @@ Route::group(['prefix' => 'admin'], function () {
 			Route::get('/donate-data/{id}', 'Admin\ProjectController@dataDonate')->name('admin-project-list-donate');
 			Route::get('/expired', 'Admin\ProjectController@projectEndMail');
 	    });
-
         Route::group(['prefix' => 'product-category'], function () {
 	        Route::get('/list', 'Admin\ProductCategoryController@categoryList')->name('admin-product-category-list');
 	        Route::get('/list-data', 'Admin\ProductCategoryController@data')->name('admin-product-category-list-data');
@@ -163,7 +142,6 @@ Route::group(['prefix' => 'admin'], function () {
 	        Route::get('/delete/{id}', 'Admin\ProductCategoryController@delete')->name('admin-product-category-delete');
 	        Route::get('/status-change/{id}/{status}', 'Admin\ProductCategoryController@statusChange')->name('admin-product-category-status-change');
 	    });
-
         Route::group(['prefix' => 'product-subcategory'], function () {
 	        Route::get('/list', 'Admin\ProductSubcategoryController@categoryList')->name('admin-product-subcategory-list');
 	        Route::get('/list-data', 'Admin\ProductSubcategoryController@data')->name('admin-product-subcategory-list-data');
@@ -174,7 +152,6 @@ Route::group(['prefix' => 'admin'], function () {
 	        Route::get('/delete/{id}', 'Admin\ProductSubcategoryController@delete')->name('admin-product-subcategory-delete');
 	        Route::get('/status-change/{id}/{status}', 'Admin\ProductSubcategoryController@statusChange')->name('admin-product-subcategory-status-change');
 	    });
-
 	    Route::group(['prefix' => 'product'], function () {
 	        Route::get('/list', 'Admin\ProductController@productList')->name('admin-product-list');
 	        Route::get('/list-data', 'Admin\ProductController@data')->name('admin-product-list-data');
@@ -185,7 +162,6 @@ Route::group(['prefix' => 'admin'], function () {
 	        Route::get('/delete/{id}', 'Admin\ProductController@delete')->name('admin-product-delete');
 	        Route::get('/details/{id}', 'Admin\ProductController@details')->name('admin-product-details');
 	    });
-
 	    Route::group(['prefix' => 'user'], function () {
 	        Route::get('/list', 'Admin\UserController@index')->name('admin-user-list');
 	        Route::get('/list-data', 'Admin\UserController@data')->name('admin-user-list-data');
@@ -195,7 +171,6 @@ Route::group(['prefix' => 'admin'], function () {
 	        Route::get('/cancel-request-show', 'Admin\UserController@cancelRequest')->name('admin-cancel-request-show');
 			Route::get('/cancel-requests/{id}', 'Admin\UserController@cancelRequestShow')->name('admin-cancel-requests');
 	    });
-
 	    Route::group(['prefix' => 'admin-user'], function () {
 	        Route::get('/list', 'Admin\AdminUserController@index')->name('admin-admin-user-list');
 	        Route::get('/list-data', 'Admin\AdminUserController@data')->name('admin-admin-user-list-data');
@@ -206,7 +181,6 @@ Route::group(['prefix' => 'admin'], function () {
 	        Route::get('/delete/{id}', 'Admin\AdminUserController@delete')->name('admin-admin-user-delete');
 	        Route::get('/status-change/{id}/{status}', 'Admin\AdminUserController@statusChange')->name('admin-admin-user-status-change');
 	    });
-
 	    Route::group(['prefix' => 'videos'], function () {
 	        Route::get('/list', 'Admin\VideoController@categoryList')->name('admin-videos-list');
 	        Route::get('/list-data', 'Admin\VideoController@data')->name('admin-videos-list-data');
@@ -217,7 +191,6 @@ Route::group(['prefix' => 'admin'], function () {
 	        Route::get('/delete/{id}', 'Admin\VideoController@delete')->name('admin-videos-delete');
 	        Route::get('/status-change/{id}/{status}', 'Admin\VideoController@statusChange')->name('admin-videos-status-change');
 	    });
-
         Route::group(['prefix' => 'content'], function () {
 	        Route::get('/list', 'Admin\ContentController@contentList')->name('admin-content-list');
 	        Route::get('/list-data', 'Admin\ContentController@data')->name('admin-content-list-data');
@@ -250,22 +223,13 @@ Route::group(['prefix' => 'admin'], function () {
 			Route::get('/cancel', 'Admin\OrderController@orderCancel')->name('admin-order-cancel');
 			Route::get('/details/{id}', 'Admin\OrderController@orderDetails')->name('admin-order-details');
 		});
-
 	    Route::get('/user-quit-request/{id}/{status}', 'Admin\UserController@quitRequest')->name('admin-user-quit-request');
-
-
     });
 });
 
-
-
 Route::group(['prefix' => 'user'], function () {
 	Route::group(['middleware' => ['auth', 'activecheck']], function () {
-
 		Route::get('my-page', 'User\ProfileController@mypage')->name('user-my-page');
-
-
-
 
 		Route::get('/invest-list', 'User\InvestController@index')->name('user-invest-list');
 		Route::get('/invest/{id}', 'User\InvestController@invest')->name('user-invest');
@@ -307,7 +271,6 @@ Route::group(['prefix' => 'user'], function () {
 		Route::post('/send-reply', 'User\ProfileController@replyMessage')->name('send-reply');
 		Route::get('/delete-message', 'User\ProfileController@deleteMessage')->name('delete-message');
 
-
 		Route::post('/message/inbox', 'User\ProfileController@deleteMultipleMessage')->name('user-delete-multiple-message');
 
 		Route::get('/show-message/{id}', 'User\ProfileController@showMessage')->name('show-message');
@@ -321,22 +284,17 @@ Route::group(['prefix' => 'user'], function () {
 		Route::post('/project-payment', 'User\ProjectController@payment')->name('user-project-payment');
 		Route::post('/product-payment', 'User\ProductController@payment')->name('user-product-payment');
 
-
 		Route::post('/product-purchase', 'User\ProductController@purchase')->name('user-product-purchase');
-
 
 		Route::get('/checkout', 'Front\HomeController@checkout')->name('front-checkout');
 		Route::post('/cart', 'Front\HomeController@checkout')->name('front-checkout');
-
 
 		Route::get('/change-password', 'User\AuthController@changePassword')->name('user-change-password');
 		Route::post('/change-password', 'User\AuthController@changePasswordAction')->name('user-change-password-action');
 
 		Route::get('/reset-password', 'User\AuthController@kickAndSend')->name('user-reset-password');
 
-
 		Route::get('/sub-category/{id}', 'User\ProductController@getSubCategory')->name('user-sub-category');
-
 
 		Route::get('/profile', 'User\ProfileController@index')->name('user-profile-update');
 		Route::post('/profile', 'User\ProfileController@indexAction')->name('user-profile-update-action');
@@ -355,9 +313,7 @@ Route::group(['prefix' => 'user'], function () {
 		Route::get('/order-shipping-info', 'User\OrderController@shippingInfo')->name('user-order-shipping-info');
 		Route::get('/order-cancel', 'User\OrderController@orderCancel')->name('user-order-cancel');
 
-
 		Route::get('/order-details/{id}', 'User\OrderController@orderDetails')->name('user-order-details');
-
 
 		Route::get('/donate-list', 'User\DonateController@index')->name('user-donate-list');
 		Route::get('/donate-list-data', 'User\DonateController@data')->name('user-donate-list-data');
@@ -366,7 +322,6 @@ Route::group(['prefix' => 'user'], function () {
 
 		Route::get('/donate-shipping-info', 'User\DonateController@shippingInfo')->name('user-donate-shipping-info');
 		// Route::get('/donate-cancel', 'User\OrderController@orderCancel')->name('user-order-cancel');
-
 
 		Route::get('/donate-details/{id}', 'User\DonateController@donateDetails')->name('user-donate-details');
 
@@ -381,7 +336,6 @@ Route::group(['prefix' => 'user'], function () {
 	        Route::get('/delete/{id}', 'User\CardController@delete')->name('user-cards-delete');
 	        Route::get('/status-change/{id}/{status}', 'User\CardController@statusChange')->name('user-cards-status-change');
 	    });
-
 
 		Route::get('/social', 'User\ProfileController@social')->name('user-social');
 
