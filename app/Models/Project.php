@@ -25,6 +25,13 @@ class Project extends Model
     {
         return $this->hasMany('App\Models\Investment', 'project_id');
     }
+
+    public function totalInvest()
+    {
+        Transaction::all()->sum(function($t){
+            return $t->jumlah * $t->harga;
+        });
+    }
     public function reward()
     {
         return $this->hasMany('App\Models\Reward', 'project_id');
@@ -49,5 +56,4 @@ class Project extends Model
     {
         return $this->hasManyThrough('App\Models\InvestmentReward', 'App\Models\Investment', 'project_id', 'investment_id');
     }
-
 }
