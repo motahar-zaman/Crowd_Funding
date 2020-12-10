@@ -40,17 +40,10 @@ class ProductController extends Controller
 {
 	public function __construct()
     {
-
     }
 
     public function purchaseList(Request $request)
     {
-    	// $data['products'] = Product::where('status', 1)->whereHas('orderDetails', function ($query) {
-        //     $query->whereHas('order', function($query1){
-        //         $query1->where('user_id', Auth::user()->id);
-        //     });
-        // })->with('orderDetails')->get();
-        // dd($data);
         $user = User::where('id', Auth::user()->id)->with('profile')->first();
         $data['user'] = $user;
         $data['products'] = OrderDetail::whereHas('order', function ($query) {
@@ -63,20 +56,13 @@ class ProductController extends Controller
     }
 
     public function productRating(Request $request){
-        // $checkIfRatings = Product_rating::where('product_id', $request->product_id)->where('user_id', Auth::user()->id)->first();
-        // if ($checkIfRatings) {
-        //     $checkIfRatings->user_rating = $request->user_rating;
-        //     $checkIfRatings->save();
-        //     return redirect()->back();
-
-        // }
         $ratings = new Product_rating();
         $ratings->user_id = Auth::user()->id;
         $ratings->product_id = $request->product_id;
         $ratings->user_rating = $request->user_rating;
         $ratings->order_id = $request->order_id;
-
         $ratings->save();
+
         return redirect()->back();
     }
 
@@ -94,7 +80,6 @@ class ProductController extends Controller
                                                     })
                                                     ->orderBy('created_at', 'desc')
                                                     ->get();
-				
     	return view('user.my_product_list', $data);
     }
 
@@ -102,6 +87,7 @@ class ProductController extends Controller
     {
     	return view('user.pre_new_product');
     }
+
     public function add(Request $request)
     {
         $finish = false;
@@ -116,42 +102,26 @@ class ProductController extends Controller
         $data['user'] = $user;
     	return view('user.new_product', $data);
     }
+
     public function addAction(Request $request)
     {
-        // dd($request);
-        //dd($request->hasFile('other_file.0'));
         $Product = new Product();
         $Product->title = $request->title;
 
         $name = '';
-
         if ($request->hasFile('image')) {
             $extension = $request->image->extension();
             $name = time().rand(1000,9999).'.'.$extension;
             $img = Image::make($request->image);
             $img->save(public_path().'/uploads/products/'.$name, 60);
-            // $path = $request->image->storeAs('products', $name);
         }
 
         $Product->image = $name;
         $Product->user_id = Auth::user()->id;
         $Product->subcategory_id = $request->subcategory;
         $Product->price = $request->price;
-        // if(!empty($request->colors)){
-        //     $colors = explode(',', $request->colors);
-        //     $colors = json_encode($colors);
-        //     $Product->colors = $colors;
-        // }
         $Product->description = $request->description;
         $Product->explanation = $request->explanation;
-        // if ($request->hasFile('explanation_image')) {
-        //     $extension = $request->explanation_image->extension();
-        //     $name = time().rand(1000,9999).'.'.$extension;
-        //     $img = Image::make($request->explanation_image)->resize(300, 300);
-        //     $img->save(public_path().'/uploads/products/'.$name, 60);
-        //     // $path = $request->image->storeAs('products', $name);
-        //     $Product->explanation_image = $name;
-        // }
 
         $Product->company_name = $request->company_name;
         $Product->company_info = $request->company_info;
@@ -161,13 +131,10 @@ class ProductController extends Controller
             $name = time().rand(1000,9999).'.'.$extension;
             $img = Image::make($request->company_info_image)->resize(300, 300);
             $img->save(public_path().'/uploads/products/'.$name, 60);
-            // $path = $request->image->storeAs('products', $name);
             $Product->company_info_image = $name;
         }
-        
-        
+
         $Product->profile_info = '';
-        
         $Product->status = 0;
         $Product->no_of_time_added = 1;
         $Product->save();
@@ -218,10 +185,9 @@ class ProductController extends Controller
                     $ProductColor->save();
                 }
         }
-
-        // return redirect()->to(route('user-my-page'));
         return redirect()->to(route('user-product-add', ['finish' => 1]));
     }
+
     public function edit(Request $request)
     {
         $finish = false;
@@ -237,14 +203,11 @@ class ProductController extends Controller
 
         $user = User::where('id', Auth::user()->id)->with('profile')->first();
         $data['user'] = $user;
-        // dd($request);
     	return view('user.edit_product', $data);
     }
 
     protected function productEditDataTemporaryStore($oldProductData, $newProductData, $oldProductColorData, $newProductColorData) {
-      
         if ($newProductData->id != null){
-            
             $isCount = ProductsTemp::where('product_id', $newProductData->id)->count();
             if($isCount == 0) {
                 $p = new ProductsTemp();
@@ -262,7 +225,8 @@ class ProductController extends Controller
                 $p->profile_info = $oldProductData->profile_info;
                 $p->status = $oldProductData->status;
                 $p->save();      
-            }  else {
+            }
+            else {
                 $pp = ProductsTemp::where('product_id', $newProductData->id)->orderBy('id', 'desc')->first();
                 $pp->product_id = $newProductData->id;
                 $pp->title = $oldProductData->title;
@@ -278,26 +242,27 @@ class ProductController extends Controller
                 $pp->profile_info = $oldProductData->profile_info;
                 $pp->status = $oldProductData->status;
                 $pp->save(); 
-            }             
-                
-            
-        }        
-        // dd($oldProductData ,$newProductData);
+            }
+        }
     }
+
     public function editAction(Request $request)
     {
         $oldProductData = Product::where('id', $request->id)->first();
         $Product = Product::where('id', $request->id)->first();
         $Product->title = $request->title;
+
         if ($request->hasFile('image')) {
             $extension = $request->image->extension();
             $name = time().rand(1000,9999).'.'.$extension;
             $img = Image::make($request->image);
             $img->save(public_path().'/uploads/products/'.$name, 60);
         }
+
         if ($request->hasFile('image')) {
-        $Product->image = $name;
+            $Product->image = $name;
         }
+
         $Product->user_id = Auth::user()->id;
         $Product->subcategory_id = $request->subcategory;
         $Product->price = $request->price;
@@ -316,9 +281,6 @@ class ProductController extends Controller
         $Product->profile_info = '';
         $Product->no_of_time_added =  $Product->no_of_time_added + 1;
         Product::where('id', $request->id)->update(['status'=> 0]);
-        
-        // $product->status = 0;
-        // dd($status);
         $Product->save();
 
         $oldProductColorData =  ProductColor::where('product_id', $request->id)->get();           
@@ -334,24 +296,16 @@ class ProductController extends Controller
                     $ProductColor->save();
             }
 
-            
             $ProductColorTemp = ProductsColorTemp::where('product_id', $request->id)->delete();            
-                foreach ($oldProductColorData as $key => $value) {
-                    $ProductColorTemp = new ProductsColorTemp();
-                    $ProductColorTemp->product_id = $value->product_id;
-                    $ProductColorTemp->color = $value->color;
-                    $ProductColorTemp->type = $value->type;
-                    $ProductColorTemp->save();
-                }            
-                $newProductColorData = $ProductColor;
-            
+            foreach ($oldProductColorData as $key => $value) {
+                $ProductColorTemp = new ProductsColorTemp();
+                $ProductColorTemp->product_id = $value->product_id;
+                $ProductColorTemp->color = $value->color;
+                $ProductColorTemp->type = $value->type;
+                $ProductColorTemp->save();
+            }
+            $newProductColorData = $ProductColor;
         }
-
-        
-        
-       // dd($oldProductData ,$Product, $oldProductColorData, $newProductColorData);
-
-
         //==== to store user changes into temporary table
         $this->productEditDataTemporaryStore($oldProductData ,$Product, $oldProductColorData, $newProductColorData);
 
@@ -370,19 +324,14 @@ class ProductController extends Controller
             'application_date' =>$Product->created_at,
             'detailed_url' =>'https://crofun.jp/admin/product/details/'.$Product->id,
             
-            ];
-            Mail::to('administrator@crofun.jp')
-                ->send(new Common($emailData));
-
-
-        // return redirect()->to(route('user-my-page'));
-
+        ];
+        Mail::to('administrator@crofun.jp')
+            ->send(new Common($emailData));
         return redirect()->to(route('user-product-edit', [ 'id' => $request->id, 'finish' => 1]));
     }
 
     public function addFavourite(Request $request)
     {
-
         $id = $request->id;
         $check = FavouriteProduct::where('product_id', $id)->where('user_id', Auth::user()->id)->first();
         if($check) return redirect()->back();
@@ -395,7 +344,6 @@ class ProductController extends Controller
 
     public function favouriteList(Request $request)
     {
-
         $user = User::where('id', Auth::user()->id)->with('profile')->first();
         $data['user'] = $user;
         $data['products'] = FavouriteProduct::where('status', 1)->where('user_id', Auth::user()->id)->orderBy('created_at','dsec')->get();
@@ -411,14 +359,12 @@ class ProductController extends Controller
 
     public function payment(Request $request)
     {
-        dd($request);
     }
 
     public function purchase(Request $request)
     {
         Cart::update($request->row_id, $request->quantity);
         $date = date("YmdHis");
-
         $order_no = 'ORD-'.time().Auth::user()->id.rand(1000,9999);
         $remaining = 0;
         $cartSubtotal = (float)Cart::subtotal(false, false, false);
@@ -438,7 +384,8 @@ class ProductController extends Controller
             $address = $buyer->shipping_address.','.$buyer->shipping_street_address;
             $room = $buyer->shipping_room_num;
             $phone = $buyer->shipping_phone_num;
-        } else {
+        }
+        else {
             $name = $request->first_name.' '.$request->last_name;
             $postal_code = $request->postal_code;
             $prefecture = $request->prefectures;
@@ -472,20 +419,13 @@ class ProductController extends Controller
         $Order->custom_phone_no = $phone;
         $Order->status = true;
 
-
         if($remaining > 0){
             $Order->status = false;
         }
 
-
-
-
-
-        
         $Order->created_at = date('Y-m-d H:i:s', strtotime($date));
         $Order->updated_at = date('Y-m-d H:i:s', strtotime($date));
         $Order->save(); 
-
 
         foreach(Cart::content() as $p) {
             $OrderDetail = new OrderDetail();
@@ -509,7 +449,8 @@ class ProductController extends Controller
                 'retUrl'    => route('purchase-payment-response'),
                 'cancelUrl' => route('front-cart')
             ]); 
-        }else{
+        }
+        else{
             $User = User::find(Auth::user()->id);
             $User->point -= $accountPoint;
             $User->save();
@@ -517,7 +458,7 @@ class ProductController extends Controller
             $Profile = Profile::where('user_id', Auth::user()->id)->first();
             $check = Order::where('order_no', $order_no)->first();
             $OrderDetails = OrderDetail::where('order_id', $check->id)->first();
-            // dd($OrderDetails);
+
             $Product = Product::find($OrderDetails->product_id);
             $Seller = User::find($Product->user_id);
             $Sellerprofile = Profile::where('user_id', $Product->user_id)->first();
@@ -609,33 +550,28 @@ class ProductController extends Controller
             Cart::destroy();
             return redirect()->to(route('front-cart', ['finish' => true]));
         }
-		
-			
-  }
+    }
 
+    function purchasePaymentResponse(Request $request){
+	    $check = Order::where('order_no', $request->OrderID)->where('status', false)->first();
+        if($check){
+            if(!$request->Approve){
+                return redirect()->to(route('front-cart'))->with('error_message', '支払いが完了していません。もう一度お試しください');
+            }
 
+            $check->status = true;
+            $check->save();
+            $User = User::find($check->user_id);
+            $User->point -= $check->account_point;
+            $User->save();
 
-  function purchasePaymentResponse(Request $request){
-    // dd($request);
-    $check = Order::where('order_no', $request->OrderID)->where('status', false)->first();
-    if($check){
-
-        if(!$request->Approve) return redirect()->to(route('front-cart'))->with('error_message', '支払いが完了していません。もう一度お試しください');
-
-        $check->status = true;
-        $check->save();
-        $User = User::find($check->user_id);
-        $User->point -= $check->account_point;
-        $User->save();
-     
-
-             $Profile = Profile::where('user_id', $check->user_id)->first();
-             $OrderDetails = OrderDetail::where('order_id', $check->id)->first();
-             $Product = Product::find($OrderDetails->product_id);
-             $Seller = User::find($Product->user_id);
-             $Sellerprofile = Profile::where('user_id', $Product->user_id)->first();
-             //send mail to admin
-             $emailData = [
+            $Profile = Profile::where('user_id', $check->user_id)->first();
+            $OrderDetails = OrderDetail::where('order_id', $check->id)->first();
+            $Product = Product::find($OrderDetails->product_id);
+            $Seller = User::find($Product->user_id);
+            $Sellerprofile = Profile::where('user_id', $Product->user_id)->first();
+            //send mail to admin
+            $emailData = [
                 'name' => '',
                 'register_token' => $User->register_token,
                 'subject' => '【Crofun管理者用】商品購入の通知',
@@ -662,13 +598,11 @@ class ProductController extends Controller
                 'seller_address3' => $Sellerprofile->municipility,
                 'seller_address4' => $Sellerprofile->address,
                 'seller_address5' => $Sellerprofile->room_no,
-                // 'seller_address' => $Sellerprofile->address,
                 'seller_phone_number' => $Sellerprofile->phone_no,
-
             ];
-    
+
             Mail::to('administrator@crofun.jp')
-                ->send(new Common($emailData));
+             ->send(new Common($emailData));
 
             //send mail to seller
             $emailData = [
@@ -689,12 +623,11 @@ class ProductController extends Controller
                 'buyer_home4' => $check->custom_address,
                 'buyer_home5' => $check->custom_room_no,
                 'buyer_phone_number' => $check->custom_phone_no,
-                'orderDetailId' => $OrderDetails->id            
-                // 'buyer_home' => $Profile->address,
+                'orderDetailId' => $OrderDetails->id
             ];
             Mail::to($Seller->email)
                 ->send(new Common($emailData));
-            
+
             //send mail to buyer
             $emailData = [
                 'name' => $User->first_name.' '.$User->last_name,
@@ -713,50 +646,21 @@ class ProductController extends Controller
                 'address3' => $check->custom_municipility,
                 'address4' => $check->custom_address,
                 'address5' => $check->custom_room_no,
-              
             ];
             Mail::to($User->email)
-                ->send(new Common($emailData));
-    
+            ->send(new Common($emailData));
 
-            //send mail to seller
-            // $emailData = [
-            //     'name' => $Seller->first_name.' '.$Seller->last_name,
-            //     'register_token' => $User->register_token,
-            //     'subject' => '【Crofun】商品発送件数と代金について',
-            //     'from_email' => 'noreply@crofun.com',
-            //     'from_name' => 'Crofun',
-            //     'template' => 'user.email.30',
-            //     'root'     => $request->root(),
-            //     'email'     => $Seller->email,
-            //     'product_name'  => $Product->title,
-            //     'number_of_shipments' =>$check->qty,
-            //     'total' => '',
-            //     'transfer_destination'=> $check->custom_address,
-            //     'financial_institution_name' =>'',
-            //     'account_holder' => $User->first_name.' '.$User->last_name,
-            //     'amount' => '' ,
-            //     'scheduled_transfer_date' =>$check->delivery_date,
-            // ];
-        
-            //  Mail::to($Seller->email)
-            //         ->send(new Common($emailData));
-        
-        Cart::destroy();
+            Cart::destroy();
 
-        return redirect()->to(route('front-cart', ['finish' => true]));
-    }
-    if( redirect('front-cart')){
-     return redirect('front-cart');
-    }
-    else{
+            return redirect()->to(route('front-cart', ['finish' => true]));
+        }
+        if( redirect('front-cart')){
+            return redirect('front-cart');
+        }
+        else{
 
-    }
-    
-}
-
-
-
+        }
+	}
 
     public function getSubCategory(Request $request)
     {
@@ -784,7 +688,6 @@ class ProductController extends Controller
         $data['user'] = $user;
         $data['product'] = Product::find($request->id);
         $data['productColor'] = ProductColor::where('product_id', $request->id) ->with('product')->get();
-        // $$data['productColor'] = ProductColor::where('product_id', $request->id)->get();
         
         return view('user.my_products_details', $data);
     }
