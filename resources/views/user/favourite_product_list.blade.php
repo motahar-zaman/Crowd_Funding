@@ -485,8 +485,6 @@
 		}
 	</style>
 @stop
-
-
 @section('ecommerce')
 
 @stop
@@ -494,7 +492,6 @@
 @section('content')
 
 @include('user.layouts.tab')
-
 
 <div class="container">
 	<div class="row container_div">
@@ -505,7 +502,6 @@
 						@include('user.layouts.profile')
 					</div>
 					<div class="col-md-9">
-
 						<div class="row">
 							<div class="col-md-12 col-12">
 								<div class="row inner">
@@ -516,75 +512,114 @@
 								</div>
 							</div>
 						</div>
-							<div class="row">
-								<div class="col-md-12 col-12">
-
-											<ul class="nav nav-tabs" role="tablist">
-													<li class="nav-item">
-														<a class="nav-link {{Route::currentRouteName()=='user-favourite-project-list'?'active':''}}" href="{{route('user-favourite-project-list')}}">プロジェクト</a>
-													</li>
-													<li class="nav-item">
-														<a class="nav-link {{Route::currentRouteName()=='user-favourite-product-list'?'active':''}}" href="{{route('user-favourite-product-list')}}">カタログ商品</a>
-													</li>
-											</ul>
-
-
-											<div class="tab-content">
-												<div id="home" class="tab-pane active row  mt-5">
-													@foreach ($products as $p)
-
-												<div class="col-md-12 col-12 padding_mobile p-0 m-0 horizontal ">
-													<div class="row inner_inner ml-md-3">
-														<div class="col-md-5">
-															<div class="row">
-																<div class="col-md-12 project-item">
-																	<div class="frame">
-																		<span class="helper"></span>
-																		<img src="{{$p->product->image ?  asset('uploads/products/'.$p->product->image) : asset('uploads/projects/1615154785167836.jpeg')}}" style="max-height:242px;margin-left:-5px" alt="" class="img-fluid imageResize">
-																	</div>
-																	{{-- <div class="project_status text-white" >		{{$p->product->subCategory->category->name}}</div> --}}
+						<div class="row">
+							<div class="col-md-12 col-12">
+								<ul class="nav nav-tabs" role="tablist">
+									<li class="nav-item">
+										<a class="nav-link {{Route::currentRouteName()=='user-favourite-project-list'?'active':''}}" href="{{route('user-favourite-project-list')}}">プロジェクト</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link {{Route::currentRouteName()=='user-favourite-product-list'?'active':''}}" href="{{route('user-favourite-product-list')}}">カタログ商品</a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div id="home" class="tab-pane active row  mt-5">
+										@foreach ($products as $p)
+											<div class="col-md-12 col-12 padding_mobile p-0 m-0 horizontal ">
+												<div class="row inner_inner ml-md-3">
+													<div class="col-md-5">
+														<div class="row">
+															<div class="col-md-12 project-item">
+																<div class="frame">
+																	<span class="helper"></span>
+																	<img src="{{$p->product->image ?  asset('uploads/products/'.$p->product->image) : asset('uploads/projects/1615154785167836.jpeg')}}" style="max-height:242px;margin-left:-5px" alt="" class="img-fluid imageResize">
 																</div>
+																{{-- <div class="project_status text-white" >		{{$p->product->subCategory->category->name}}</div> --}}
 															</div>
 														</div>
-														<div class="col-md-7 margin_top p-md-0">
-															<div class="row ">
-																<div class="col-md-7 col-7">
-																	<h6 class="category-name" style="color:#bfc5cc;"> <span style="color:#bfc5cc;"> <i class="fa fa-tag"></i> {{ $p->product->subCategory->category->name }}</span></h6>
-																</div>
-																<div class="col-md-5 col-5">
-																	<a href="{{route('user-favourite-remove-product', ['id' => $p->product->id])}}" class="pull-right favfont" style="font-size:14px;"><span style="color:#ed49b6;"> <i class="fa fa-heart"></i> </span>お気に入り削除</a>
-																</div>
+													</div>
+													<div class="col-md-7 margin_top p-md-0">
+														<div class="row ">
+															<div class="col-md-7 col-7">
+																<h6 class="category-name" style="color:#bfc5cc;"> <span style="color:#bfc5cc;"> <i class="fa fa-tag"></i> {{ $p->product->subCategory->category->name }}</span></h6>
 															</div>
-															<div class="row mt-1">
-																<a class="col-md-12 " href="{{route('front-product-details', ['id' => $p->product->id])}}">
-																	<p style="font-size:20px;" class="font-weight-bold product-title">	{{$p->product->title}}</p>
+															<div class="col-md-5 col-5">
+																<a href="{{route('user-favourite-remove-product', ['id' => $p->product->id])}}" class="pull-right favfont" style="font-size:14px;">
+																	<span style="color:#ed49b6;"> <i class="fa fa-heart"></i> </span>
+																	お気に入り削除
 																</a>
 															</div>
-															<div class="row mt-1">
-																<div class="col-md-12">
-																	<p style="font-size:12px;">	{{$p->product->description}}</p>
-																</div>
+														</div>
+														<div class="row mt-1">
+															<a class="col-md-12 " href="{{route('front-product-details', ['id' => $p->product->id])}}">
+																<p style="font-size:20px;" class="font-weight-bold product-title">	{{$p->product->title}}</p>
+															</a>
+														</div>
+														<div class="row mt-1">
+															<div class="col-md-12">
+																<p style="font-size:12px;">	{{$p->product->description}}</p>
 															</div>
-															<div class="row mt-1">
-																<div class="col-md-6">
+														</div>
+														<div class="noHover row mt-1">
+															<div class="col-md-6">
 																<p><span class="font-weight-bold price" style="font-size:23px; letter-spacing:2px;">{{ $p->product->price }}</span>
-																	<span class="title" style="font-size:20px; letter-spacing:1px;">ポイント</span></p>
-																</div>
-
-																<div class="col-md-6 p-md-0 star">
-																	<p class=" mt-2"><span class="fa fa-star checked" style="font-size:20px;"></span>
-																	<span class="fa fa-star checked" style="font-size:20px;"></span>
-																	<span class="fa fa-star checked" style="font-size:20px;"></span>
-																	<span class="fa fa-star " style="font-size:20px;"></span>
-																	<span class="fa fa-star " style="font-size:20px;"></span>
-																	(3)</p>
-																</div>
+																	<span class="title" style="font-size:20px; letter-spacing:1px;">ポイント</span>
+																</p>
 															</div>
 
+															<div class="col-md-6 p-md-0 star">
+																<p class=" mt-2"><span class="fa fa-star checked" style="font-size:20px;"></span>
+																<span class="fa fa-star checked" style="font-size:20px;"></span>
+																<span class="fa fa-star checked" style="font-size:20px;"></span>
+																<span class="fa fa-star " style="font-size:20px;"></span>
+																<span class="fa fa-star " style="font-size:20px;"></span>
+																(3)</p>
+															</div>
+														</div>
 
-
-															@if(($user->profile->phonetic) == null ||($user->profile->phonetic2) == null ||($user->profile->phone_no) == null||($user->profile->postal_code) ==null||($user->profile->prefectures) == null||($user->profile->municipility) == null ||($user->first_name) == null ||($user->last_name) == null  )
-																<div class="">
+														@if(($user->profile->phonetic) == null ||($user->profile->phonetic2) == null ||($user->profile->phone_no) == null||($user->profile->postal_code) ==null||($user->profile->prefectures) == null||($user->profile->municipility) == null ||($user->first_name) == null ||($user->last_name) == null  )
+															<div class="">
+																<?php if(count($p->product->color) > 0){?>
+																<div class="col-md-offset-2 mr-0 ml-3 div-radius1" style="height:55px; width:auto;">
+																	<select name="color" style="font-size:12px; width:auto;" id="" class="pt-2 pb-0 product_options"  required>
+																		<option value="" >カラー</option>
+																		<?php $colorCount = 0;?>
+																		@foreach ($p->product->color as $p_color)
+																			<?php if(!empty($p_color->color)){?>
+																				<option value="{{$p_color->color}}" style="font-size:12px;">{{$p_color->color}}</option>
+																			<?php $colorCount++;}?>
+																		@endforeach
+																		<?php if($colorCount == 0){?>
+																			<option value="なし" style="font-size:12px;">なし</option>
+																		<?php }?>
+																	</select>
+																</div>
+																<div class="col-md-offset-2 mr-0 ml-2 div-radius1" style="height:55px; width:auto;">
+																	<select name="size" style="font-size:12px; width:auto;"  id="" class="pt-2 pb-0 product_options" required>
+																		<option value="" >サイズ</option>
+																		<?php $typeCount = 0;?>
+																		@foreach ($p->product->color as $p_color)
+																			<?php if(!empty($p_color->type)){?>
+																				<option value="{{$p_color->type}}" >{{$p_color->type}}</option>
+																			<?php $typeCount++;}?>
+																		@endforeach
+																		<?php if($typeCount == 0){?>
+																			<option value="なし" style="font-size:12px;">なし</option>
+																		<?php }?>
+																	</select>
+																</div>
+																<?php }?>
+																<div class="col-md-offset-6  mr-0 div-radius1 margin_left ml-2" style="height: 65px;">
+																	<input type="hidden" name="id" value="{{$p->product->id}}">
+																	<input type="hidden" name="price" value="{{$p->product->price}}">
+																	<input type="hidden" name="title" value="{{$p->product->title}}">
+																	<input type="hidden" name="quantity" class="add_to_cart_quantity form-control" value="1" required placeholder="数量">
+																	<button type="" class="px-3 text-white btn btn-lg btn-block addCart cart_font profileModal font-weight-bold w6-18" id="" style="background-color:#ffbc00 !important; height:80%;"> <span class="fa fa-shopping-cart px-1"></span> カートに入れる</button>
+																</div>
+															</div>
+														@else
+															<div class="">
+																<form class="row" action="{{route('front-cart-add-favourite')}}" method="get">
 																	<?php if(count($p->product->color) > 0){?>
 																	<div class="col-md-offset-2 mr-0 ml-3 div-radius1" style="height:55px; width:auto;">
 																		<select name="color" style="font-size:12px; width:auto;" id="" class="pt-2 pb-0 product_options"  required>
@@ -620,102 +655,24 @@
 																		<input type="hidden" name="price" value="{{$p->product->price}}">
 																		<input type="hidden" name="title" value="{{$p->product->title}}">
 																		<input type="hidden" name="quantity" class="add_to_cart_quantity form-control" value="1" required placeholder="数量">
-																		<button type="" class="px-3 text-white btn btn-lg btn-block addCart cart_font profileModal font-weight-bold w6-18" id="" style="background-color:#ffbc00 !important; height:80%;"> <span class="fa fa-shopping-cart px-1"></span> カートに入れる</button>
+																		<button type="submit" class="px-3 addCart text-white btn btn-lg btn-block  cart_font w6-18" id="cart-btn" style="background-color:#ffbc00 !important; height:80%;"> <span class="fa fa-shopping-cart px-1"></span> カートに入れる</button>
+																		<input type="hidden" id="check-cart" value="{{ session('cart-success') ? 1 : 0 }}">
 																	</div>
-																</div>
-															@else
-																<div class="">
-																	<form class="row" action="{{route('front-cart-add-favourite')}}" method="get">
-																		<?php if(count($p->product->color) > 0){?>
-																		<div class="col-md-offset-2 mr-0 ml-3 div-radius1" style="height:55px; width:auto;">
-																			<select name="color" style="font-size:12px; width:auto;" id="" class="pt-2 pb-0 product_options"  required>
-																				<option value="" >カラー</option>
-																				<?php $colorCount = 0;?>
-																				@foreach ($p->product->color as $p_color)
-																					<?php if(!empty($p_color->color)){?>
-																						<option value="{{$p_color->color}}" style="font-size:12px;">{{$p_color->color}}</option>
-																					<?php $colorCount++;}?>
-																				@endforeach
-																				<?php if($colorCount == 0){?>
-																					<option value="なし" style="font-size:12px;">なし</option>
-																				<?php }?>
-																			</select>
-																		</div>
-																		<div class="col-md-offset-2 mr-0 ml-2 div-radius1" style="height:55px; width:auto;">
-																			<select name="size" style="font-size:12px; width:auto;"  id="" class="pt-2 pb-0 product_options" required>
-																				<option value="" >サイズ</option>
-																				<?php $typeCount = 0;?>
-																				@foreach ($p->product->color as $p_color)
-																					<?php if(!empty($p_color->type)){?>
-																						<option value="{{$p_color->type}}" >{{$p_color->type}}</option>
-																					<?php $typeCount++;}?>
-																				@endforeach
-																				<?php if($typeCount == 0){?>
-																					<option value="なし" style="font-size:12px;">なし</option>
-																				<?php }?>
-																			</select>
-																		</div>
-																		<?php }?>
-																		<div class="col-md-offset-6  mr-0 div-radius1 margin_left ml-2" style="height: 65px;">
-																			<input type="hidden" name="id" value="{{$p->product->id}}">
-																			<input type="hidden" name="price" value="{{$p->product->price}}">
-																			<input type="hidden" name="title" value="{{$p->product->title}}">
-																			<input type="hidden" name="quantity" class="add_to_cart_quantity form-control" value="1" required placeholder="数量">
-																			<button type="submit" class="px-3 addCart text-white btn btn-lg btn-block  cart_font w6-18" id="cart-btn" style="background-color:#ffbc00 !important; height:80%;"> <span class="fa fa-shopping-cart px-1"></span> カートに入れる</button>
-																			<input type="hidden" id="check-cart" value="{{ session('cart-success') ? 1 : 0 }}">
-																		</div>
-																	</form>
-																</div>
-															@endif
-
-
-
-
-
-
-
-
-
-
-															{{--<div class="row">
-																<div class="col-md-offset-2 mr-md-0 div-radius ml-md-3" style="height:55px; width:55px;">
-																		<p class="pt-2 pb-0 text-center" style="font-size:11px;">
-																			カラー：<br>
-																			@foreach ($p->product->color as $p_color)
-																			{{ $p_color->color.',' }}
-																			@endforeach  <br> </p>
-																</div>--}}
-																{{--<div class="col-md-offset-2 mr-0 div-radius ml-md-2" style="height:55px; width:55px;">
-																		<p class="pt-2 text-center" style="font-size:11px;">サイズ: <br>
-																			@foreach ($p->product->color as $p_size)
-																			{{ $p_size->size.',' }}
-																			@endforeach
-																		 </p>
-																</div>--}}
-																{{--<div class="col-md-offset-6  mr-md-0 div-radius1 ml-md-2" style="height: 65px;">
-																	<button class="bg-yellow editbtn px-3 text-white btn btn-lg btn-block message-button  w6-18" style=" height:80%;"> <span class="fa fa-shopping-cart px-1"></span> カートに入れる</button>
-																	
-																</div>
-															</div> --}}
-														</div>
+																</form>
+															</div>
+														@endif
 													</div>
 												</div>
-											@endforeach
-
-												</div>
-										</div>
-
+											</div>
+										@endforeach
+									</div>
 								</div>
-
 							</div>
-
-
+						</div>
+					</div>
 				</div>
-
 			</div>
-
-			</div>
-	  </div>
+		</div>
 	</div>
 </div>
 
@@ -728,45 +685,19 @@
 @stop
 
 @section('custom_js')
-<script type="text/javascript">
-	    // var error = document.getElementById('getError').value;
-			// var error = $('#getError').val();
-
-			// // error = 1;
-			// 	$(window).on('load',function(){
-			// 		console.log('error = ' + error);
-			// 			if (error == 1) {
-			// 				console.log(error)
-			// 				$('#myModal').modal('show');
-			// 			}
-			// 	});
-
-
-
-
-			// $('#myModal').modal({
-    	// 	backdrop: 'static',
-    	// 	keyboard: false  // to prevent closing with Esc button (if you want this too)
-			// });
-	</script>
 	<script type="text/javascript">
 		$('.profileModal').on('click',function(){
-			console.log('hello')
-			// var check_cart = $('#check-cart').val();
-			// 	if (check_cart == 1) {
-					$('#myModal').modal('show');
-				// }
+			$('#myModal').modal('show');
 		});
-	</script>
-	<script type="text/javascript">
+
 		$(window).on('load',function(){
-				var check_cart = $('#check-cart').val();
-				if (check_cart == 1) {
-					$('#cart-message').modal('show');
-					setTimeout(()=>{
-						window.location.href = '{{route('front-cart')}}'
-					}, 3000);
-				}
+			var check_cart = $('#check-cart').val();
+			if (check_cart == 1) {
+				$('#cart-message').modal('show');
+				setTimeout(()=>{
+					window.location.href = '{{route('front-cart')}}'
+				}, 3000);
+			}
 		});
 	</script>
 @stop
