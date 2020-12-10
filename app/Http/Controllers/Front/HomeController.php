@@ -599,8 +599,12 @@ class HomeController extends Controller
     {
         if(!empty($request->id) && !empty($request->title) && !empty($request->quantity) && !empty($request->price)){
             $additionals = [];
-            if(!empty($request->color)) $additionals['color'] = $request->color;
-            if(!empty($request->size)) $additionals['size'] = $request->size;
+            if(!empty($request->color)){
+                $additionals['color'] = $request->color;
+            }
+            if(!empty($request->size)){
+                $additionals['size'] = $request->size;
+            }
             Cart::add($request->id, $request->title, $request->quantity, $request->price, $additionals);
         }
         return redirect()->route('front-product-details', ['id' => $request->id])->with('cart-success', 'カートに商品を追加しました。');
@@ -842,5 +846,18 @@ class HomeController extends Controller
        else{
             return redirect()->route('password.request');
         }
+    }
+
+    public function cartEdit(Request $request){
+	    $rowId = $request->rowId;
+	    $item = Cart::get($rowId);
+
+	    if($request->edit === "add"){
+            Cart::update($rowId, intval($item->qty) + 1);
+        }
+	    else{
+            Cart::update($rowId, ($item->qty) - 1);
+        }
+	    return $item;
     }
 }

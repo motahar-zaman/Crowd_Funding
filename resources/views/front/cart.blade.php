@@ -342,11 +342,8 @@
 		}
 	</style>
 @stop
-
 @section('ecommerce')
-
 @stop
-
 @section('content')
 
 <div class="row breadcrump p-0 m-0 project_sorting">
@@ -393,7 +390,8 @@
 						{{ csrf_field() }}
 						<div class="mt20">
 							<h3 class="step_title_area">
-								<span class="steptext">Step</span><span class="stepcount">1</span>
+								<span class="steptext">Step</span>
+								<span class="stepcount">1</span>
 								<span class="stepinfo">商品情報確認</span>
 							</h3>
 							<section class="mt-3">
@@ -479,7 +477,6 @@
 									</div>
 								</div>
 							</section>
-
 							<h3 class="step_title_area">
 								<span class="steptext">Step</span><span class="stepcount">2</span>
 								<span class="stepinfo">配送先情報入力</span>
@@ -635,8 +632,6 @@
 									</h6>
 								</div>
 							</section>
-
-
 							<h3 class="step_title_area">
 								<span class="steptext">Step</span><span class="stepcount">3</span>
 								<span class="stepinfo">支払情報入力</span>
@@ -740,7 +735,6 @@
 										</div>
 									</div>
 								</div>
-
 								<div class="col-md-12 pt-1">
 									<div class="row">
 										<span>配送先</span>
@@ -749,14 +743,14 @@
 												<div class="col-md-12">
 													<div class="row ">
 														<div class="col-md-12 defaultAddress">
-															<span>
-																	<br> {{ $user->first_name }} {{ $user->last_name }} ({{ $user->profile->phonetic }} {{ $user->profile->phonetic2 }})<br>
-																	{{ $user->shipping_postal_code }} <br>
-																	{{ $user->shipping_prefecture }} <br>
-																	{{ $user->shipping_municipility }} <br>
-																	{{ $user->shipping_address }}    <br>
-																	{{ $user->shipping_room_num }} <br>
-																	{{ $user->profile->phone_no }}
+															<span><br>
+																{{ $user->first_name }} {{ $user->last_name }} ({{ $user->profile->phonetic }} {{ $user->profile->phonetic2 }})<br>
+																{{ $user->shipping_postal_code }} <br>
+																{{ $user->shipping_prefecture }} <br>
+																{{ $user->shipping_municipility }} <br>
+																{{ $user->shipping_address }}    <br>
+																{{ $user->shipping_room_num }} <br>
+																{{ $user->profile->phone_no }}
 															</span>
 														</div>
 													</div>
@@ -862,7 +856,7 @@
 @section('custom_js')
 	<script src="{{Request::root()}}/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="{{Request::root()}}/js/jquery.validate.min.js"></script>
-	
+
 	<script type="text/javascript">
 		$(window).on('load',function(){
 			var price = $(".price");
@@ -905,6 +899,21 @@
 					totalPrice += parseFloat($(price[i]).html());
 				}
 				$('.totalPrice').html(totalPrice + ' ' + 'P');
+
+				$.ajax({
+					url: '{{route("front-cart-edit")}}',
+					data: {edit : 'remove', rowId : row_id},
+					type: "GET",
+					headers: {
+						'X-CSRF-Token': '{{ csrf_token() }}',
+					},
+					success: function(response){
+						//alert("Product quantity decreases");
+					},
+					error: function(response){
+						//alert("Product quantity decrease fail");
+					}
+				});
 				e.preventDefault();
 			});
 
@@ -931,6 +940,22 @@
 					totalPrice += parseFloat($(price[i]).html());
 				}
 				$('.totalPrice').html(totalPrice + ' ' + 'P');
+
+				$.ajax({
+					url: '{{route("front-cart-edit")}}',
+					data: {edit : 'add', rowId : row_id},
+					type: "GET",
+					headers: {
+						'X-CSRF-Token': '{{ csrf_token() }}',
+					},
+					success: function(response){
+						//alert("Product quantity increases");
+					},
+					error: function(response){
+						//alert("Product quantity decrease fail");
+					}
+
+				});
 				e.preventDefault();
 			});
 
