@@ -71,6 +71,7 @@ Route::group(['middleware' => ['auth','activecheck']], function () {
 	Route::get('/cart-add-favourite', 'Front\HomeController@cartAddFavourite')->name('front-cart-add-favourite');
 	Route::get('/cart-update', 'Front\HomeController@cartUpdate')->name('front-cart-update');
 	Route::get('/cart-remove', 'Front\HomeController@cartRemove')->name('front-cart-remove');
+	Route::get('/cart-edit', 'Front\HomeController@cartEdit')->name('front-cart-edit');
 });
 
 Route::get('/profile/{id}', 'Front\HomeController@profile')->name('front-profile');
