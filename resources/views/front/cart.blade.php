@@ -381,7 +381,7 @@
 			</div>
 		</div>
 	@endif
-	@if(Cart::count() <= 0)
+	@if(Cart::count() <= 0 && $finish == false)
 		<div class="text-center">
 			<h3 style="font-weight:bold; color: red"> カートに商品はありません </h3>
 		</div>
@@ -865,7 +865,6 @@
 	
 	<script type="text/javascript">
 		$(window).on('load',function(){
-			console.log('dfgdfg');
 			var price = $(".price");
 			var	totalPrice = 0;
 			for(var i = 0; i < price.length; i++){
@@ -1119,7 +1118,8 @@
 					$('.setAddress').addClass('hide');
 					$('.defaultAddress').removeClass('hide')
 
-				}else{
+				}
+				else{
 					$(".customAddress :input").attr("disabled", false);
 					$(".customAddress :input").addClass("required");
 
