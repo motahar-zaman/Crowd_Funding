@@ -383,7 +383,7 @@
 	@endif
 	@if(Cart::count() <= 0 && $finish == false)
 		<div class="text-center">
-			<h3 style="font-weight:bold; color: red"> カートに商品はありません </h3>
+			<h3 style="font-weight:bold; margin-top:60px; color: red"> カートに商品はありません </h3>
 		</div>
 	@else
 		<div class="mt20">
