@@ -29,7 +29,7 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function warnMailToProjectOwner(Request $request){
+    public function warnMailToProjectOwner(){
         $projects = Project::with('user')->with('investment')
             ->where('status', 1)
             ->where('end','<=', date("Y-m-d", strtotime('+3 days')))
@@ -46,7 +46,6 @@ class HomeController extends Controller
                     'from_email' => 'noreply@crofun.jp',
                     'from_name' => 'Crofun',
                     'template' => 'user.email.projectTargetAmountFullfilled',
-                    'root'     => $request->root(),
                     'email'     => $project->user->email,
                     'project_name'  => $project->title,
                     'amount'  => $totalAmount,
@@ -61,7 +60,6 @@ class HomeController extends Controller
                     'from_email' => 'noreply@crofun.jp',
                     'from_name' => 'Crofun',
                     'template' => 'user.email.projectTargetAmountNotFullfill',
-                    'root'     => $request->root(),
                     'email'     => $project->user->email,
                     'project_name'  => $project->title,
                     'amount'  => $totalAmount,
@@ -70,6 +68,5 @@ class HomeController extends Controller
             }
             Mail::to($project->user->email)->send(new Common($emailData));
         }
-        return "yes";
     }
 }
