@@ -474,9 +474,6 @@
 		</div>
 	</div>
 </div>
-
-
-
 <div class="row bg-white ">
 	<div class="container">
 		<div class="row container_div justify-content-center">
@@ -784,18 +781,18 @@
 	</div>
 </div>
 	
-	@if (Auth::check())
-		@if(($user->profile->phonetic) === null ||($user->profile->phonetic2) === null ||($user->profile->phone_no) === null||($user->profile->postal_code) ===null||($user->profile->prefectures) === null||($user->profile->municipility) === null ||($user->first_name) === null ||($user->last_name) === null  )						
-			@include('user.layouts.cart-message');
-		@endif
+@if (Auth::check())
+	@if(($user->profile->phonetic) === null ||($user->profile->phonetic2) === null ||($user->profile->phone_no) === null||($user->profile->postal_code) ===null||($user->profile->prefectures) === null||($user->profile->municipility) === null ||($user->first_name) === null ||($user->last_name) === null  )
+		@include('user.layouts.cart-message');
 	@endif
-	
-	@if (Auth::check())
-		@include('user.layouts.message_modal')
-	@endif
+@endif
 
-	@include('front.layouts.301')
-	@include('user.layouts.profileModal')
+@if (Auth::check())
+	@include('user.layouts.message_modal')
+@endif
+
+@include('front.layouts.301')
+@include('user.layouts.profileModal')
 
 @stop
 
@@ -816,8 +813,7 @@
 					//$('#send-message').addClass('show');
 				});
 			});
-	</script>
-	<script type="text/javascript">
+
 		$(window).on('load',function(){
 				var check_cart = $('#check-cart').val();
 				if (check_cart == 1) {
@@ -827,27 +823,9 @@
 					}, 3000);
 				}
 		});
-	</script>
-	<script type="text/javascript">
+
 		$('.profileModal').on('click',function(){
-			console.log('hello')
-			// var check_cart = $('#check-cart').val();
-			// 	if (check_cart == 1) {
-					$('#myModal').modal('show');
-				// }
+			$('#myModal').modal('show');
 		});
 	</script>
-	{{-- <script type="text/javascript">
-			$(function() {
-				var linkurl  = $('#linkUrl').val();
-				$('#shareIcons').jsSocials({
-					url : linkurl,
-					text : 'laravel for social sharing',
-					showLabel : true,
-					showCount : false,
-					shareIn : "popup",
-					shares : ["facebook", "twitter", "line"]
-				});
-			});
-	</script> --}}
 @stop
