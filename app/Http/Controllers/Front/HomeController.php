@@ -36,14 +36,11 @@ class HomeController extends Controller
 {
 	public function __construct()
     {
-
     }
 
     public function test()
     {
-
         return view('user.invest_payment');
-
         $shopId = '9101225942865';
         $shopName = 'Clofan';
         $shopPassword = 'k555429a';
@@ -71,8 +68,6 @@ class HomeController extends Controller
 
         // Success!
         $response = $payment->getResponse();
-        dd($response);
-
         return view('auth.email.reset', ['token' => 'sdfsdf']);
     }
 
@@ -103,7 +98,6 @@ class HomeController extends Controller
                                     ->limit(3)
                                     ->get();
 
-                
         $most_earned = Project::select('projects.*', DB::raw('SUM(investments.amount) As total'))
                         ->where('projects.status', 1)
                         ->where('projects.end', '>=', Carbon::now()->subDays(365)->toDateTimeString())
@@ -148,7 +142,6 @@ class HomeController extends Controller
     public function projectList(Request $request)
     {
         $data['projects'] = $this->projectData($request);
-
         if($request->s == 'd'){
             $data['totalProjects'] = Project::where('projects.status', 1)->count('projects.id');
         }
@@ -177,7 +170,6 @@ class HomeController extends Controller
         elseif($request->s == 'p'){
             $data['totalProjects']= Project::where('status', 1)->count('id');
         }
-
         if(!empty($request->c) && $request->c != 'p'){
             $data['totalProjects'] =Project::where('status', 1)
                                             ->where('start', '<=', Carbon::today())
@@ -218,14 +210,13 @@ class HomeController extends Controller
     public function projectListbycat(Request $request)
     {
         $data['projects'] = $this->projectDataNewtop($request);
-        // return view('front.project_list', $data);
         $data['rank'] = 0;
 
         if($request->s == 'd'){
             $ProjectData = Project::where('status', 1);
             $data['totalProjects'] = $ProjectData->count();
-            // dd($data['totalProjects']);
-        } elseif($request->s == 'per'){
+        }
+        elseif($request->s == 'per'){
             $ProjectData = Project::select('projects.*', 
                                                     DB::raw('SUM(investments.amount)/projects.budget As total'), 
                                                     DB::raw('SUM(investments.amount) As x'),
@@ -237,16 +228,16 @@ class HomeController extends Controller
         elseif($request->s == 'c'){
             $ProjectData  = Project::select('projects.*', DB::raw('SUM(investments.amount) As total'))
                                     ->where('projects.status', 1);
-
             $data['totalProjects'] = $ProjectData->count();
-        } elseif($request->s == 'i'){
+        }
+        elseif($request->s == 'i'){
             $ProjectData = Project::select('projects.*', DB::raw('COUNT(investments.amount) As total'))
                         ->where('projects.status', 1)
                         ->leftJoin('investments', 'investments.project_id', '=', 'projects.id')
                         ->groupBy('projects.id');
-
             $data['totalProjects']= $ProjectData->count('projects.id');
-        } elseif($request->s == 'p'){
+        }
+        elseif($request->s == 'p'){
             $ProjectData = Project::selectRaw('projects.*,count(favourite_projects.project_id) as total_fav')
                             //  ->where('projects.end', '>=', Carbon::now()->subDays(365)->toDateTimeString())
                             ->where('projects.status', 1);
@@ -264,7 +255,6 @@ class HomeController extends Controller
             $data['totalProjects'] = Project::where('status', 1)->whereHas('reward', function ($query) use ($request){
                 $query->where('crofun_amount', '>=', $request->min_point);
             })->count('projects.id');
-            
         }
 		return view('front.project_list', $data);
     }
@@ -276,7 +266,8 @@ class HomeController extends Controller
 
         if($request->s == 'd'){
             $data['totalProjects'] = Project::where('projects.status', 1)->count('projects.id');
-        } elseif($request->s == 'per'){
+        }
+        elseif($request->s == 'per'){
             $data['totalProjects'] = Project::select('projects.*', 
                                                     DB::raw('SUM(investments.amount)/projects.budget As total'), 
                                                     DB::raw('SUM(investments.amount) As x'),
@@ -290,12 +281,14 @@ class HomeController extends Controller
                     ->leftJoin('investments', 'investments.project_id', '=', 'projects.id')
                     ->groupBy('projects.id')
                     ->count('projects.id');
-        } elseif($request->s == 'r'){
+        }
+        elseif($request->s == 'r'){
             $data['totalProjects']= Project::select('projects.*', DB::raw('COUNT(investments.amount) As total'))
                         ->where('projects.status', 1)
 
                         ->count('projects.id');
-        } elseif($request->s == 'p'){
+        }
+        elseif($request->s == 'p'){
             
             $data['totalProjects']= Project::where('status', 1)->count('id');
         }
@@ -324,9 +317,8 @@ class HomeController extends Controller
 
     public function ratingProjectList(Request $request)
     {
-            $data['projects'] = $this->projectData($request);
-            // return view('front.project_list', $data);
-            return view('front.project_list', $data);
+        $data['projects'] = $this->projectData($request);
+        return view('front.project_list', $data);
     }
 
     public function search(Request $request)
@@ -360,7 +352,6 @@ class HomeController extends Controller
             });
         }
 
-
         $paginated_data = $data->paginate(9);
         $data = false;
         if($request->c == 'p' || $request->s == 'p'){
@@ -375,13 +366,10 @@ class HomeController extends Controller
                 return $project->investment->sum('amount');
             });
         }
-
         if($data){
             return new LengthAwarePaginator($data, $paginated_data->total(), $paginated_data->perPage());
         }
         return $paginated_data;
-
-
     }
 
     private function projectDataNewtop($request)
@@ -445,7 +433,6 @@ class HomeController extends Controller
         if(!empty($request->c) && $request->c != 'p'){
             $data = $data->where('category_id', $request->c);
         }
-
         if(!empty($request->title)){
             $data = $data->where('title', 'like', '%'.$request->title.'%');
         }
@@ -454,10 +441,8 @@ class HomeController extends Controller
                 $query->where('crofun_amount', '>=', $request->min_point);
             });
         }
-
         $paginated_data = $data->paginate(9);
         $data = false;
-
         if($data){
             return new LengthAwarePaginator($data, $paginated_data->total(), $paginated_data->perPage());
         }
@@ -538,7 +523,6 @@ class HomeController extends Controller
         if($request->s == 'most'){
             $products = Product::select('products.*', DB::raw('COUNT(order_details.id) As total'))
                     ->where('products.status', 1)
-                    // ->where('investments.status', 1)
                     ->leftJoin('order_details', 'order_details.product_id', '=', 'products.id')
                     ->groupBy('products.id')
                     ->orderby('is_featured', 1)
@@ -554,8 +538,7 @@ class HomeController extends Controller
                     ->groupBy('products.id')                       
                     ->orderByRaw('products.is_featured desc, total desc');
             $title = '人気の商品';
-        } 
-        
+        }
         else {
             $products = Product::where('status', 1)          
                         ->orderby('is_featured', 1)
@@ -572,13 +555,11 @@ class HomeController extends Controller
             $catDetail = ProductSubCategory::with('category')->find($request->sc);
             $title = $catDetail->category->name.' / '.$catDetail->name;
         }
-
         if(!empty($request->title)){
             $products = $products->where('title', 'like', '%'.$request->title.'%');
             $title = $request->title;
         }
         $paginated_data = $products->paginate(9)->setPath('/product-list');
-
         $data = false;
 
         if($request->s == 'p'){            
@@ -588,12 +569,10 @@ class HomeController extends Controller
             });
             $title = 'お気に入り順';
         }
-
         if($data){
             $paginated_data = new LengthAwarePaginator($data, $paginated_data->total(), $paginated_data->perPage());
             $paginated_data->setPath('/product-list');
         }
-        
         return ['data' => $paginated_data, 'title' => $title];
     }
 
@@ -661,7 +640,8 @@ class HomeController extends Controller
             $data['user'] =  User::where('id', Auth::user()->id)->first();
             $data['title'] = 'カート | Crofun';
             return view('front.cart', $data);
-        }else{
+        }
+        else{
             return redirect()->route('front-cart-login');
         }
     }
@@ -847,17 +827,19 @@ class HomeController extends Controller
             'inquiry_date' => $date,
             'inquiry_url' =>'',
                     
-            ];
-            Mail::to($request->email)
-                ->send(new Common($emailData));
+        ];
+        Mail::to($request->email)
+            ->send(new Common($emailData));
         return redirect()->back()->with('success_message', 'お問い合わせありがとうございました。');
     }
 
     public function passwordReset(){
        if(Auth::check()){
-            Auth::logout();
-            return redirect()->route('password.request');
-        }else{
+            Auth::logout();{
+               return redirect()->route('password.request');
+           }
+        }
+       else{
             return redirect()->route('password.request');
         }
     }
