@@ -457,16 +457,18 @@
 														<td class=" text-center" style="width:300px;"> </td>
 														<td colspan="2" class="text-center">
 															<div class="col-md-12 row">
-																<div class="col-md-6 text-right">合計数</div>
-																<div class="col-md-6" style="padding-left:7px"><h5 class="text-left  totalQty" style="font-size:18px">{{Cart::count()}}</h5></div>
+																<div class="col-md-6 col-sm-6 text-right">合計数</div>
+																<div class="col-md-6 col-sm-6" style="padding-left:7px">
+																	<h5 class="text-left  totalQty" style="font-size:18px">{{Cart::count()}}</h5>
+																</div>
 															</div>
 														</td>
 														<td class="text-center" colspan="2" style="width:200px;">
 															<div class="col-md-12 row">
-																<div class="col-md-2 "></div>
-																<div class="col-md-3 text-center">合計ポイント</div>
-																<div class="col-md-3 pl-2"><h5 class="text-danger text-center  totalPrice"></h5></div>
-																<div class="col-md-4 "></div>
+																<div class="col-md-6 col-sm-6 text-right">合計ポイント</div>
+																<div class="col-md-6 col-sm-6 pl-2">
+																	<h5 class="text-danger text-left  totalPrice"></h5>
+																</div>
 															</div>
 														</td>
 														<td style="width:50px;" class="text-center"> </td>
