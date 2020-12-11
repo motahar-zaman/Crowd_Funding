@@ -43,6 +43,12 @@ a {
         margin: 0 auto;
     }
 
+    .front {
+        position: relative;
+        min-height: 100vh;
+        padding-bottom: 425px;
+    }
+
     .mobileShow {
         display: contents;
     }
@@ -156,12 +162,6 @@ div > .small-device-login-registration-button-center > ul {
     margin-right: 0px;
 }
 
-
-/* small devices login and registration button in center */
-/*        .small-device-login-registration-button-center {
-    margin-right: 0;
-}
-*/
 .small-device-login-registration-button-center > li{
     list-style: none;
     display: inline;
@@ -870,8 +870,8 @@ html [type=button] {
 
 .project_item_footer {
     	font-family: w3;
-		font-size: 14px;			
-		
+		font-size: 14px;
+
 }
 
 footer.front_footer {
@@ -1031,11 +1031,6 @@ footer.front_footer {
     height: 14px;
     width: 14px;
     line-height: 8px;
-}
-
-#body {    
-    padding-bottom: 10px;    
-    margin-bottom: 00px;
 }
 
 .breadcrump {
@@ -1198,8 +1193,6 @@ ul.pagination li.active {
 
 }
 
-
-
 /* top-category menu small device fixing block start*/
 @media (min-width: 320px) and (max-width: 414px) {
      .project_category_sm_data {
@@ -1253,8 +1246,6 @@ ul.pagination li.active {
     
 }
 /* top-category menu small device fixing block end */
-
-
 
 ::placeholder { 
     color: #c9c9c9 !important;
@@ -1779,9 +1770,6 @@ ul.pagination li.active {
         font-size:14px;
         text-align: left !important;
     }
-  /*  .footer-buttton {
-        width: 220px !important;
-    }*/
 }
 
 .category-name{
