@@ -477,11 +477,12 @@
 									</div>
 								</div>
 							</section>
+
 							<h3 class="step_title_area">
-								<span class="steptext">Step</span><span class="stepcount">2</span>
+								<span class="steptext">Step</span>
+								<span class="stepcount">2</span>
 								<span class="stepinfo">配送先情報入力</span>
 							</h3>
-
 							<section class="mt-3">
 								<div class="col-md-12 p-0 mb-4">
 									<div class="row ">
@@ -632,11 +633,12 @@
 									</h6>
 								</div>
 							</section>
+
 							<h3 class="step_title_area">
-								<span class="steptext">Step</span><span class="stepcount">3</span>
+								<span class="steptext">Step</span>
+								<span class="stepcount">3</span>
 								<span class="stepinfo">支払情報入力</span>
 							</h3>
-
 							<section class="mt-3">
 								<div class="col-md-12 p-0 mb-4">
 									<div class="row justify-content-center">
@@ -675,10 +677,10 @@
 							</section>
 
 							<h3 class="step_title_area">
-								<span class="steptext">Step</span><span class="stepcount">4</span>
+								<span class="steptext">Step</span>
+								<span class="stepcount">4</span>
 								<span class="stepinfo">入力情報確認</span>
 							</h3>
-
 							<section class="mt-3">
 								<div class="col-md-12 p-0 mb-4">
 									<div class="row ">
@@ -698,7 +700,7 @@
 
 												@foreach(Cart::content() as $p)
 													@php
-													$product = App\Models\Product::find($p->id)
+														$product = App\Models\Product::find($p->id)
 													@endphp
 													<tr>
 														<td style="" class="">
@@ -817,10 +819,10 @@
 							</section>
 
 							<h3 class="step_title_area">
-								<span class="steptext">Step</span><span class="stepcount">5</span>
+								<span class="steptext">Step</span>
+								<span class="stepcount">5</span>
 								<span class="stepinfo">完了</span>
 							</h3>
-
 							<section>
 								<div class="row justify-content-center">
 									<div class="mt-5 col-md-12">
@@ -833,16 +835,15 @@
 											<h6 class="font-weight-bold text-center">
 												商品のご購入ありがとうございました。<br>
 												お手元に届くまでもうしばらくお待ちください。
-
 											</h6>
 										</div>
 									</div>
-
 									<div class="col-md-12 text-center ">
 										<a href="{{route('user-purchase-list')}}" class="text-center btn" style="background-color: #C6C6C6;color:#ffffff; margin-top: 30px;">< 戻 る</a>
 									</div>
 								</div>
 							</section>
+
 						</div>
 					</form>
 				</div>
@@ -868,6 +869,49 @@
 		});
 
 		$(document).ready(function(){
+			$(document).on('click', '.increase_btn', function(e){
+				var row_id = $(this).attr("data-rowid");
+				var price = $(this).attr("data-price");
+				var qty = parseInt($('.cart_qty_'+row_id).val());
+				var newQty = qty + 1;
+				if(newQty > 0){
+					$('.decrease_btn').removeAttr('disabled', 'disabled');
+				}
+				$('.cart_qty_'+row_id).val(newQty);
+				var newPrice = newQty * price;
+				$('.setPrice_'+row_id).html(newPrice);
+				var inputs = $(".qty");
+				var	totalQty = 0;
+				for(var i = 0; i < inputs.length; i++){
+					totalQty += parseInt($(inputs[i]).val());
+				}
+				$('.totalQty').html(totalQty);
+				var price = $(".price");
+				var	totalPrice = 0;
+				for(var i = 0; i < price.length; i++){
+					totalPrice += parseFloat($(price[i]).html());
+				}
+				$('.totalPrice').html(totalPrice + ' ' + 'P');
+
+				$.ajax({
+					url: '{{route("front-cart-edit")}}',
+					data: {edit : 'add', rowId : row_id},
+					type: "GET",
+					headers: {
+						'X-CSRF-Token': '{{ csrf_token() }}',
+					},
+					success: function(response){
+						//alert("Product quantity increases");
+					},
+					error: function(response){
+						//alert("Product quantity decrease fail");
+					}
+
+				});
+				manipulateCart(row_id, newQty);
+				e.preventDefault();
+			});
+
 			$(document).on('click', '.decrease_btn', function(e){
 				var row_id = $(this).attr("data-rowid");
 				var price = $(this).attr("data-price");
@@ -914,50 +958,17 @@
 						//alert("Product quantity decrease fail");
 					}
 				});
+				manipulateCart(row_id, newQty);
 				e.preventDefault();
 			});
 
-			$(document).on('click', '.increase_btn', function(e){
-				var row_id = $(this).attr("data-rowid");
-				var price = $(this).attr("data-price");
-				var qty = parseInt($('.cart_qty_'+row_id).val());
-				var newQty = qty + 1;
-				if(newQty > 0){
-					$('.decrease_btn').removeAttr('disabled', 'disabled');
-				}
-				$('.cart_qty_'+row_id).val(newQty);
-				var newPrice = newQty * price;
-				$('.setPrice_'+row_id).html(newPrice);
-				var inputs = $(".qty");
-				var	totalQty = 0;
-				for(var i = 0; i < inputs.length; i++){
-					totalQty += parseInt($(inputs[i]).val());
-				}
-				$('.totalQty').html(totalQty);
-				var price = $(".price");
-				var	totalPrice = 0;
-				for(var i = 0; i < price.length; i++){
-					totalPrice += parseFloat($(price[i]).html());
-				}
-				$('.totalPrice').html(totalPrice + ' ' + 'P');
+			function manipulateCart(row_id, newQty){
+				let count = $(".totalQty").html();
+				let cls = 'cart_qty_'.concat(row_id);
 
-				$.ajax({
-					url: '{{route("front-cart-edit")}}',
-					data: {edit : 'add', rowId : row_id},
-					type: "GET",
-					headers: {
-						'X-CSRF-Token': '{{ csrf_token() }}',
-					},
-					success: function(response){
-						//alert("Product quantity increases");
-					},
-					error: function(response){
-						//alert("Product quantity decrease fail");
-					}
-
-				});
-				e.preventDefault();
-			});
+				$("#cartLoad").text((count < 10) ? count : "9+");
+				$(".".concat(cls)).text(newQty);
+			}
 
 			$('.error').addClass('text-danger');
 		});
@@ -1128,7 +1139,6 @@
 			var content = $('.reward').html();
 			$('.reward_container').before(content);
 		});
-
 
 		$(document).ready(function(){
 			var checkVal = $('.checkDefault').val();

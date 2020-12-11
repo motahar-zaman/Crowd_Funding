@@ -9,7 +9,7 @@
 					<div class="col-md-12 col-sm-12 user-header-nav">
 						<ul class="float-right small-device-login-registration-button-center" style="margin-bottom:0px">
 							@if(Auth::user())
-								<li >
+								<li>
 									@if(Cart::count()==0)
 										<a href="{{route('front-cart')}}" style="position:relative;text-decoration:none;">
 											<i class="fa fa-shopping-cart fa-flip-horizontal" aria-hidden="true" style="font-size:30px;color:black;"></i>
@@ -17,7 +17,7 @@
 									@else
 										<a href="{{route('front-cart')}}" style="position:relative;text-decoration:none;">
 											<i class="fa fa-shopping-cart fa-flip-horizontal" aria-hidden="true" style="font-size:30px;color:black;"></i>
-											<span style="text-align: center" class="bg-warning text-white cart-count circle" >
+											<span id="cartLoad" style="text-align: center" class="bg-warning text-white cart-count circle" >
 												@if(Cart::count() < 10)
 													{{Cart::count()}}
 												@else
