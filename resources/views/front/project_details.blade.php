@@ -458,9 +458,9 @@
 												<div   title="" href="" class="bg-blue text-white btn btn-lg btn-block buttonFont noHover" name="button" style=" height:80px;background-color:#cccccc;">プロジェクトを <br> 支援する</div>
 											@else
 												@if($project->user_id==$user_profile->id)
-													<div  title="" href="" class="bg-blue text-white btn btn-lg btn-block buttonFont" name="button" style=" height:80px;;background-color:#cccccc;">プロジェクトを <br> 支援する</div>
+													<div  title="" href="" class="noHover bg-blue text-white btn btn-lg btn-block buttonFont" name="button" style=" height:80px;;background-color:#cccccc;">プロジェクトを <br> 支援する</div>
 												@else
-													<a title="" href="{{route('user-invest', ['id' => $project->id])}}" class=" text-white btn btn-lg btn-block buttonFont" name="button" style=" height:80px;">プロジェクトを <br> 支援する</a>
+													<a title="" href="{{route('user-invest', ['id' => $project->id])}}" class="bg-blue text-white btn btn-lg btn-block buttonFont" name="button" style=" height:80px;">プロジェクトを <br> 支援する</a>
 												@endif
 											@endif
 										@endif
