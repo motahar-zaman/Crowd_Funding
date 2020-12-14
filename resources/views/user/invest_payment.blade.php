@@ -32,11 +32,9 @@
 
 		//for closed gateway
 		$url_closed = $retUrl;
-         
-        
     ?>
 
-    <form  method="POST" action="<?php echo $url; ?>" name="payment-closed">
+    <form  method="POST" action="<?php echo $url; ?>" name="payment">
         <input type="hidden" name="ShopID"         value="<?php echo $ShopID; ?>" />
         <input type="hidden" name="OrderID"        value="<?php echo $OrderID; ?>" />
         <input type="hidden" name="DateTime"       value="<?php echo $DateTime; ?>" />
@@ -56,7 +54,7 @@
         <!-- <input type="submit" name="submit"         value="送信" /> -->
     </form>
 
-	<form  method="POST" action="<?php echo $url_closed; ?>" name="payment">
+	<form  method="POST" action="<?php echo $url_closed; ?>" name="payment-closed">
         <input type="hidden" name="Approve" value="Yes" />
         <input type="hidden" name="OrderID" value="<?php echo $OrderID; ?>" />
         <!-- <input type="submit" name="submit"         value="送信" /> -->
