@@ -431,7 +431,6 @@
 	</style>
 @stop
 
-
 @section('ecommerce')
 
 @stop
@@ -439,7 +438,6 @@
 @section('content')
 
 @include('user.layouts.tab')
-
 
 <div class="container">
 	<div class="row">

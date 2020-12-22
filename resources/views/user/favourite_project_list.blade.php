@@ -79,150 +79,7 @@
 		border-radius: 50%;
 		color: #ff3300;
 		background-color: #ffffff;
-
-
 	}
-	/* @media (max-width: 1370px) {
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 15px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-
-		@media (max-width: 1295px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 16px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 13px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		
-		@media (max-width: 1170px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 15px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 11px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 1080px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 12px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 8px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 930px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 11px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 7px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 870px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 10px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 7px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 870px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 9px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 6px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		} */
-
 		@media (min-width: 1250px) {
 			.edit-button{
 				min-width: 182px;
@@ -500,7 +357,6 @@
 	</style>
 @stop
 
-
 @section('ecommerce')
 
 @stop
@@ -508,7 +364,6 @@
 @section('content')
 
 @include('user.layouts.tab')
-
 
 <div class="container">
 	<div class="row container_div">
@@ -562,11 +417,15 @@
 													<div class="col-md-5 ">
 														<div class="row">
 															<div class="col-md-12 project-item">
-																<div class="frame">
-																	<span class="helper"></span>
-																	<img src="{{Request::root()}}/uploads/projects/{{$p->project->featured_image}}" style="max-height:242px;margin-left:-5px" alt="" class="img-fluid imageResize">
+																<a href="{{route("front-project-details",['id'=>$p->project_id])}}">
+																	<div class="frame">
+																		<span class="helper"></span>
+																		<img src="{{Request::root()}}/uploads/projects/{{$p->project->featured_image}}" style="max-height:242px;margin-left:-5px" alt="" class="img-fluid imageResize">
+																	</div>
+																</a>
+																<div class="project_status {{$days_between <= 0 ? 'status_3' : ($done >= 100?'status_2':'status_1')}}">
+																	<span>{{$days_between <= 0 ? '終了' : ($done >= 100?'達成':'募集中')}}</span>
 																</div>
-																<div class="project_status {{$days_between <= 0 ? 'status_3' : ($done >= 100?'status_2':'status_1')}}"><span>{{$days_between <= 0 ? '終了' : ($done >= 100?'達成':'募集中')}}</span></div>
 															</div>
 														</div>
 													</div>

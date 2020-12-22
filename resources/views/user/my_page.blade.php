@@ -187,23 +187,25 @@
 												<div class="col-md-5">
 													<div class="row">
 														<div class="col-md-12 project-item">
-															<div class="frame">
-																<span class="helper"></span>
-																@php
-																   $gapTxt = "";
+															<a href="{{route("front-project-details",['id'=>$project->id])}}">
+																<div class="frame">
+																	<span class="helper"></span>
+																	@php
+																	   $gapTxt = "";
 
-																   if(mb_strlen($project->title) > 34){
-																	$cssStyle = 'max-height:245px;height:243px; margin-left:-5px';
+																	   if(mb_strlen($project->title) > 34){
+																		$cssStyle = 'max-height:245px;height:243px; margin-left:-5px';
 
-																   }else{
-																	$cssStyle = 'max-height:245px;height:238px; margin-left:-5px';
-																	 for($i=1;$i<= 34-mb_strlen($project->title); $i++ ) {
-																		$gapTxt .= "&nbsp;";
-																	 }
-																   }
-																@endphp
-																<img src="{{$project->featured_image ?  asset('uploads/projects/'.$project->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}"  style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
-															</div>
+																	   }else{
+																		$cssStyle = 'max-height:245px;height:238px; margin-left:-5px';
+																		 for($i=1;$i<= 34-mb_strlen($project->title); $i++ ) {
+																			$gapTxt .= "&nbsp;";
+																		 }
+																	   }
+																	@endphp
+																	<img src="{{$project->featured_image ?  asset('uploads/projects/'.$project->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}"  style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
+																</div>
+															</a>
 															<?php
 																if ($days_between <= 0) {
 																	$proStatus = 'status_3';
@@ -345,11 +347,14 @@
 											<div class="col-md-5">
 												<div class="row">
 													<div class="col-md-12 project-item">
-													<div class="frame">
-															<span class="helper"></span>
-														<img src="{{$invested_project->featured_image ?  asset('uploads/projects/'.$invested_project->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}"   style="max-height:245px;height:243px;margin-left:-5px;" alt="" class="img-fluid imageResize">
-													</div>
-														<div class="project_status {{$days_between <= 0 ? 'status_3' : ($done >= 100?'status_2':'status_1')}}"><span>{{ $days_between <= 0 ? '終了' : ($done >= 100?'達成':'募集中')}}</span></div>
+														<a href="{{route("front-project-details",['id'=>$invested_project->id])}}">
+															<div class="frame">
+																<img src="{{$invested_project->featured_image ?  asset('uploads/projects/'.$invested_project->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}"   style="max-height:245px;height:243px;margin-left:-5px;" alt="" class="img-fluid imageResize">
+															</div>
+														</a>
+														<div class="project_status {{$days_between <= 0 ? 'status_3' : ($done >= 100?'status_2':'status_1')}}">
+															<span>{{ $days_between <= 0 ? '終了' : ($done >= 100?'達成':'募集中')}}</span>
+														</div>
 													</div>
 												</div>
 											</div>
@@ -442,18 +447,20 @@
 												<div class="col-md-5">
 													<div class="row">
 														<div class="col-md-12 project-item">
-														<div class="frame">
-															<span class="helper"></span>
-															@php 
-															   if(mb_strlen($project->title) <= 34){
-																	$cssStyle = 'max-height:245px;height:238px; margin-left:-5px';
-															   }else{
-																	$cssStyle = 'max-height:245px;height:243px; margin-left:-5px';
-															   }
-															@endphp
-															<img src="{{$product->image ?  asset('uploads/products/'.$product->image) : asset('uploads/projects/1615154785167836.jpeg')}}"   style="{{ $cssStyle }}" alt="" class="img-fluid imageResize">
-															{{-- <div class="project_status {{strtotime($product->end) > strtotime(date('Y-m-d H:i:s')) ? 'status_1' : 'status_2'}}"><span>{{strtotime($product->end) > strtotime(date('Y-m-d H:i:s')) ? '募集中' : '達成！'}}</span></div> --}}
-														</div>
+															<a href="{{route("front-product-details",['id'=>$product->id])}}">
+																<div class="frame">
+																	<span class="helper"></span>
+																	@php
+																	   if(mb_strlen($project->title) <= 34){
+																			$cssStyle = 'max-height:245px;height:238px; margin-left:-5px';
+																	   }else{
+																			$cssStyle = 'max-height:245px;height:243px; margin-left:-5px';
+																	   }
+																	@endphp
+																	<img src="{{$product->image ?  asset('uploads/products/'.$product->image) : asset('uploads/projects/1615154785167836.jpeg')}}"   style="{{ $cssStyle }}" alt="" class="img-fluid imageResize">
+																	{{-- <div class="project_status {{strtotime($product->end) > strtotime(date('Y-m-d H:i:s')) ? 'status_1' : 'status_2'}}"><span>{{strtotime($product->end) > strtotime(date('Y-m-d H:i:s')) ? '募集中' : '達成！'}}</span></div> --}}
+																</div>
+															</a>
 														</div>
 													</div>
 												</div>
@@ -574,17 +581,18 @@
 							@foreach($OrderDetails as $orderDetail)
 								<div class="row mb-5">
 									<div class="col-md-12 col-12">
-
 										<div class="row inner">
 											<div class="col-md-12 col-12">
 												<div class="row inner_inner">
 													<div class="col-md-5">
 														<div class="row">
 															<div class="col-md-12 project-item">
-															<div class="frame">
-															<span class="helper"></span>
-																<img src="{{$orderDetail->product->image ?  asset('uploads/products/'.$orderDetail->product->image) : asset('uploads/projects/1615154785167836.jpeg')}}"   style="max-height:242px;height:243px; margin-left:-5px" alt="" class="img-fluid imageResize">
-															</div>
+																<a href="{{route("front-product-details",['id'=>$orderDetail->product->id])}}">
+																	<div class="frame">
+																		<span class="helper"></span>
+																		<img src="{{$orderDetail->product->image ?  asset('uploads/products/'.$orderDetail->product->image) : asset('uploads/projects/1615154785167836.jpeg')}}"   style="max-height:242px;height:243px; margin-left:-5px" alt="" class="img-fluid imageResize">
+																	</div>
+																</a>
 															</div>
 														</div>
 													</div>

@@ -255,7 +255,8 @@ class ProjectController extends Controller
         $data['user'] = $user;
         $data['projects'] = FavouriteProject::where('status', 1)
                             ->whereHas('project', function($q){
-                                    $q->where('end', '>=', Carbon::now()->subDays(365)->toDateTimeString());
+                                    $q->where('end', '>=', Carbon::now()->subDays(365)->toDateTimeString())
+                                        ->where('status', 1);
                             })
                             ->where('user_id', Auth::user()->id)
                             ->orderBy('created_at','dsec')

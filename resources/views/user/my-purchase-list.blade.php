@@ -55,7 +55,6 @@
 			/* opacity: 0.9 !important; */
 			background-color: #ffe3da !important;
 		}
-
 		.project_status {
 			position: absolute;
 			top: 15px;
@@ -80,8 +79,7 @@
 			color: #ff3300;
 			background-color: #ffffff;
 		}
-		
-		}
+
 		@media (min-width: 1250px) {
 			.edit-button{
 				min-width: 182px;
@@ -344,14 +342,8 @@
 			height: 100%;
 			vertical-align: middle;
 		}
-</style>
-
+	</style>
 @stop
-
-
-
-
-
 
 @section('ecommerce')
 
@@ -360,7 +352,6 @@
 @section('content')
 
 @include('user.layouts.tab')
-
 
 <div class="container">
 	<div class="row container_div" >
@@ -388,23 +379,20 @@
 								<h4 class="heading">購入済み商品</h4>
 							</div>
 						</div>
-
 						     @if($products)
-									@foreach ($products as $product)
-									@php
-										// dd($product);
-										//echo $product->order_id;
-									@endphp
+								@foreach ($products as $product)
 									<div class="row inner horizontal mb-5">
 										<div class="col-md-12 col-12">
 											<div class="row inner_inner">
 												<div class="col-md-5">
 													<div class="row">
 														<div class="col-md-12 project-item">
-															<div class="frame">
-															<span class="helper"></span>
-																<img src="{{$product->product->image ?  asset('uploads/products/'.$product->product->image) : ''}}" style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
-															</div>
+															<a href="{{route("front-product-details",['id'=>$product->product_id])}}">
+																<div class="frame">
+																	<span class="helper"></span>
+																	<img src="{{$product->product->image ?  asset('uploads/products/'.$product->product->image) : ''}}" style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
+																</div>
+															</a>
 														</div>
 													</div>
 													<br>

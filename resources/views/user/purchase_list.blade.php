@@ -235,7 +235,6 @@
 	</style>
 @stop
 
-
 @section('ecommerce')
 
 @stop
@@ -243,8 +242,6 @@
 @section('content')
 
 @include('user.layouts.tab')
-
-
 
 <div class="container">
 	<div class="row">
@@ -260,99 +257,94 @@
 								<h4 class="heading">Heading first</h4>
 							</div>
 						</div>
-								@foreach ($products as $product)
-
-								<div class="row inner mb-5">
-									<div class="col-md-12 col-12">
-										<div class="row inner_inner">
-											<div class="col-md-6">
-												<div class="row">
-													<div class="col-md-12 project-item">
-														<img src="{{ asset('uploads/products/'.$product->profile_info_image) }}" alt="" class="img-fluid">
-														<div class="project_status text-white" >募集中</div>
-													</div>
+						@foreach ($products as $product)
+							<div class="row inner mb-5">
+								<div class="col-md-12 col-12">
+									<div class="row inner_inner">
+										<div class="col-md-6">
+											<div class="row">
+												<div class="col-md-12 project-item">
+													<img src="{{ asset('uploads/products/'.$product->profile_info_image) }}" alt="" class="img-fluid">
+													<div class="project_status text-white" >募集中</div>
 												</div>
 											</div>
-											<div class="col-md-6">
-												<div class="row ">
-													<div class="col-md-8">
-														<h6 class="" style="font-size:14px; color:#bfc5cc;"> <span style="color:#bfc5cc;">会社名がここに入ります</h6>
-													</div>
-													@php
-														$fav = 0;
-													@endphp
-													@foreach ($product->favourite as $f)
-														@if (Auth::check())
+										</div>
+										<div class="col-md-6">
+											<div class="row ">
+												<div class="col-md-8">
+													<h6 class="" style="font-size:14px; color:#bfc5cc;"> <span style="color:#bfc5cc;">会社名がここに入ります</h6>
+												</div>
+												@php
+													$fav = 0;
+												@endphp
+												@foreach ($product->favourite as $f)
+													@if (Auth::check())
 
-														@if ($f->user_id == Auth::user()->id)
-															@php
-																$fav = 1;
-															@endphp
+													@if ($f->user_id == Auth::user()->id)
+														@php
+															$fav = 1;
+														@endphp
+													@endif
+												@endif
+
+												@endforeach
+												@if (empty($isFavourite))
+													<div class="col-md-4 col-sm-6 category_favourite">
+														@if ($fav == 0)
+															<a href="{{ route('user-favourite-add-project', $product->id) }}" class="pull-right" style="font-size:14px;"><span style="color:#ed49b6;"> <i class="fa fa-heart"></i> </span>お気に入りに追加</a>
+														@else
+															<span class="pull-right" style="font-size:14px;"><span style="color:#555"> <i class="fa fa-heart-o"></i> </span>お気に入り</span>
+
 														@endif
-													@endif
+													</div>
 
-													@endforeach
-													@if (empty($isFavourite))
-														<div class="col-md-4 col-sm-6 category_favourite">
-															@if ($fav == 0)
-																<a href="{{ route('user-favourite-add-project', $product->id) }}" class="pull-right" style="font-size:14px;"><span style="color:#ed49b6;"> <i class="fa fa-heart"></i> </span>お気に入りに追加</a>
-															@else
-																<span class="pull-right" style="font-size:14px;"><span style="color:#555"> <i class="fa fa-heart-o"></i> </span>お気に入り</span>
-
-															@endif
-														</div>
-
-													@endif
+												@endif
+											</div>
+											<div class="row mt-1">
+												<div class="col-md-12">
+													<h5 style="font-size:16px;" class="font-weight-bold">{{$product->title}}</h5>
 												</div>
-												<div class="row mt-1">
-													<div class="col-md-12">
-														<h5 style="font-size:16px;" class="font-weight-bold">{{$product->title}}</h5>
-													</div>
+											</div>
+											<div class="row mt-3">
+												<div class="col-md-9">
+													<h5 style="font-size:21px; letter-spacing:2px;">1,900 ポイント</h5>
 												</div>
-												<div class="row mt-3">
-													<div class="col-md-9">
-														<h5 style="font-size:21px; letter-spacing:2px;">1,900 ポイント</h5>
-													</div>
+											</div>
+											<div class="row  mt-2">
+												<div class="col-md-9">
+													<h5 style="font-size:15px; letter-spacing:2px;">1個 ／ 白 ／ L ／</h5>
 												</div>
-												<div class="row  mt-2">
-													<div class="col-md-9">
-														<h5 style="font-size:15px; letter-spacing:2px;">1個 ／ 白 ／ L ／</h5>
-													</div>
+											</div>
+											<div class="row  mt-2">
+												<div class="col-md-9">
+													<h5 style="font-size:15px; letter-spacing:2px;">購入日：2018年10月1日</h5>
 												</div>
-												<div class="row  mt-2">
-													<div class="col-md-9">
-														<h5 style="font-size:15px; letter-spacing:2px;">購入日：2018年10月1日</h5>
-													</div>
+											</div>
+											<div class="row  mt-2">
+												<div class="col-md-9">
+													<h5 style="font-size:13px; letter-spacing:2px;">商品提供者：丸井丸子</h5>
 												</div>
-												<div class="row  mt-2">
-													<div class="col-md-9">
-														<h5 style="font-size:13px; letter-spacing:2px;">商品提供者：丸井丸子</h5>
-													</div>
+											</div>
+											<div class="row mt-3">
+												<div class="col-md-6 pr-md-1">
+														<button type="button" class="bg-dark text-white btn btn-lg btn-block w6-14"><span style="color:#fff !important; "> <i class="fa fa-envelope"></i> </span> メッセージを送る</button>
 												</div>
-												<div class="row mt-3">
-													<div class="col-md-6 pr-md-1">
-															<button type="button" class="bg-dark text-white btn btn-lg btn-block w6-14"><span style="color:#fff !important; "> <i class="fa fa-envelope"></i> </span> メッセージを送る</button>
-													</div>
-													<div class="col-md-6 pl-md-1">
-															<button type="button" class="editbtn text-white btn btn-lg btn-block w6-14 btn-warning" data-toggle="modal" data-target="#star">★★★  レビューを書く</button>
-													</div>
+												<div class="col-md-6 pl-md-1">
+														<button type="button" class="editbtn text-white btn btn-lg btn-block w6-14 btn-warning" data-toggle="modal" data-target="#star">★★★  レビューを書く</button>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							@endforeach
 							</div>
-						</div>
+						@endforeach
 					</div>
 				</div>
 			</div>
-	  	</div>
+		</div>
 	</div>
 </div>
 @include('user.layouts.star-rating')
-
-
 @stop
 
 @section('custom_js')

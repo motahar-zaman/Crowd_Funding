@@ -341,7 +341,6 @@
 	</style>
 @stop
 
-
 @section('ecommerce')
 
 @stop
@@ -349,7 +348,6 @@
 @section('content')
 
 @include('user.layouts.tab')
-
 
 <div class="container">
 	<div class="row container_div">
@@ -380,11 +378,13 @@
 												<div class="col-md-5">
 													<div class="row">
 														<div class="col-md-12 project-item">
-														<div class="frame">
-															<span class="helper"></span>
-															<img src="{{$product->image ?  asset('uploads/products/'.$product->image) : asset('uploads/projects/1615154785167836.jpeg')}}" style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
-															{{-- <div class="project_status {{strtotime($product->end) > strtotime(date('Y-m-d H:i:s')) ? 'status_1' : 'status_2'}}"><span>{{strtotime($product->end) > strtotime(date('Y-m-d H:i:s')) ? '募集中' : '達成！'}}</span></div> --}}
-														</div>
+															<a href="{{route("front-product-details",['id'=>$product->id])}}">
+																<div class="frame">
+																	<span class="helper"></span>
+																	<img src="{{$product->image ?  asset('uploads/products/'.$product->image) : asset('uploads/projects/1615154785167836.jpeg')}}" style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
+																	{{-- <div class="project_status {{strtotime($product->end) > strtotime(date('Y-m-d H:i:s')) ? 'status_1' : 'status_2'}}"><span>{{strtotime($product->end) > strtotime(date('Y-m-d H:i:s')) ? '募集中' : '達成！'}}</span></div> --}}
+																</div>
+															</a>
 														</div>
 													</div>
 												</div>

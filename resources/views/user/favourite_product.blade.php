@@ -238,8 +238,6 @@
 
 @include('user.layouts.tab')
 
-
-
 <div class="container">
 	<div class="row">
 		<div class="offset-md-1 col-md-10 col-12">

@@ -138,7 +138,6 @@
 
 @include('user.layouts.tab')
 
-
 <div class="container">
 	<div class="row container_div">
 		<div class="col-md-12 col-12">
@@ -167,11 +166,11 @@
 
 						@foreach ($projects as $project)
 							<?php
-									$budget = $project->budget;
-									$invested = $project->investment->where('status', true)->sum('amount');
-									$done = $invested*100/$budget;
-									$done = round($done);
-								 ?>
+								$budget = $project->budget;
+								$invested = $project->investment->where('status', true)->sum('amount');
+								$done = $invested*100/$budget;
+								$done = round($done);
+							?>
 							<div class="row horizontal">
 								<div class="col-md-12 col-12">
 									<div class="row inner">
@@ -180,10 +179,12 @@
 												<div class="col-md-5">
 													<div class="row">
 														<div class="col-md-12 project-item">
-															<div class="frame">
-																<span class="helper"></span>
-																<img src="{{$project->featured_image ?  asset('uploads/projects/'.$project->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}" style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
-															</div>
+															<a href="{{route("front-project-details",['id'=>$project->id])}}">
+																<div class="frame">
+																	<span class="helper"></span>
+																	<img src="{{$project->featured_image ?  asset('uploads/projects/'.$project->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}" style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
+																</div>
+															</a>
 															<?php
 																$start = strtotime("now");
 																$end = strtotime(date('Y-m-d 23:59:59', strtotime($project->end)));
