@@ -346,7 +346,13 @@ class ProductController extends Controller
     {
         $user = User::where('id', Auth::user()->id)->with('profile')->first();
         $data['user'] = $user;
-        $data['products'] = FavouriteProduct::where('status', 1)->where('user_id', Auth::user()->id)->orderBy('created_at','dsec')->get();
+        $data['products'] = FavouriteProduct::where('status', 1)
+                            ->whereHas('product', function($q){
+                                $q->where('status', 1);
+                            })
+                            ->where('user_id', Auth::user()->id)
+                            ->orderBy('created_at','dsec')
+                            ->get();
         return view('user.favourite_product_list', $data);
     }
 

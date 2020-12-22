@@ -530,10 +530,12 @@
 													<div class="col-md-5">
 														<div class="row">
 															<div class="col-md-12 project-item">
-																<div class="frame">
-																	<span class="helper"></span>
-																	<img src="{{$p->product->image ?  asset('uploads/products/'.$p->product->image) : asset('uploads/projects/1615154785167836.jpeg')}}" style="max-height:242px;margin-left:-5px" alt="" class="img-fluid imageResize">
-																</div>
+																<a class="col-md-12 " href="{{route('front-product-details', ['id' => $p->product->id])}}">
+																	<div class="frame">
+																		<span class="helper"></span>
+																		<img src="{{$p->product->image ?  asset('uploads/products/'.$p->product->image) : asset('uploads/projects/1615154785167836.jpeg')}}" style="max-height:242px;margin-left:-5px" alt="" class="img-fluid imageResize">
+																	</div>
+																</a>
 																{{-- <div class="project_status text-white" >		{{$p->product->subCategory->category->name}}</div> --}}
 															</div>
 														</div>
