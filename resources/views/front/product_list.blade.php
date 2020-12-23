@@ -83,16 +83,12 @@
 @stop
 
 @section('content')
-
-{{-- @include('front.layouts.project-list-breadcrums-search') --}}
-
 <hr class="mt-0">
-
 <div class="container">
 <div class="mt20">
 	<div class="row container_div justify-content-center ">
 		<div class="col-md-3 side_bar_margin">
-				@include('front.layouts.product_menu')
+			@include('front.layouts.product_menu')
 		</div>
 		<div class="col-md-9">
 			<!-- Tab panes -->
@@ -104,41 +100,30 @@
 						</div>
 						<div class="col-md-4 offset-md-0">
 							@include('front.layouts.product_sort')
-
 						</div>
 					</div>
 					<div class="row projects">
-					<?php		
-									 
-					$productsList = [];
-					foreach($products as $key => $pp){	
-						$productsList[$key] = $pp;
-					 
-					}
-					 
-					ksort($productsList);
-					foreach($productsList as $p) {
-						 ?>
+					<?php
+						$productsList = [];
+						foreach($products as $key => $pp){
+							$productsList[$key] = $pp;
+
+						}
+						ksort($productsList);
+						foreach($productsList as $p) {
+					?>
 						<div class="col-md-4">
-								 @include('front.layouts.product') 
-							</div>
+							@include('front.layouts.product')
+						</div>
 					<?php  } ?>
 					</div>
-
 					<div class="row text-center">
-							{!! $products->appends(request()->except('page'))->links() !!}
+						{!! $products->appends(request()->except('page'))->links() !!}
 					</div>
-
 				</div>
-
 			</div>
 		</div>
-
-		{{-- <div class="col-md-2 mt50">
-			@include('front.layouts.right_menu')
-		</div> --}}
 	</div>
-
 </div>
 
 </div>

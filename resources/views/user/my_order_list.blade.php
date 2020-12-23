@@ -142,7 +142,6 @@
 	</style>
 @stop
 
-
 @section('ecommerce')
 
 @stop
@@ -170,7 +169,6 @@
 								</div>
 							</div>
 						</div>
-						{{--@include('user.layouts.notifications')--}}
 						<div class="mt20 table"  style="overflow-x:auto;overflow-y: hidden">
 							<table class="table table-sm table-bordered text-nowrap" id="data-table">
 								<thead>
@@ -202,8 +200,6 @@
 													<button class="p-2 text-white btn btn-md btn-block w6-14 msg_send_btn btn-default" data-user_id="{{$OrderDetailData->order->order_by->id }}" data-project_username="{{$OrderDetailData->order->order_by->first_name.' '.$OrderDetailData->order->order_by->last_name }}" style="cursor:pointer; color:#fff;"> <span style="color:#fff !important;">
 														 <i class="fa fa-envelope"></i> </span>メッセージを送る
 													</button>
-
-													{{-- <a href="#" class="text-white btn btn-md w6-14 cbtn"><span style="color:#fff !important;"> <i class="fa fa-envelope"></i> </span>メッセージを送る</a> --}}
 												</td>
 												<td class="status-font">
 													<?php
@@ -232,19 +228,7 @@
 													@endif
 												</td>
 												<td class="{{ $OrderDetailData->order->is_read==1?'':'bold'}}">
-													{{-- @if($OrderDetailData->status==0)
-														<span class="text-info">保留中</span>
-										            @elseif($OrderDetailData->status==1)
-										            	<span class="text-success">アクティブ</span>
-										            @elseif($OrderDetailData->status==2)
-										            	<span class="text-primary">届いた</span>
-										            @elseif($OrderDetailData->status==3)
-										            	<span class="text-warning">ホールド</span>
-										            @elseif($OrderDetailData->status==4)
-										            	<span class="text-danger">拒否された</span>
-										            @else
-										            	<span class="text-default">未知の</span>
-													@endif --}}
+
 													@if($OrderDetailData->order->payment_status==1)
 														<span >入金前</span>
 													@elseif($OrderDetailData->order->payment_status==2)
@@ -256,12 +240,12 @@
 												<td class="{{ $OrderDetailData->order->is_read==1?'':'bold'}}">{{ number_format($OrderDetailData->product->price) }}</td>
 											</tr>
 										@endforeach
-											<tr>
-												<td colspan="7" class="text-center pagination_area">{{ $OrderDetail->links() }}</td>
-											</tr>
 									@endif
 								</tbody>
 							</table>
+						</div>
+						<div class="row text-center">
+							{{ $OrderDetail->links() }}
 						</div>
 					</div>
 					@php
@@ -283,58 +267,54 @@
 @stop
 
 @section('custom_js')
+	<script type="text/javascript">
+		$(function(){
+			$('.modalOption').on('change', function(){
+				var row_id = $(this).attr("data-id");
+				var row_order_id = $(this).attr("data-order-id");
+				var select_val = $(this).val();
+				var status = 0;
+				if (select_val == 1) {
+					status = 1;
+					document.location.replace('/user/order-status-change/'+row_id+'/'+status);
+				}else if (select_val == 2) {
+					status = 2;
+					document.location.replace('/user/order-status-change/'+row_id+'/'+status);
+				}else if (select_val == 3) {
+					status = 3;
+					// $('#order1').modal("show");
+					$('#order1').modal({
+						backdrop: 'static',
+						keyboard: false
+					})
+					$('.order1').modal("show"); //Open Modal
+					$('.order_id1').val(row_order_id);
+					$('.order_detail_id1').val(row_id);
 
-		<script type="text/javascript">
-			$(function(){
-				$('.modalOption').on('change', function(){
-					var row_id = $(this).attr("data-id");
-					var row_order_id = $(this).attr("data-order-id");
-					var select_val = $(this).val();
-						console.log(select_val);
-						var status = 0;
-					 	if (select_val == 1) {
-					 		status = 1;
-							document.location.replace('/user/order-status-change/'+row_id+'/'+status);
-					 	}else if (select_val == 2) {
-							status = 2;
-							document.location.replace('/user/order-status-change/'+row_id+'/'+status);
-					 	}else if (select_val == 3) {
-							status = 3;
-							// $('#order1').modal("show");
-							$('#order1').modal({
-								backdrop: 'static',
-								keyboard: false
-							})
-							$('.order1').modal("show"); //Open Modal
-							$('.order_id1').val(row_order_id);
-							$('.order_detail_id1').val(row_id);
+					$('.status1').val(status);
+					$('.close').on('click',function(){
+						location.reload();
+					})
+				}
+				else if (select_val == 4) {
+					status = 4;
+					var status = 4;
+					$('#order2').modal({
+						backdrop: 'static',
+						keyboard: false
+					})
+					$('.order2').modal("show"); //Open Modal
+					$('.order_id2').val(row_order_id);
+					$('.order_detail_id2').val(row_id);
 
-							$('.status1').val(status);
-							$('.close').on('click',function(){
-								location.reload();
-							})
-					 	}else if (select_val == 4) {
-							status = 4;
-							var status = 4;
-							$('#order2').modal({
-								backdrop: 'static',
-								keyboard: false
-							})
-							$('.order2').modal("show"); //Open Modal
-							$('.order_id2').val(row_order_id);
-							$('.order_detail_id2').val(row_id);
-
-							$('.status2').val(status);
-							$('.close').on('click',function(){
-								location.reload();
-							})
-					 	}
-						// console.log(status);
-
-					// alert(searchParams.toString());
-				})
+					$('.status2').val(status);
+					$('.close').on('click',function(){
+						location.reload();
+					})
+				}
 			})
-		</script>
+		})
+	</script>
 
 	<script type="text/javascript">
 		var error = $('#getError').val();
@@ -360,39 +340,4 @@
 				});
 			});
 	</script>
-
-	<!-- <script type="text/javascript">
-			$(document).ready(function(){
-				$(document).ready(function(){ //Make script DOM ready
-				    $('.modalOption').change(function() { //jQuery Change Function
-							  var row_id = $(this).attr("data-id");
-								var row_order_id = $(this).attr("data-order-id");
-
-							  var select_val = $(this).val();
-							  //console.log(row_id)
-							  //var opval = parseInt($('#shipment'+row_id).val());//Get value from select element
-				        if(select_val == 2){ //Compare it and if true
-										var status = 2;
-				            $('#order1').modal("show"); //Open Modal
-										$('#order_id1').val(row_order_id);
-										$('#order_detail_id1').val(row_id);
-
-										$('#status1').val(status);
-
-										// console.log($('#order_id1').val());
-
-				        }
-								if(select_val == 4){ //Compare it and if true
-									var status = 4;
-									$('#order2').modal("show"); //Open Modal
-									$('#order_id2').val(row_order_id);
-									$('#order_detail_id2').val(row_id);
-
-									$('#status2').val(status);
-				        }
-				    });
-				});
-			});
-	</script> -->
-
 @stop
