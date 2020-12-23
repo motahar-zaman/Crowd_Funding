@@ -3,7 +3,6 @@
 マイページ | Crofun
 @stop
 @section('custom_css')
-	
 <style type="text/css">
 		.wizard > .steps > ul > li {
 		    width: 20%;
@@ -412,7 +411,7 @@
 															</p>
 														@endif
 													</div>
-													<div class="edit-button  offset-0">
+													<div class="edit-button ml-2 offset-0">
 														<p style="font-size:15px;" class="user-title">起案者：{{$invested_project->user->first_name}} {{$invested_project->user->last_name}}</p>
 														<div class="bg-dark div-radius1">
 															<button class="p-2 text-white message-button btn btn-md btn-block w6-14 msg_send_btn btn-default" data-user_id="{{ $invested_project->user->id }}" data-project_username="{{ $invested_project->user->first_name.' '.$invested_project->user->last_name }}" style="cursor:pointer; color:#fff; font-family: w6; font-size: 18px;">
