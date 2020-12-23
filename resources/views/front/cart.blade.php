@@ -364,7 +364,6 @@
 		</div>
 	</div>
 </div>
-
 <div class="container" id="new-project">
 	<div class="card commonError hide offset-md-1 mt-3">
 		<h4 class='p-3' style="color:red;">正しく入力されてない項目があります。メッセージをご確認の上、もう一度入力ください。</h4>
@@ -422,7 +421,7 @@
 																	{{$p->options['size']}}/{{$p->options['color']}}
 																	@endif
 																	<br>
-																	{{ $p->price }} ポイント
+																	{{ number_format($p->price) }} ポイント
 																</div>
 															</td>
 															<td class="text-center" colspan="2">
@@ -437,9 +436,8 @@
 															<td text-align="center" class="text-center" style="width:200px;" colspan="2">
 																<div class="padding-table">
 																	<h4>
-																		<span class="setPrice_{{ $p->rowId }} price" style="letter-spacing:1px;">
-																			{{ $p->qty*$p->price }}
-																		</span>
+																		<input type="hidden" class="showPrice_{{ $p->rowId }} price" value="{{ $p->qty*$p->price }}">
+																		<span class="setPrice_{{ $p->rowId }} priceShow" style="letter-spacing:1px;">{{ number_format($p->qty*$p->price) }}</span>
 																	</h4>
 																</div>
 															</td>
@@ -459,7 +457,8 @@
 															<div class="col-md-12 row">
 																<div class="col-md-6 col-sm-6 text-right">合計数</div>
 																<div class="col-md-6 col-sm-6" style="padding-left:7px">
-																	<h5 class="text-left  totalQty" style="font-size:18px">{{Cart::count()}}</h5>
+																	<input type="hidden" class="totalQty" value="{{Cart::count()}}">
+																	<h5 class="text-left  totalQtyShow" style="font-size:18px">{{number_format(Cart::count())}}</h5>
 																</div>
 															</div>
 														</td>
@@ -467,7 +466,8 @@
 															<div class="col-md-12 row">
 																<div class="col-md-6 col-sm-6 text-right">合計ポイント</div>
 																<div class="col-md-6 col-sm-6 pl-2">
-																	<h5 class="text-danger text-left  totalPrice"></h5>
+																	<input type="hidden" class="totalPrice" value="0">
+																	<h5 class="text-danger text-left totalPriceShow"></h5>
 																</div>
 															</div>
 														</td>
@@ -713,27 +713,27 @@
 																	@if(!empty($p->options['size']) && !empty($p->options['color']))
 																	{{$p->options['size']}}/{{$p->options['color']}}
 																	@endif
-																	<br> {{ $p->price }} ポイント
+																	<br> {{number_format($p->price) }} ポイント
 																</span>
 															</div>
 														</td>
 														<td class="text-center ml-1" >
 															<div class="d-flex flex-row pt-5 justify-content-center">
 																<input type="hidden" name="row_id" value="{{$p->rowId}}">
-																<h4 name="quantity" class="align-self-start text-center cart_qty_{{ $p->rowId }}" style="letter-spacing:1px;"> {{ $p->qty }} </h4>
+																<h4 name="quantity" class="align-self-start text-center cart_qty_{{ $p->rowId }}" style="letter-spacing:1px;"> {{ number_format($p->qty) }} </h4>
 															</div>
 														</td>
 														<td colspan="2" text-align="center" class="text-center ml-1">
 															<div class="pt-5">
-																<h4 class="setPrice_{{ $p->rowId }}" style="letter-spacing:1px;"> {{ $p->qty*$p->price }} </h4>
+																<h4 class="setPrice_{{ $p->rowId }}" style="letter-spacing:1px;"> {{number_format($p->qty*$p->price) }} </h4>
 															</div>
 														</td>
 													</tr>
 												@endforeach
 												<tr class="">
 													<td class=" text-center">合計数 </td>
-													<td colspan="2"  class="text-center"><h5 class="totalQty">{{Cart::count()}}</h5></td>
-													<td class="text-center"> <h5 class="text-danger totalPrice">{{Cart::subtotal()}} P</h5></td>
+													<td colspan="2"  class="text-center"><h5 class="totalQtyShow">{{Cart::count()}}</h5></td>
+													<td class="text-center"> <h5 class="text-danger totalPriceShow">{{Cart::subtotal()}} P</h5></td>
 												</tr>
 											</table>
 										</div>
@@ -791,7 +791,7 @@
 													<table>
 														<tr>
 															<th class="px-3 pb-2">ポイント残高</th>
-															<th class="userPoint"  data-point = "{{ Auth::user()->point }}"> {{ Auth::user()->point }} ポイント</th>
+															<th class="userPoint"  data-point = "{{ Auth::user()->point }}"> {{number_format(Auth::user()->point) }} ポイント</th>
 														</tr>
 														<tr>
 															<th class="px-3 py-2">支払ポイント</th> <th class="paymentPoint"> {{Cart::subtotal()}} ポイント</th>
@@ -845,7 +845,6 @@
 									</div>
 								</div>
 							</section>
-
 						</div>
 					</form>
 				</div>
@@ -861,13 +860,21 @@
 	<script type="text/javascript" src="{{Request::root()}}/js/jquery.validate.min.js"></script>
 
 	<script type="text/javascript">
+		function numberWithCommas(x) {
+			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+		function numberWithoutCommas(x) {
+			return parseInt(x.toString().replace(",",""));
+		}
+
 		$(window).on('load',function(){
 			var price = $(".price");
 			var	totalPrice = 0;
 			for(var i = 0; i < price.length; i++){
-				totalPrice += parseFloat($(price[i]).html());
+				totalPrice += parseFloat($(price[i]).val());
 			}
-			$('.totalPrice').html(totalPrice + ' ' + 'P');
+			$('.totalPrice').val(totalPrice + ' ' + 'P');
+			$('.totalPriceShow').html(numberWithCommas(totalPrice) + ' ' + 'P');
 		});
 
 		$(document).ready(function(){
@@ -881,19 +888,28 @@
 				}
 				$('.cart_qty_'+row_id).val(newQty);
 				var newPrice = newQty * price;
-				$('.setPrice_'+row_id).html(newPrice);
+
+				$('.showPrice_'+row_id).val(newPrice);
+				$('.setPrice_'+row_id).html(numberWithCommas(newPrice));
+
 				var inputs = $(".qty");
 				var	totalQty = 0;
 				for(var i = 0; i < inputs.length; i++){
 					totalQty += parseInt($(inputs[i]).val());
 				}
-				$('.totalQty').html(totalQty);
+				$('.totalQty').val(totalQty);
+				$('.totalQtyShow').html(numberWithCommas(totalQty));
+
+
 				var price = $(".price");
 				var	totalPrice = 0;
 				for(var i = 0; i < price.length; i++){
-					totalPrice += parseFloat($(price[i]).html());
+					totalPrice += parseFloat($(price[i]).val());
 				}
-				$('.totalPrice').html(totalPrice + ' ' + 'P');
+
+
+				$('.totalPrice').val(totalPrice + ' ' + 'P');
+				$('.totalPriceShow').html(numberWithCommas(totalPrice) + ' ' + 'P');
 
 				$.ajax({
 					url: '{{route("front-cart-edit")}}',
@@ -903,13 +919,12 @@
 						'X-CSRF-Token': '{{ csrf_token() }}',
 					},
 					success: function(response){
-						//alert("Product quantity increases");
 					},
 					error: function(response){
-						//alert("Product quantity decrease fail");
 					}
 
 				});
+
 				manipulateCart(row_id, newQty);
 				e.preventDefault();
 			});
@@ -923,28 +938,35 @@
 				  var newQty = qty - 1;
 				  if(newQty == 0){
 					  $('.decrease_btn').attr('disabled', 'disabled');
-				  }else{
-
-					$('.decrease_btn').removeAttr('disabled');
-
+					  location.reload();
 				  }
+				  else {
+					  $('.decrease_btn').removeAttr('disabled');
+				  }
+
 				$('.cart_qty_'+row_id).val(newQty);
 				var newPrice = newQty * price;
-				$('.setPrice_'+row_id).html(newPrice);
+
+				$('.showPrice_'+row_id).val(newPrice);
+				$('.setPrice_'+row_id).html(numberWithCommas(newPrice));
+
 				var inputs = $(".qty");
 				var	totalQty = 0;
-
 
 				for(var i = 0; i < inputs.length; i++){
 						totalQty += parseInt($(inputs[i]).val());
 				}
-				$('.totalQty').html(totalQty);
+				$('.totalQty').val(totalQty);
+				$('.totalQtyShow').html(numberWithCommas(totalQty));
+
 				var price = $(".price");
 				var	totalPrice = 0;
 				for(var i = 0; i < price.length; i++){
-					totalPrice += parseFloat($(price[i]).html());
+					totalPrice += parseFloat($(price[i]).val());
 				}
-				$('.totalPrice').html(totalPrice + ' ' + 'P');
+
+				$('.totalPrice').val(totalPrice + ' ' + 'P');
+				$('.totalPriceShow').html(numberWithCommas(totalPrice) + ' ' + 'P');
 
 				$.ajax({
 					url: '{{route("front-cart-edit")}}',
@@ -954,18 +976,17 @@
 						'X-CSRF-Token': '{{ csrf_token() }}',
 					},
 					success: function(response){
-						//alert("Product quantity decreases");
 					},
 					error: function(response){
-						//alert("Product quantity decrease fail");
 					}
 				});
+
 				manipulateCart(row_id, newQty);
 				e.preventDefault();
 			});
 
 			function manipulateCart(row_id, newQty){
-				let count = $(".totalQty").html();
+				let count = $(".totalQty").val();
 				let cls = 'cart_qty_'.concat(row_id);
 
 				$("#cartLoad").text((count < 10) ? count : "9+");
@@ -1044,16 +1065,17 @@
 
 				if (currentIndex == 2 ) {
 					var userPoint = parseInt($('.userPoint').html());
-					var totalPrice = parseInt($('.totalPrice').html());
-					$('.paymentPoint').html(totalPrice + ' ' + 'ポイント');
+					var totalPrice = parseInt($('.totalPrice').val());
+
+					$('.paymentPoint').html(numberWithCommas(totalPrice) + ' ' + 'ポイント');
 					var rest_number = userPoint - totalPrice ;
 					var rest = Math.abs(rest_number);
 					restAmount = rest_number;
 					if(rest_number < 0){
-						$('.restPoint').html(rest + ' ' + 'ポイント').addClass('text-danger');
+						$('.restPoint').html(numberWithCommas(rest) + ' ' + 'ポイント').addClass('text-danger');
 						$('#negative').removeClass('hide');
 					}else{
-						$('.restPoint').html(rest + ' ' + 'ポイント').removeClass('text-danger');
+						$('.restPoint').html(numberWithCommas(rest) + ' ' + 'ポイント').removeClass('text-danger');
 						$('#positive').removeClass('hide');
 					}
 					if(userPoint > totalPrice){
@@ -1062,16 +1084,16 @@
 				}
 				if (currentIndex == 3 ) {
 					var userPoint = parseInt($('.userPoint').html());
-					var totalPrice = parseInt($('.totalPrice').html());
-					$('.paymentPoint').html(totalPrice + ' ' + 'ポイント');
+					var totalPrice = parseInt($('.totalPrice').val());
+					$('.paymentPoint').html(numberWithCommas(totalPrice) + ' ' + 'ポイント');
 					var rest_number = userPoint - totalPrice ;
 					var rest = Math.abs(rest_number);
 					restAmount = rest_number;
 					if(rest_number < 0){
-						$('.restPoint').html(rest + ' ' + 'ポイント').addClass('text-danger');
+						$('.restPoint').html(numberWithCommas(rest) + ' ' + 'ポイント').addClass('text-danger');
 						$('#pre-negative').removeClass('hide');
 					}else{
-						$('.restPoint').html(rest + ' ' + 'ポイント').removeClass('text-danger');
+						$('.restPoint').html(numberWithCommas(rest) + ' ' + 'ポイント').removeClass('text-danger');
 						$('#pre-positive').removeClass('hide');
 					}
 				}

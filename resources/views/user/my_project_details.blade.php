@@ -349,7 +349,7 @@ $done = round($done);
                                     </div>
                                     <div class="row preview_area">
                                         <div class="col-3 edit-title">目標金額</div>
-                                        <div class="col-9 edit-description"> {{App\Helpers\Number::number_format_short($budget)}} 円</div>
+                                        <div class="col-9 edit-description"> {{number_format($budget)}} 円</div>
                                     </div>
                                     <div class="row preview_area">
                                         <div class="col-3 edit-title">募集期間</div>
@@ -370,11 +370,11 @@ $done = round($done);
                                     @foreach ($project->reward->sortBy('amount') as $reward)
                                         <div class="row preview_area">
                                             <div class="col-3 edit-title">金額</div>
-                                            <div class="col-9 ">{{ $reward->amount }} 円</div>
+                                            <div class="col-9 ">{{ number_format($reward->amount) }} 円</div>
                                         </div>
                                         <div class="row preview_area">
                                             <div class="col-3 edit-title">Crofunポイント</div>
-                                            <div class="col-9 ">{{ $reward->is_crofun_point }}  ポイント </div>
+                                            <div class="col-9 ">{{ number_format($reward->is_crofun_point) }}  ポイント </div>
                                         </div>
                                         <div class="row preview_area">
                                             <div class="col-3 edit-title">リターン品名</div>

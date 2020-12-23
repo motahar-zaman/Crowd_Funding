@@ -440,13 +440,13 @@
 													</div>
 													<div class="row mt-3">
 														<div class="col-md-9">
-															<h5 class="message-button" style="font-size:21px; letter-spacing:2px;">{{$product->total_point}} ポイント</h5>
+															<h5 class="message-button" style="font-size:21px; letter-spacing:2px;">{{number_format($product->total_point)}} ポイント</h5>
 														</div>
 													</div>
 													<?php
 														$specification = '';
 														if($product->qty){
-															$specification .= $product->qty.'個';
+															$specification .= number_format($product->qty).'個';
 															if($product->color){
 																$specification .= '/';
 															}

@@ -207,7 +207,7 @@
 
 											</div>
 											<div class=" mb-2 col-md-12 des" style="font-size:15px;">
-												<span>{{ $reward->is_crofun_point }}  ポイント</span> <br>
+												<span>{{ number_format($reward->is_crofun_point) }}  ポイント</span> <br>
 												{{-- {{ $reward->is_crofun_point }} --}}
 											{!!nl2br(e($reward->other_description))!!}
 											</div>

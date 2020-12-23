@@ -503,7 +503,7 @@
 													</div>
 													<div class="row mt-3">
 														<div class="col-md-12">
-															<h5  class="title" style="font-size:21px; letter-spacing:2px;">{!!number_format($product->price)!!} ポイント</h5>
+															<h5  class="title" style="font-size:21px; letter-spacing:2px;">{{number_format($product->price)}} ポイント</h5>
 														</div>
 													</div>
 													<div class="row  mt-3">
@@ -611,7 +611,7 @@
 														</div>
 														<div class="row mt-2">
 															<div class="col-md-9">
-																<h5 class="title" style="font-size:21px; letter-spacing:2px;">{{$orderDetail->product->price}} ポイント</h5>
+																<h5 class="title" style="font-size:21px; letter-spacing:2px;">{{number_format($orderDetail->product->price)}} ポイント</h5>
 															</div>
 														</div>
 														<div class="row  mt-2">

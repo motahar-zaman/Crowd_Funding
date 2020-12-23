@@ -51,10 +51,7 @@ class DonateController extends Controller
 
 
         $data['projects'] = $projects;
-        
-
-    // dd($data);
-return view('user.my_donate_list', $data);
+        return view('user.my_donate_list', $data);
     }
 
     public function data()

@@ -4,7 +4,6 @@
 @stop
 @section('custom_css')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
-
 	<style type="text/css">
 		.wizard > .steps > ul > li {
 		    width: 20%;
@@ -22,10 +21,6 @@
 		.padding{
 			padding: 10px;
 		}
-
-
-
-
 		.dropbtn {
 			background-color: transparent;
 			color: #000000;
@@ -327,12 +322,12 @@
                                                 </td>
 												<td class="text-center">
 													<a href="{{ route('user-donate-details',['id' => $project->id])}}">
-														{{$project->investment->where('status', true)->sum('amount')}} 円
+														{{number_format($project->investment->where('status', true)->sum('amount'))}} 円
 													</a>
 												</td>
 												<td class="text-center">
 													<a href="{{ route('user-donate-details',['id' => $project->id])}}">
-														{{$project->investment->where('status', true)->sum('point')}} ポイント
+														{{number_format($project->investment->where('status', true)->sum('point'))}} ポイント
 													</a>
 												</td>
                                             </tr>

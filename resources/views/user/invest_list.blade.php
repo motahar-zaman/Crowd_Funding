@@ -474,7 +474,7 @@
 
 														<div class="row mt-1">
 															<div class="col-md-12">
-																<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">現在</span>{{$invested}} 円 </h5>
+																<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">現在</span>{{number_format($invested)}} 円 </h5>
 																<div class="progress">
 																	<div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{$done}}" aria-valuemin="0" aria-valuemax="100" style="width:{{$done}}%">
 																		&nbsp;{{$done}}%
@@ -484,7 +484,7 @@
 														</div>
 														<div class="row  mt-3">
 															<div class="col-md-12">
-																<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">目標</span> {{$budget}} 円</h5>
+																<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">目標</span> {{number_format($budget)}} 円</h5>
 															</div>
 														</div>
 														<div class="row mt-3">
@@ -529,8 +529,8 @@
 										<div class="col-md-12">
 											<p class="pt-3 invest-text" >
 												支援日 : {{date('Y/m/d', strtotime($investment_history->created_at))}}　
-												利用ポイント : {{ $investment_history->point }}ポイント <br>
-												選択したリターン : {{ $investment_history->amount }} コース ; {{$investment_history->reward[0]->is_other}}<br>
+												利用ポイント : {{number_format($investment_history->point) }}ポイント <br>
+												選択したリターン : {{ number_format($investment_history->amount) }} コース ; {{$investment_history->reward[0]->is_other}}<br>
 											</p>
 											<hr>
 										</div>

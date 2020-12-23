@@ -465,7 +465,7 @@
 														</div>
 														<div class="row  mt-3">
 															<div class="col-md-12">
-																<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">目標 </span>{{$budget}} 円</h5>
+																<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">目標 </span>{{number_format($budget)}} 円</h5>
 															</div>
 														</div>
 														<div class="row mt-2">

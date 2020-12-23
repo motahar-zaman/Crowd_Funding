@@ -606,6 +606,7 @@ class HomeController extends Controller
                 $additionals['size'] = $request->size;
             }
             Cart::add($request->id, $request->title, $request->quantity, $request->price, $additionals);
+            //dd($request->price, cart::subtotal());
         }
         return redirect()->route('front-product-details', ['id' => $request->id])->with('cart-success', 'カートに商品を追加しました。');
     }
