@@ -433,8 +433,9 @@
 														<div class="row ">
 															<div class="col-md-7 col-7">
 																<h6 class="category-name" style="font-size:11px; color:#bfc5cc;">
-																	<span style="color:#bfc5cc;"> 	<i class="fa fa-tag"></i>
-																		<a href="/?c={{ $p->project->category->id }} ">{{$p->project->category->name}}</a>
+																	<span class="category-name" style="color:#bfc5cc;">
+																		<i class="fa fa-tag"></i>
+																		<a href="{{route('front-project-list-bycat',['c'=> $p->project->category->id,'s' => 'd'])}}">{{$p->project->category->name}}</a>
 																	</span>
 																</h6>
 															</div>

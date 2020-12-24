@@ -129,7 +129,6 @@
 	</style>
 @stop
 
-
 @section('ecommerce')
 
 @stop
@@ -137,7 +136,6 @@
 @section('content')
 
 @include('user.layouts.tab')
-
 <div class="container">
 	<div class="row container_div">
 		<div class="col-md-12 col-12">
@@ -221,8 +219,12 @@
 												<div class="col-md-7 margin_top">
 													<div class="row ">
 														<div class="col-md-7">
-															<h6 class="category-name" style="color:#bfc5cc;"> <span style="color:#bfc5cc;"> 	<i class="fa fa-tag"></i> <a href="/?c={{ $project->category->id }} ">{{$project->category->name}}</a>
-															</span></h6>
+															<h6 class="category-name" style="color:#bfc5cc;">
+																<span style="color:#bfc5cc;">
+																	<i class="fa fa-tag"></i>
+																	<a href="{{route('front-project-list-bycat',['c'=> $project->category->id,'s' => 'd'])}}">{{$project->category->name}}</a>
+																</span>
+															</h6>
 															</div>
 														<div class="col-md-5">
 															@php
@@ -255,9 +257,11 @@
 														</div>
 													</div>
 													<div class="row mt-1">
-														<div class="col-md-12">
-															<h5 style="font-size:20px;" class="font-weight-bold fontTitle">{{$project->title}}</h5>
-														</div>
+														<a href="{{route("front-project-details",['id'=>$project->id])}}">
+															<div class="col-md-12">
+																<h5 style="font-size:20px;" class="font-weight-bold fontTitle">{{$project->title}}</h5>
+															</div>
+														</a>
 													</div>
 
 													<div class="row mt-2">

@@ -29,12 +29,10 @@
 			border: none;
 				border: 2px solid #999;
 		}
-
 		.dropdown {
 			position: relative;
 			display: inline-block;
 		}
-
 		.dropdown-content {
 			display: none;
 			position: absolute;
@@ -43,7 +41,6 @@
 			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 			z-index: 1;
 		}
-
 		.dropdown-content a {
 			color: black;
 			padding: 12px 16px;
@@ -90,8 +87,6 @@
 			color: white;
 			border: 1px solid #4CAF50;
 		}
-
-		/*ul.pagination li a:hover:not(.active) {background-color: #ddd;}*/
 		.pagination_area ul.pagination li a:hover {background-color: #999999;}
 
 		.pagination_area ul.pagination li.disabled {
@@ -124,151 +119,8 @@
 		.btn-dark{
 			background-color: #575757;
 		}
-		/* @media (max-width: 1370px) {
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 15px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-
-		@media (max-width: 1295px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 16px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 13px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		
-		@media (max-width: 1170px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 15px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 11px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 1080px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 12px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 8px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 930px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 11px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 7px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 870px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 10px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 7px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 870px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 9px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 6px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		} */
-
 	</style>
 @stop
-
-
 @section('ecommerce')
 
 @stop
@@ -276,13 +128,10 @@
 @section('content')
 
 @include('user.layouts.tab')
-
 <div class="container">
 	<div class="row container_div">
 		<div class="col-md-12 col-12">
 			<div class="mt20">
-				{{--@include('user.layouts.order-details-modal-1')
-				@include('user.layouts.order-details-modal-2')--}}
 				<div class="row">
 					<div class="col-md-3">
 						@include('user.layouts.profile')

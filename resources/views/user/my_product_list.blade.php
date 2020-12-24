@@ -358,11 +358,8 @@
 						@include('user.layouts.profile')
 					</div>
 					<div class="col-md-9 project-details-block-padding">
-
 					@include('user.layouts.notifications')
-
 						<div class="row">
-							
 							<div class="col-md-12 col-12 pt-3">
 								<h4 class="heading">掲載商品</h4>
 							</div>
@@ -382,7 +379,6 @@
 																<div class="frame">
 																	<span class="helper"></span>
 																	<img src="{{$product->image ?  asset('uploads/products/'.$product->image) : asset('uploads/projects/1615154785167836.jpeg')}}" style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
-																	{{-- <div class="project_status {{strtotime($product->end) > strtotime(date('Y-m-d H:i:s')) ? 'status_1' : 'status_2'}}"><span>{{strtotime($product->end) > strtotime(date('Y-m-d H:i:s')) ? '募集中' : '達成！'}}</span></div> --}}
 																</div>
 															</a>
 														</div>
@@ -416,17 +412,14 @@
 																	@endif
 																@endif
 															@endif
-															{{--@if ($fav == 0)
-																<a  href="{{ route('user-favourite-add-product', $product->id) }}" class="pull-right" style="font-size:14px;"><span style="color:#ed49b6;"> <i class="fa fa-heart"></i> </span>お気に入りに追加</a>
-															@else
-																<span class="pull-right" style="font-size:14px;"><span style="color:#555"> <i class="fa fa-heart-o"></i> </span>お気に入り </span>
-															@endif--}}
 														</div>
 													</div>
 													<div class="row mt-1">
-														<div class="col-md-12">
-															<h5 style="font-size:20px;" class="font-weight-bold">{{$product->title}}</h5>
-														</div>
+														<a href="{{route("front-product-details",['id'=>$product->id])}}">
+															<div class="col-md-12">
+																<h5 style="font-size:20px;" class="font-weight-bold">{{$product->title}}</h5>
+															</div>
+														</a>
 													</div>
 													<div class="row mt-3">
 														<div class="col-md-12">

@@ -391,7 +391,6 @@
 @section('content')
 
 @include('user.layouts.tab')
-
 <div class="container">
 	<div class="row container_div">
 		<div class="col-md-12 col-12">
@@ -459,7 +458,7 @@
 																<h6 class="category-name" style="color:#bfc5cc;">
 																	<span style="color:#bfc5cc;">
 																		<i class="fa fa-tag"></i>
-																		<a href="/?c={{ $investment->category->id }} ">{{$investment->category->name}}@if(!empty($investment->sub_category)) @endif</a>
+																		<a href="{{route('front-project-list-bycat',['c'=> $investment->category->id,'s' => 'd'])}}">{{$investment->category->name}}</a>
 																	</span>
 																</h6>
 															</div>

@@ -7,7 +7,7 @@
         {!! csrf_field() !!}
         <input type="hidden" name="to_id" value="" id="to_id">
         <div class="modal-header">
-          <h5 class="modal-title px-3 col-10"><span id=""></span> {{ isset($modal_title)?$modal_title:"プロジェクトの起案者へのメッセージ" }}</h5>
+          <h5 class="modal-title px-3 col-10"><span id=""></span> {{ isset($modal_title)?$modal_title:"商品登録者へのメッセージ" }}</h5>
           
             <button type="button" class="close col-2 text-right" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>

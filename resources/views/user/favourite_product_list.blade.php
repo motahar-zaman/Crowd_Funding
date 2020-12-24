@@ -543,7 +543,10 @@
 													<div class="col-md-7 margin_top p-md-0">
 														<div class="row ">
 															<div class="col-md-7 col-7">
-																<h6 class="category-name" style="color:#bfc5cc;"> <span style="color:#bfc5cc;"> <i class="fa fa-tag"></i> {{ $p->product->subCategory->category->name }}</span></h6>
+																<h6 class="category-name" style="color:#bfc5cc;">
+																	<i class="fa fa-tag"></i>
+																	<a href="{{route('front-product-list', ['c' => $p->product->subCategory->category->id])}}">{{ $p->product->subCategory->category->name }}</a>
+																</h6>
 															</div>
 															<div class="col-md-5 col-5">
 																<a href="{{route('user-favourite-remove-product', ['id' => $p->product->id])}}" class="pull-right favfont" style="font-size:14px;">

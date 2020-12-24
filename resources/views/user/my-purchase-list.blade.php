@@ -379,166 +379,142 @@
 								<h4 class="heading">購入済み商品</h4>
 							</div>
 						</div>
-						     @if($products)
-								@foreach ($products as $product)
-									<div class="row inner horizontal mb-5">
-										<div class="col-md-12 col-12">
-											<div class="row inner_inner">
-												<div class="col-md-5">
-													<div class="row">
-														<div class="col-md-12 project-item">
-															<a href="{{route("front-product-details",['id'=>$product->product_id])}}">
-																<div class="frame">
-																	<span class="helper"></span>
-																	<img src="{{$product->product->image ?  asset('uploads/products/'.$product->product->image) : ''}}" style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
-																</div>
-															</a>
-														</div>
+						 @if($products)
+							@foreach ($products as $product)
+								<div class="row inner horizontal mb-5">
+									<div class="col-md-12 col-12">
+										<div class="row inner_inner">
+											<div class="col-md-5">
+												<div class="row">
+													<div class="col-md-12 project-item">
+														<a href="{{route("front-product-details",['id'=>$product->product_id])}}">
+															<div class="frame">
+																<span class="helper"></span>
+																<img src="{{$product->product->image ?  asset('uploads/products/'.$product->product->image) : ''}}" style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
+															</div>
+														</a>
 													</div>
-													<br>
 												</div>
-												<div class="col-md-7">
-													<div class="row ">
-														<div class="col-md-7 category_favourite">
-															<h6 class="category-name" style="color:#bfc5cc;"> <span style="color:#bfc5cc;"> <i class="fa fa-tag"></i> <span> {{$product->product->subCategory->category->name}}</span>  
-															</span></h6>
-														</div>
-														<div class="col-md-5 category_favourite">
-														{{--@php
-																$fav = 0;
-															@endphp
-															@foreach ($product->product->favourite as $f)
-																@if ($f->user_id == Auth::user()->id)
-																	@php
-																		$fav = 1;
-																	@endphp
-																@endif
-															@endforeach
-															@if(Auth::check())
-																@if($product->product->user_id==Auth::user()->id)
-																	<div class="col-md-4 col-sm-6 category_favourite"></div>
-																@else
-																	@if ($fav == 0)
-																		<a href="{{ route('user-favourite-add-product',$product->product_id) }}" class="pull-right favfont" style="font-size:14px;"><span style="color:#555;"> <i class="fa fa-heart-o"></i> </span>お気に入りに追加</a>
-																	@else
-																		<a href="{{ route('user-favourite-remove-product', $product->product_id) }}" class="pull-right favfont" style="font-size:14px;"><span style="color:#ed49b6"> <i class="fa fa-heart"></i> </span>お気に入り</a>
-																	@endif
-																@endif
-															@endif
-															@if ($fav == 0)
-																<a  href="{{ route('user-favourite-add-product', $product->product_id) }}" class="pull-right" style="font-size:14px;"><span style="color:#ed49b6;"> <i class="fa fa-heart"></i> </span>お気に入りに追加 </a>
-															@else
-																<span class="pull-right" style="font-size:14px;"><span style="color:#555"> <i class="fa fa-heart-o"></i> </span>お気に入り</span>
-															@endif--}}
-														</div>
-
+												<br>
+											</div>
+											<div class="col-md-7">
+												<div class="row ">
+													<div class="col-md-7 category_favourite">
+														<h6 class="category-name" style="color:#bfc5cc;">
+															<i class="fa fa-tag"></i>
+															<a href="{{route('front-product-list', ['c' => $product->product->subCategory->category->id])}}">{{$product->product->subCategory->category->name}}</a>
+														</h6>
 													</div>
-													<div class="row mt-1">
+													<div class="col-md-5 category_favourite">
+													</div>
+												</div>
+												<div class="row mt-1">
+													<a href="{{route("front-product-details",['id'=>$product->product->id])}}">
 														<div class="col-md-12">
 															<h5 class="title"  style="font-size:20px;" class="font-weight-bold">{{$product->product->title}}</h5>
 														</div>
-													</div>
-													<div class="row mt-3">
-														<div class="col-md-9">
-															<h5 class="message-button" style="font-size:21px; letter-spacing:2px;">{{number_format($product->total_point)}} ポイント</h5>
-														</div>
-													</div>
-													<?php
-														$specification = '';
-														if($product->qty){
-															$specification .= number_format($product->qty).'個';
-															if($product->color){
-																$specification .= '/';
-															}
-														}
-														if($product->color){
-															$specification .= $product->color;
-															if($product->size){
-																$specification .= '/';
-															}
-														}
-														if($product->size){
-															$specification .= $product->size;
-														}
-
-													?>
-													<div class="row  mt-2">
-														<div class="col-md-9">
-															<h5 class="message-button" style="font-size:15px; letter-spacing:2px;">{{$specification}}</h5>
-														</div>
-													</div>
-													<div class="row  mt-2">
-														<div class="col-md-9">
-														<h5 class="message-button" style="font-size:15px; letter-spacing:2px;">購入日：{{$product->created_at}}</h5>
-														</div>
-													</div>
-													<div class="row  mt-2">
-														<div class="col-md-9">
-														<h5 class="message-button" style="font-size:13px; letter-spacing:2px;">商品提供者：{{$product->product->user->first_name.' '.$product->product->user->last_name}}</h5>
-														</div>
-													</div>
-													<div class="row mt-2">
-														@php $my_rating = 0; @endphp
-														@foreach ($product->product->ratings as $rating)
-															@if ($rating->user_id == Auth::user()->id && $product->order_id == $rating->order_id)
-																@php
-																	$my_rating = $rating->user_rating
-																@endphp
-															@endif
-														@endforeach
-														<div class="col-md-6 col-6 pr-1 pr-md-1">
-															<button class="p-2 text-white message-button btn btn-md btn-block w6-14 msg_send_btn btn-default"  data-user_id="{{ $product->product->user_id }}" data-project_username="{{ $product->order->user->first_name.' '.$product->order->user->last_name }}" style="cursor:pointer; color:#fff;">
-															 	<span style="color:#fff !important;"> <i class="fa fa-envelope"></i> </span>メッセージを送る
-															</button>
-														</div>
-														@if($my_rating == 0)
-															<div class="col-md-6 pl-md-1">
-																<button type="button" class="p-2 editbtn message-button text-white btn btn-md btn-block w6-14 btn-warning rating_btn" data-my-rate="{{ $my_rating }}" data-order-id = "{{ $product->order_id }}" data-product-id = "{{ $product->product_id }}" data-toggle="modal" data-target="#star">★★★  レビューを書く</button>
-															</div>
-														@endif
+													</a>
+												</div>
+												<div class="row mt-3">
+													<div class="col-md-9">
+														<h5 class="message-button" style="font-size:21px; letter-spacing:2px;">{{number_format($product->total_point)}} ポイント</h5>
 													</div>
 												</div>
-												<div class="margin_top">
-													<div class="col-md-12 status_font">
-														@if($product->status == 1)
-															対応状況 : 新規受注
-														@elseif($product->status == 2)
-															対応状況 : 配送準備中&nbsp;&nbsp;
-															伝票番号:
-															{{$product->order->document_number}}&nbsp;&nbsp;
-															配送会社:
-															{{$product->order->shipping_company}}
-														@elseif($product->status == 3)
-															対応状況 : 配送済み&nbsp;&nbsp;
-															伝票番号:
-															{{$product->order->document_number}}&nbsp;&nbsp;
-															配送会社:
-															{{$product->order->shipping_company}}
-														@elseif($product->status == 4)
-															対応状況 : キャンセル&nbsp;&nbsp;
-															{{--{{$product->order->cancel_content}}--}}
-														@endif
+												<?php
+													$specification = '';
+													if($product->qty){
+														$specification .= number_format($product->qty).'個';
+														if($product->color){
+															$specification .= '/';
+														}
+													}
+													if($product->color){
+														$specification .= $product->color;
+														if($product->size){
+															$specification .= '/';
+														}
+													}
+													if($product->size){
+														$specification .= $product->size;
+													}
+
+												?>
+												<div class="row  mt-2">
+													<div class="col-md-9">
+														<h5 class="message-button" style="font-size:15px; letter-spacing:2px;">{{$specification}}</h5>
 													</div>
+												</div>
+												<div class="row  mt-2">
+													<div class="col-md-9">
+													<h5 class="message-button" style="font-size:15px; letter-spacing:2px;">購入日：{{$product->created_at}}</h5>
+													</div>
+												</div>
+												<div class="row  mt-2">
+													<div class="col-md-9">
+													<h5 class="message-button" style="font-size:13px; letter-spacing:2px;">商品提供者：{{$product->product->user->first_name.' '.$product->product->user->last_name}}</h5>
+													</div>
+												</div>
+												<div class="row mt-2">
+													@php $my_rating = 0; @endphp
+													@foreach ($product->product->ratings as $rating)
+														@if ($rating->user_id == Auth::user()->id && $product->order_id == $rating->order_id)
+															@php
+																$my_rating = $rating->user_rating
+															@endphp
+														@endif
+													@endforeach
+													<div class="col-md-6 col-6 pr-1 pr-md-1">
+														<button class="p-2 text-white message-button btn btn-md btn-block w6-14 msg_send_btn btn-default"  data-user_id="{{ $product->product->user_id }}" data-project_username="{{ $product->order->user->first_name.' '.$product->order->user->last_name }}" style="cursor:pointer; color:#fff;">
+															<span style="color:#fff !important;"> <i class="fa fa-envelope"></i> </span>メッセージを送る
+														</button>
+													</div>
+													@if($my_rating == 0)
+														<div class="col-md-6 pl-md-1">
+															<button type="button" class="p-2 editbtn message-button text-white btn btn-md btn-block w6-14 btn-warning rating_btn" data-my-rate="{{ $my_rating }}" data-order-id = "{{ $product->order_id }}" data-product-id = "{{ $product->product_id }}" data-toggle="modal" data-target="#star">★★★  レビューを書く</button>
+														</div>
+													@endif
+												</div>
+											</div>
+											<div class="margin_top">
+												<div class="col-md-12 status_font">
+													@if($product->status == 1)
+														対応状況 : 新規受注
+													@elseif($product->status == 2)
+														対応状況 : 配送準備中&nbsp;&nbsp;
+														伝票番号:
+														{{$product->order->document_number}}&nbsp;&nbsp;
+														配送会社:
+														{{$product->order->shipping_company}}
+													@elseif($product->status == 3)
+														対応状況 : 配送済み&nbsp;&nbsp;
+														伝票番号:
+														{{$product->order->document_number}}&nbsp;&nbsp;
+														配送会社:
+														{{$product->order->shipping_company}}
+													@elseif($product->status == 4)
+														対応状況 : キャンセル&nbsp;&nbsp;
+													@endif
 												</div>
 											</div>
 										</div>
 									</div>
-								@endforeach
-							@endif
+								</div>
+							@endforeach
+						@endif
 					</div>
-						@php
+					@php
 						$error = 0;
 						if (empty($user->first_name) || empty($user->last_name) || empty($user->profile->phonetic) ||  empty($user->profile->phonetic2) ||  empty($user->profile->postal_code) || empty($user->profile->prefectures) || empty($user->profile->phone_no) || empty($user->profile->municipility)) {
 							$error = 1;
 						}
-						@endphp
-						<input type="hidden" name="getError" id="getError" value="{{ $error }}">
+					@endphp
+					<input type="hidden" name="getError" id="getError" value="{{ $error }}">
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-{{-- @include('user.layouts.message_modal') --}}
+
 @include('user.layouts.message_modal')
 @include('user.layouts.star-rating')
 
@@ -546,7 +522,6 @@
 @stop
 
 @section('custom_js')
-
 	<script type="text/javascript">
 			$(document).ready(function(){
 				$('.msg_send_btn').on('click', function(e){
@@ -563,26 +538,13 @@
 	</script>
 
 	<script type="text/javascript">
-	    // var error = document.getElementById('getError').value;
-			var error = $('#getError').val();
-
-			// error = 1;
-				$(window).on('load',function(){
-					console.log('error = ' + error);
-						if (error == 1) {
-							$('#myModal').modal('show');
-						}
-				});
-
-
-
-
-			// $('#myModal').modal({
-    	// 	backdrop: 'static',
-    	// 	keyboard: false  // to prevent closing with Esc button (if you want this too)
-			// });
+		var error = $('#getError').val();
+		$(window).on('load',function(){
+			if (error == 1) {
+				$('#myModal').modal('show');
+			}
+		});
 	</script>
-
 
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -627,7 +589,6 @@
 					$('#four').removeClass('active');
 					$('#five').addClass('active');
 				}
-
 			});
 
 			$('.rating').on('click', function(){
@@ -668,11 +629,9 @@
 					$('#four').removeClass('active');
 					$('#five').addClass('active');
 				}
-
 			});
 		});
 	</script>
-
 @stop
 
 
