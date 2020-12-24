@@ -142,7 +142,6 @@
 	</style>
 @stop
 
-
 @section('ecommerce')
 
 @stop
@@ -183,10 +182,6 @@
 										<th class="text-center">応援者情報</th>
 									</tr>
 								</thead>
-								<?php
-									// echo $doanteDetails[0]->rewardname->reward->is_other;
-									// exit;
-								?>
 								<tbody>
 									@if($doanteDetails)
                                         @foreach($doanteDetails as $project)
@@ -195,10 +190,10 @@
                                                     {{str_limit($project->created_at, $limit = 11, $end = '')}}
 												</td>
 												<td class="text-center my-auto" style="width:10%"> 
-                                                    {{ $project->amount }} 円
+                                                    {{ number_format($project->amount) }} 円
                                                 </td>
 												<td class="text-center my-auto" style="width:45%">{{str_limit($project->rewardname->reward->is_other, $limit = 35, $end = '...')}}</td>
-												<td class="text-center my-auto" style="width:15%">{{$project->point}} ポイント</td>
+												<td class="text-center my-auto" style="width:15%">{{number_format($project->point)}} ポイント</td>
 												<td class="text-center" style="width:15%">
 													<div 
 														class="user_address_details" 
@@ -232,13 +227,9 @@
 @include('user.layouts.message_modal', ['modal_title' => ' 応援者へのメッセージ'])
 @include('user.layouts.user_address')
 
-
-
 @stop
 
 @section('custom_js')
-
-
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$('.msg_send_btn').on('click', function(e){
@@ -253,8 +244,7 @@
 			});
 		});
 	</script>
-	
-	
+
 	<script type="text/javascript">
 			$(document).ready(function(){
 				$('.user_address_details').on('click', function(e){
@@ -263,7 +253,6 @@
 					var prefecture = $(this).attr('data-user_shipping_prefecture');
 					var municipility = $(this).attr('data-user_shipping_municipility');
 					var address = $(this).attr('data-user_shipping_address');
-
 
 					$('#contact_number').val(contact_number);
 					$('#postal_code').val(postal_code);
@@ -276,5 +265,4 @@
 				});
 			});
 	</script>
-
 @stop
