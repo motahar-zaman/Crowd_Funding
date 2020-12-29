@@ -281,6 +281,7 @@ class ProjectController extends Controller
         ->rawColumns(['title', 'created_at', 'created_by', 'action', 'status','total_point','total_invested_amount','total_invested'])
         ->make(true);
     }
+
     public function projectActiveList(Request $request)
     {
     	$data['title'] = "プロジェクト一覧";
@@ -546,12 +547,14 @@ class ProjectController extends Controller
         $data['details']=ProjectDetails::where('project_id', $request->id)->with('project')->get();
         return view('admin.project.details', $data);
     }
+
     public function donate(Request $request)
     {
         $data['title'] = 'Project Donation List';
         $data['id'] = $request->id;
         return view('admin.project.donate_details', $data);
     }
+
     public function dataDonate(Request $request)
     {
         $data = Investment::where('project_id', $request->id)->whereHas('project', function($q){
@@ -591,7 +594,4 @@ class ProjectController extends Controller
         ->rawColumns([ 'created_at','amount','return_name','crofun_points','supporter_name'])
         ->make(true);
     }
-
-
-    
 }

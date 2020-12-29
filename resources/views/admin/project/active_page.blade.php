@@ -17,8 +17,6 @@
 
 @section('content')
 	<div class="row">
-		
-
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header">
@@ -46,7 +44,7 @@
 			</div>
 		</div>
 	</div>
-@include('admin.project.message_modal', ['modal_title' => ' 応援者へのメッセージ'])
+@include('admin.project.message_modal', ['modal_title' => ' 起案者へのメッセージ'])
 @stop
 
 @section('custom_js')
