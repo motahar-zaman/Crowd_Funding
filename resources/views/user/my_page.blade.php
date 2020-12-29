@@ -161,393 +161,520 @@
 							</div>
 						</div>
 						@if($projects)
-						@foreach ($projects as $project)
-							<?php
-								$budget = $project->budget;
-								$invested = $project->investment()->where('investments.status', true)->sum('investments.amount');
-								$done = $invested*100/$budget;
-								$done = round($done);
-							?>
+							@foreach ($projects as $project)
+								<?php
+									$budget = $project->budget;
+									$invested = $project->investment()->where('investments.status', true)->sum('investments.amount');
+									$done = $invested*100/$budget;
+									$done = round($done);
+								?>
+								<?php
+									$start = strtotime("now");
+									$end = strtotime(date('Y-m-d 23:59:59', strtotime($project->end)));
+									$days_between = ceil(abs($end - $start) / 86400);
+									$hours_between = round((strtotime(date('Y-m-d 23:59:59', strtotime($project->end))) - strtotime("now"))/3600);
+									$days_between = $hours_between <= 24?$hours_between:$days_between;
+									$days_between = $days_between<0?0:$days_between;
+								?>
 
-							<?php
-								$start = strtotime("now");
-								$end = strtotime(date('Y-m-d 23:59:59', strtotime($project->end)));
-								$days_between = ceil(abs($end - $start) / 86400);
-								$hours_between = round((strtotime(date('Y-m-d 23:59:59', strtotime($project->end))) - strtotime("now"))/3600);
-								$days_between = $hours_between <= 24?$hours_between:$days_between;
-								$days_between = $days_between<0?0:$days_between;
-							?>
+								<div class="row horizontal">
+									<div class="col-md-12 col-12">
+										<div class="row ">
+											<div class="col-md-12 col-12">
+												<div class="row ">
+													<div class="col-md-5">
+														<div class="row">
+															<div class="col-md-12 project-item">
+																<a href="{{route("front-project-details",['id'=>$project->id])}}">
+																	<div class="frame">
+																		<span class="helper"></span>
+																		@php
+																		   $gapTxt = "";
 
-							<div class="row horizontal">
-								<div class="col-md-12 col-12">
-									<div class="row ">
-										<div class="col-md-12 col-12">
-											<div class="row ">
-												<div class="col-md-5">
-													<div class="row">
-														<div class="col-md-12 project-item">
-															<a href="{{route("front-project-details",['id'=>$project->id])}}">
-																<div class="frame">
-																	<span class="helper"></span>
-																	@php
-																	   $gapTxt = "";
+																		   if(mb_strlen($project->title) > 34){
+																			$cssStyle = 'max-height:245px;height:243px; margin-left:-5px';
 
-																	   if(mb_strlen($project->title) > 34){
-																		$cssStyle = 'max-height:245px;height:243px; margin-left:-5px';
-
-																	   }else{
-																		$cssStyle = 'max-height:245px;height:238px; margin-left:-5px';
-																		 for($i=1;$i<= 34-mb_strlen($project->title); $i++ ) {
-																			$gapTxt .= "&nbsp;";
-																		 }
-																	   }
-																	@endphp
-																	<img src="{{$project->featured_image ?  asset('uploads/projects/'.$project->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}"  style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
-																</div>
-																<?php
-																	if ($days_between <= 0) {
-																		$proStatus = 'status_3';
-																		$proMsg = '終了';
-																	} else {
-																		if ($done >= 100) {
-																			$proStatus = 'status_2';
-																			$proMsg = '達成';
-																		} else{
-																			if ($project->starting_status == 1) {
-																				$proStatus = 'status_1';
-																				$proMsg = '募集中';
-																			} else {
-																				$proStatus = 'status_1';
-																				$proMsg = '募集前';
+																		   }else{
+																			$cssStyle = 'max-height:245px;height:238px; margin-left:-5px';
+																			 for($i=1;$i<= 34-mb_strlen($project->title); $i++ ) {
+																				$gapTxt .= "&nbsp;";
+																			 }
+																		   }
+																		@endphp
+																		<img src="{{$project->featured_image ?  asset('uploads/projects/'.$project->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}"  style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
+																	</div>
+																	<?php
+																		if ($days_between <= 0) {
+																			$proStatus = 'status_3';
+																			$proMsg = '終了';
+																		} else {
+																			if ($done >= 100) {
+																				$proStatus = 'status_2';
+																				$proMsg = '達成';
+																			} else{
+																				if ($project->starting_status == 1) {
+																					$proStatus = 'status_1';
+																					$proMsg = '募集中';
+																				} else {
+																					$proStatus = 'status_1';
+																					$proMsg = '募集前';
+																				}
 																			}
 																		}
-																	}
-																?>
-																<div class="project_status {{$proStatus}}">
-																	<span>{{  $proMsg }}</span>
+																	?>
+																	<div class="project_status {{$proStatus}}">
+																		<span>{{  $proMsg }}</span>
+																	</div>
+																</a>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-7 margin_top">
+														<div class="row">
+															<div class="col-md-7 col-7">
+																<h6 class="category-name" style="color:#bfc5cc;">
+																	<span style="color:#bfc5cc;">
+																		<i class="fa fa-tag"></i>
+																		<a href="{{route('front-project-list-bycat',['c'=> $project->category->id,'s' => 'd'])}}">{{$project->category->name}}</a>
+																	</span>
+																</h6>
+															</div>
+														</div>
+														<div class="row mt-1">
+															<a href="{{route("front-project-details",['id'=>$project->id])}}">
+																<div class="col-md-12">
+																	<h5 style="font-size:20px;" class="font-weight-bold fontTitle">{!!$project->title!!}{!! $gapTxt !!}</h5>
 																</div>
 															</a>
 														</div>
-													</div>
-												</div>
-												<div class="col-md-7 margin_top">
-													<div class="row">
-														<div class="col-md-7 col-7">
-															<h6 class="category-name" style="color:#bfc5cc;">
-																<span style="color:#bfc5cc;">
-																	<i class="fa fa-tag"></i>
-																	<a href="{{route('front-project-list-bycat',['c'=> $project->category->id,'s' => 'd'])}}">{{$project->category->name}}</a>
-																</span>
-															</h6>
-														</div>
-													</div>
-													<div class="row mt-1">
-														<a href="{{route("front-project-details",['id'=>$project->id])}}">
+														<div class="row mt-2">
 															<div class="col-md-12">
-																<h5 style="font-size:20px;" class="font-weight-bold fontTitle">{!!$project->title!!}{!! $gapTxt !!}</h5>
-															</div>
-														</a>
-													</div>
-													<div class="row mt-2">
-														<div class="col-md-12">
-															<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">現在 </span> {!!number_format($invested)!!} 円 </h5>
-															<div class="progress">
-																<div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{$done}}" aria-valuemin="0" aria-valuemax="100" style="width:{{$done}}%">
-																	&nbsp;{{$done}}%
+																<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">現在 </span> {!!number_format($invested)!!} 円 </h5>
+																<div class="progress">
+																	<div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{$done}}" aria-valuemin="0" aria-valuemax="100" style="width:{{$done}}%">
+																		&nbsp;{{$done}}%
+																	</div>
 																</div>
 															</div>
 														</div>
-													</div>
-													<div class="row  mt-3">
-														<div class="col-md-12">
-															<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">目標</span> {!!number_format($budget)!!} 円</h5>
-														</div>
-													</div>
-													<div class="row mt-2">
-													<!-- <div class="row mt-2"> -->
-														<div class="col-md-offset-2 mr-0 div-radius ml-3 box-height" style="height:80px; width:80px ">
-															<p class="text-center pt-2"><span class="pt-2 text-center" style="font-size:11px;">応援者</span>
-																<br><span  style="font-family: w6;font-size: 21px;" class="p-0 m-0 text-center font investment-amount-number-text">{{ $project->investment()->where('investments.status', true)->count() }}人</span>
-															</p>
-														</div>
-														@php
-															$start = strtotime("now");
-															$end = strtotime(date('Y-m-d 23:59:59', strtotime($project->end)));
-															$days_between = ceil(abs($end - $start) / 86400);
-															$hours_between = round((strtotime(date('Y-m-d 23:59:59', strtotime($project->end))) - strtotime("now"))/3600);
-															$days_between = $hours_between <= 24?$hours_between:$days_between;
-														@endphp
-
-
-														<div class="col-md-offset-2 div-radius ml-2 box-height" style="height:80px; width:80px ">
-															@if($end< strtotime("now"))
-																<div class="text-center my-auto" style="font-family:w3;padding:35% 0 30% 0">終了</div>
-															@else
-																<p class="text-center pt-2"><span class="pt-2 text-center" style="font-family: w3;font-size:11px;">残り日数</span>
-																<br>
-																<span class="p-0 m-0 text-center font" style="font-family: w6;font-size:21px;">{{ $days_between }}{{ $hours_between <= 24? '時間':'日'}}</span>
-																</p>
-															@endif
-														</div>
-														<div class=" offset-0  edit-button ml-2">
-															<div class="bg-dark div-radius1">
-																<a href="{{ route('user-project-details', $project->id) }}" class="p-2 fontSize text-white btn btn-md btn-block font-weight-bold see-details-link-btn my_project_list_see_more_button">詳細をみる</a>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						@endforeach
-					@endif
-					@if(($user->profile->phonetic) == null ||($user->profile->phonetic2) == null ||($user->profile->phone_no) == null||($user->profile->postal_code) == null||($user->profile->prefectures) == null||($user->profile->municipility) == null ||($user->first_name) == null ||($user->last_name) == null )
-						<div class="row" style="margin-top: 30px;margin-bottom: 30px;">
-							<div class="col-12 text-center">
-								<a href="" class="btn btn-primary">プロジェクトを起案申請する</a>
-							</div>
-						</div>
-					@else
-						<div class="row" style="margin-top: 30px;margin-bottom: 30px;">
-							<div class="col-12 text-center">
-								<a href="{{ route('user-project-add') }}" class="btn btn-primary">プロジェクトを起案申請する</a>
-							</div>
-						</div>
-					@endif
-					<div class="row mb-5">
-						<div class="col-md-12 col-12">
-							<div class="row inner">
-								<div class="col-md-12 col-12 pt-3">
-									<h4 class="heading">現在支援中のプロジェクト</h4>
-								</div>
-							</div>
-						</div>
-					</div>
-					@if($invested_projects)
-						@foreach ($invested_projects as $invested_project)
-							<?php
-								$budget = $invested_project->budget;
-								$invested = $invested_project->investment()->where('investments.status', 1)->sum('investments.amount');
-								$done = $invested*100/$budget;
-								$done = round($done);
-							?>
-							<?php
-								$start = strtotime("now");
-								$end = strtotime(date('Y-m-d 23:59:59', strtotime($invested_project->end)));
-								$days_between = ceil(abs($end - $start) / 86400);
-								$hours_between = round((strtotime(date('Y-m-d 23:59:59', strtotime($invested_project->end))) - strtotime("now"))/3600);
-								$days_between = $hours_between <= 24?$hours_between:$days_between;
-								$days_between = $days_between<0?0:$days_between;
-							?>
-							<div class="row mb-5">
-								<div class="col-md-12 col-12">
-									<div class="row inner">
-										<div class="col-md-12 col-12">
-											<div class="row inner_inner">
-												<div class="col-md-5">
-													<div class="row">
-														<div class="col-md-12 project-item">
-															<a href="{{route("front-project-details",['id'=>$invested_project->id])}}">
-																<div class="frame">
-																	<img src="{{$invested_project->featured_image ?  asset('uploads/projects/'.$invested_project->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}"   style="max-height:245px;height:243px;margin-left:-5px;" alt="" class="img-fluid imageResize">
-																</div>
-																<div class="project_status {{$days_between <= 0 ? 'status_3' : ($done >= 100?'status_2':'status_1')}}">
-																	<span>{{ $days_between <= 0 ? '終了' : ($done >= 100?'達成':'募集中')}}</span>
-																</div>
-															</a>
-														</div>
-													</div>
-												</div>
-												<div class="col-md-7 margin_top">
-													<div class="row">
-														<div class="col-md-7 col-7">
-															<h6 style="font-family: w3;font-size:11px; color:#bfc5cc;">
-																<span class="category-name" style="color:#bfc5cc;">
-																	<i class="fa fa-tag"></i>
-																	<a href="{{route('front-project-list-bycat',['c'=> $invested_project->category->id,'s' => 'd'])}}">{{$invested_project->category->name}}</a>
-																</span>
-															</h6>
-														</div>
-													</div>
-													<div class="row mt-1">
-														<a href="{{route("front-project-details",['id'=>$invested_project->id])}}">
+														<div class="row  mt-3">
 															<div class="col-md-12">
-																<h5 style="font-size:18px;" class="font-weight-bold ">{{$invested_project->title}}</h5>
-															</div>
-														</a>
-													</div>
-
-													<div class="row mt-2">
-														<div class="col-md-9">
-															<h5 style="font-size:17px; letter-spacing:2px;"><span class="fontSize">現在</span> {!!number_format($invested)!!} 円 </h5>
-															<div class="progress">
-																<div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{$done}}" aria-valuemin="0" aria-valuemax="100" style="width:{{$done}}%">
-																	&nbsp;{{$done}}%
-																</div>
+																<h5 class="priceTitle" style="font-size:17px; letter-spacing:2px;"><span class="fontSize">目標</span> {!!number_format($budget)!!} 円</h5>
 															</div>
 														</div>
-													</div>
-													<div class="row  mt-2">
-														<div class="col-md-9">
-															<h5 style="font-size:17px; letter-spacing:2px;"><span class="fontSize">目標 </span> {!!number_format($budget)!!} 円</h5>
-														</div>
-													</div>
-													<div class="row mt-2">
-														<div class="col-md-offset-2 mr-0 div-radius ml-3  box-height-invest"  style="height:80px; width:80px ;">
-																<p class="text-center pt-2"><span class="pt-2 text-center" style="font-family:w3;font-size:11px;">応援者</span>
-																<br><span class="p-0 m-0 text-center font" style="font-family:w6;font-size:12px;">{{ $invested_project->investment()->where('investments.status', 1)->count() }}人</span><p/>
-														</div>
-														@php
-															$start = strtotime("now");
-															$end = strtotime(date('Y-m-d 23:59:59', strtotime($invested_project->end)));
-															$days_between = ceil(abs($end - $start) / 86400);
-															$hours_between = round((strtotime(date('Y-m-d 23:59:59', strtotime($invested_project->end))) - strtotime("now"))/3600);
-															$days_between = $hours_between <= 24?$hours_between:$days_between;
-														@endphp
-														<div class="col-md-offset-2 div-radius ml-2   box-height-invest" style="height:80px; width:80px ;">
-															@if($end< strtotime("now"))
-																<p class="text-center pt-3 p-2"><span class=" font p-0 m-0 text-center" style="font-family: w3;">終了</span></p>
-															@else
-																<p class="text-center pt-2"><span class=" pt-2 text-center" style="font-family:w3;font-size:11px;">残り日数</span>
-																<br>
-																<span class="p-0 m-0 text-center font" style="font-family:w6;font-size:12px;">{{ $days_between }} {{$hours_between <= 24? '時間':'日'}}  </span>
+														<div class="row mt-2">
+														<!-- <div class="row mt-2"> -->
+															<div class="col-md-offset-2 mr-0 div-radius ml-3 box-height" style="height:80px; width:80px ">
+																<p class="text-center pt-2"><span class="pt-2 text-center" style="font-size:11px;">応援者</span>
+																	<br><span  style="font-family: w6;font-size: 21px;" class="p-0 m-0 text-center font investment-amount-number-text">{{ $project->investment()->where('investments.status', true)->count() }}人</span>
 																</p>
-															@endif
-														</div>
-														<div class="edit-button ml-2 offset-0">
-															<p style="font-size:15px;" class="user-title">起案者：{{$invested_project->user->first_name}} {{$invested_project->user->last_name}}</p>
-															<div class="bg-dark div-radius1">
-																<button class="p-2 text-white message-button btn btn-md btn-block w6-14 msg_send_btn btn-default" data-user_id="{{ $invested_project->user->id }}" data-project_username="{{ $invested_project->user->first_name.' '.$invested_project->user->last_name }}" style="cursor:pointer; color:#fff; font-family: w6; font-size: 18px;">
-																 <span style="color:#fff !important;"> <i class="fa fa-envelope"></i> </span>メッセージを送る</button>
 															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						@endforeach
-					@endif
-					<div class="row">
-						<div class="col-md-12 col-12">
-							<div class="row inner">
-								<div class="col-md-12 col-12 pt-3">
-									<h4 class="heading">掲載商品</h4>
-								</div>
-							</div>
-						</div>
-					</div>
-					@if($products)
-						@foreach ($products as $product)
-							<div class="row mb-5">
-								<div class="col-md-12 col-12">
-									<div class="row inner">
-										<div class="col-md-12 col-12">
-											<div class="row inner_inner">
-												<div class="col-md-5">
-													<div class="row">
-														<div class="col-md-12 project-item">
-															<a href="{{route("front-product-details",['id'=>$product->id])}}">
-																<div class="frame">
-																	<span class="helper"></span>
-																	@php
-																	   if(mb_strlen($project->title) <= 34){
-																			$cssStyle = 'max-height:245px;height:238px; margin-left:-5px';
-																	   }else{
-																			$cssStyle = 'max-height:245px;height:243px; margin-left:-5px';
-																	   }
-																	@endphp
-																	<img src="{{$product->image ?  asset('uploads/products/'.$product->image) : asset('uploads/projects/1615154785167836.jpeg')}}"   style="{{ $cssStyle }}" alt="" class="img-fluid imageResize">
-																</div>
-															</a>
-														</div>
-													</div>
-												</div>
-												<div class="col-md-7 margin_top">
-													<div class="row">
-														<div class="col-md-12 col-12 category-name">
-															<h6 class="comp_font" style="color:#bfc5cc;">
-																<i class="fa fa-tag"></i>
-																<a href="{{route('front-product-list', ['c' => $product->subCategory->category->id])}}">{{ $product->subCategory->category->name }}</a>
-															</h6>
-														</div>
-														<div class="col-md-0 col-0">
 															@php
-																$fav = 0;
+																$start = strtotime("now");
+																$end = strtotime(date('Y-m-d 23:59:59', strtotime($project->end)));
+																$days_between = ceil(abs($end - $start) / 86400);
+																$hours_between = round((strtotime(date('Y-m-d 23:59:59', strtotime($project->end))) - strtotime("now"))/3600);
+																$days_between = $hours_between <= 24?$hours_between:$days_between;
 															@endphp
-															@foreach ($product->favourite as $f)
-																@if ($f->user_id == Auth::user()->id)
+
+
+															<div class="col-md-offset-2 div-radius ml-2 box-height" style="height:80px; width:80px ">
+																@if($end< strtotime("now"))
+																	<div class="text-center my-auto" style="font-family:w3;padding:35% 0 30% 0">終了</div>
+																@else
+																	<p class="text-center pt-2"><span class="pt-2 text-center" style="font-family: w3;font-size:11px;">残り日数</span>
+																	<br>
+																	<span class="p-0 m-0 text-center font" style="font-family: w6;font-size:21px;">{{ $days_between }}{{ $hours_between <= 24? '時間':'日'}}</span>
+																	</p>
+																@endif
+															</div>
+															<div class=" offset-0  edit-button ml-2">
+																<div class="bg-dark div-radius1">
+																	<a href="{{ route('user-project-details', $project->id) }}" class="p-2 fontSize text-white btn btn-md btn-block font-weight-bold see-details-link-btn my_project_list_see_more_button">詳細をみる</a>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							@endforeach
+						@endif
+						@if(($user->profile->phonetic) == null ||($user->profile->phonetic2) == null ||($user->profile->phone_no) == null||($user->profile->postal_code) == null||($user->profile->prefectures) == null||($user->profile->municipility) == null ||($user->first_name) == null ||($user->last_name) == null )
+							<div class="row" style="margin-top: 30px;margin-bottom: 30px;">
+								<div class="col-12 text-center">
+									<a href="" class="btn btn-primary">プロジェクトを起案申請する</a>
+								</div>
+							</div>
+						@else
+							<div class="row" style="margin-top: 30px;margin-bottom: 30px;">
+								<div class="col-12 text-center">
+									<a href="{{ route('user-project-add') }}" class="btn btn-primary">プロジェクトを起案申請する</a>
+								</div>
+							</div>
+						@endif
+						<div class="row mb-5">
+							<div class="col-md-12 col-12">
+								<div class="row inner">
+									<div class="col-md-12 col-12 pt-3">
+										<h4 class="heading">現在支援中のプロジェクト</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+						@if($invested_projects)
+							@foreach ($invested_projects as $invested_project)
+								<?php
+									$budget = $invested_project->budget;
+									$invested = $invested_project->investment()->where('investments.status', 1)->sum('investments.amount');
+									$done = $invested*100/$budget;
+									$done = round($done);
+								?>
+								<?php
+									$start = strtotime("now");
+									$end = strtotime(date('Y-m-d 23:59:59', strtotime($invested_project->end)));
+									$days_between = ceil(abs($end - $start) / 86400);
+									$hours_between = round((strtotime(date('Y-m-d 23:59:59', strtotime($invested_project->end))) - strtotime("now"))/3600);
+									$days_between = $hours_between <= 24?$hours_between:$days_between;
+									$days_between = $days_between<0?0:$days_between;
+								?>
+								<div class="row mb-5">
+									<div class="col-md-12 col-12">
+										<div class="row inner">
+											<div class="col-md-12 col-12">
+												<div class="row inner_inner">
+													<div class="col-md-5">
+														<div class="row">
+															<div class="col-md-12 project-item">
+																<a href="{{route("front-project-details",['id'=>$invested_project->id])}}">
+																	<div class="frame">
+																		<img src="{{$invested_project->featured_image ?  asset('uploads/projects/'.$invested_project->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}"   style="max-height:245px;height:243px;margin-left:-5px;" alt="" class="img-fluid imageResize">
+																	</div>
+																	<div class="project_status {{$days_between <= 0 ? 'status_3' : ($done >= 100?'status_2':'status_1')}}">
+																		<span>{{ $days_between <= 0 ? '終了' : ($done >= 100?'達成':'募集中')}}</span>
+																	</div>
+																</a>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-7 margin_top">
+														<div class="row">
+															<div class="col-md-7 col-7">
+																<h6 style="font-family: w3;font-size:11px; color:#bfc5cc;">
+																	<span class="category-name" style="color:#bfc5cc;">
+																		<i class="fa fa-tag"></i>
+																		<a href="{{route('front-project-list-bycat',['c'=> $invested_project->category->id,'s' => 'd'])}}">{{$invested_project->category->name}}</a>
+																	</span>
+																</h6>
+															</div>
+														</div>
+														<div class="row mt-1">
+															<a href="{{route("front-project-details",['id'=>$invested_project->id])}}">
+																<div class="col-md-12">
+																	<h5 style="font-size:18px;" class="font-weight-bold ">{{$invested_project->title}}</h5>
+																</div>
+															</a>
+														</div>
+
+														<div class="row mt-2">
+															<div class="col-md-9">
+																<h5 style="font-size:17px; letter-spacing:2px;"><span class="fontSize">現在</span> {!!number_format($invested)!!} 円 </h5>
+																<div class="progress">
+																	<div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{$done}}" aria-valuemin="0" aria-valuemax="100" style="width:{{$done}}%">
+																		&nbsp;{{$done}}%
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="row  mt-2">
+															<div class="col-md-9">
+																<h5 style="font-size:17px; letter-spacing:2px;"><span class="fontSize">目標 </span> {!!number_format($budget)!!} 円</h5>
+															</div>
+														</div>
+														<div class="row mt-2">
+															<div class="col-md-offset-2 mr-0 div-radius ml-3  box-height-invest"  style="height:80px; width:80px ;">
+																	<p class="text-center pt-2"><span class="pt-2 text-center" style="font-family:w3;font-size:11px;">応援者</span>
+																	<br><span class="p-0 m-0 text-center font" style="font-family:w6;font-size:12px;">{{ $invested_project->investment()->where('investments.status', 1)->count() }}人</span><p/>
+															</div>
+															@php
+																$start = strtotime("now");
+																$end = strtotime(date('Y-m-d 23:59:59', strtotime($invested_project->end)));
+																$days_between = ceil(abs($end - $start) / 86400);
+																$hours_between = round((strtotime(date('Y-m-d 23:59:59', strtotime($invested_project->end))) - strtotime("now"))/3600);
+																$days_between = $hours_between <= 24?$hours_between:$days_between;
+															@endphp
+															<div class="col-md-offset-2 div-radius ml-2   box-height-invest" style="height:80px; width:80px ;">
+																@if($end< strtotime("now"))
+																	<p class="text-center pt-3 p-2"><span class=" font p-0 m-0 text-center" style="font-family: w3;">終了</span></p>
+																@else
+																	<p class="text-center pt-2"><span class=" pt-2 text-center" style="font-family:w3;font-size:11px;">残り日数</span>
+																	<br>
+																	<span class="p-0 m-0 text-center font" style="font-family:w6;font-size:12px;">{{ $days_between }} {{$hours_between <= 24? '時間':'日'}}  </span>
+																	</p>
+																@endif
+															</div>
+															<div class="edit-button ml-2 offset-0">
+																<p style="font-size:15px;" class="user-title">起案者：{{$invested_project->user->first_name}} {{$invested_project->user->last_name}}</p>
+																<div class="bg-dark div-radius1">
+																	<button class="p-2 text-white message-button btn btn-md btn-block w6-14 msg_send_btn btn-default" data-user_id="{{ $invested_project->user->id }}" data-project_username="{{ $invested_project->user->first_name.' '.$invested_project->user->last_name }}" style="cursor:pointer; color:#fff; font-family: w6; font-size: 18px;">
+																	 <span style="color:#fff !important;"> <i class="fa fa-envelope"></i> </span>メッセージを送る</button>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							@endforeach
+						@endif
+						<div class="row">
+							<div class="col-md-12 col-12">
+								<div class="row inner">
+									<div class="col-md-12 col-12 pt-3">
+										<h4 class="heading">掲載商品</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+						@if($products)
+							@foreach ($products as $product)
+								<div class="row mb-5">
+									<div class="col-md-12 col-12">
+										<div class="row inner">
+											<div class="col-md-12 col-12">
+												<div class="row inner_inner">
+													<div class="col-md-5">
+														<div class="row">
+															<div class="col-md-12 project-item">
+																<a href="{{route("front-product-details",['id'=>$product->id])}}">
+																	<div class="frame">
+																		<span class="helper"></span>
+																		@php
+																		   if(mb_strlen($product->title) <= 34){
+																				$cssStyle = 'max-height:245px;height:238px; margin-left:-5px';
+																		   }else{
+																				$cssStyle = 'max-height:245px;height:243px; margin-left:-5px';
+																		   }
+																		@endphp
+																		<img src="{{$product->image ?  asset('uploads/products/'.$product->image) : asset('uploads/projects/1615154785167836.jpeg')}}"   style="{{ $cssStyle }}" alt="" class="img-fluid imageResize">
+																	</div>
+																</a>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-7 margin_top">
+														<div class="row">
+															<div class="col-md-12 col-12 category-name">
+																<h6 class="comp_font" style="color:#bfc5cc;">
+																	<i class="fa fa-tag"></i>
+																	<a href="{{route('front-product-list', ['c' => $product->subCategory->category->id])}}">{{ $product->subCategory->category->name }}</a>
+																</h6>
+															</div>
+															<div class="col-md-0 col-0">
+																@php
+																	$fav = 0;
+																@endphp
+																@foreach ($product->favourite as $f)
+																	@if ($f->user_id == Auth::user()->id)
+																		@php
+																			$fav = 1;
+																		@endphp
+																	@endif
+																@endforeach
+																@if(Auth::check())
+																	@if($product->user_id==Auth::user()->id)
+																		<div class="col-md-4 col-sm-6 category_favourite"></div>
+
+																	@else
+																		@if ($fav == 0)
+																			<a href="{{ route('user-favourite-add-product',$product->id) }}" class="pull-right favfont" ><span style="color:#ed49b6;"> <i class="fa fa-heart"></i> </span>お気に入りに追加</a>
+																		@else
+																			<a href="{{ route('user-favourite-remove-product', $product->id) }}" class="pull-right favfont" ><span style="color:#555"> <i class="fa fa-heart-o"></i> </span>お気に入り</a>
+																		@endif
+																	@endif
+																@endif
+															</div>
+														</div>
+														<div class="row mt-1">
+															<a href="{{route("front-product-details",['id'=>$product->id])}}">
+																<div class="col-md-12">
+																	<h5  class="font-weight-bold product-title-text">{{$product->title}}</h5>
+																</div>
+															</a>
+														</div>
+														<div class="row mt-3">
+															<div class="col-md-12">
+																<h5 style="font-size:21px; letter-spacing:2px;">{{number_format($product->price)}} ポイント</h5>
+															</div>
+														</div>
+														<div class="row  mt-3">
+															<div class="col-md-12">
+																<h5  style="font-size:15px; letter-spacing:2px;">カラー：
+																	<?php
+																		$colors = [];
+																		foreach ($product->color as $pt){
+																			if ($pt->color != null && $pt->color != ''){
+																				array_push($colors, $pt->color);
+																			}
+																		}
+																		$color = implode(',',$colors);
+																	?>
+																	{{ $color }}
+																</h5>
+															</div>
+														</div>
+														<div class="row  mt-3">
+															<div class="col-md-12">
+																<h5 class="font" style="font-size:15px; letter-spacing:2px;">サイズ：
+																	<?php
+																		$types = [];
+																		foreach ($product->color as $pt){
+																			if ($pt->type != null && $pt->type != ''){
+																				array_push($types, $pt->type);
+																			}
+																		}
+																		$type = implode(',',$types);
+																	?>
+																	{{ $type }}
+																</h5>
+															</div>
+														</div>
+														<div class="row mt-3">
+															<div class="col-md-12">
+																<div class="div-radius1">
+																	<a style="font-family: w6; font-size: 18px;" href="{{ route('user-product-details', $product->id) }}" class="p-2 bg-dark text-white btn btn-secondary font-weight-bold">詳細をみる</a>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							@endforeach
+						@endif
+						@if(($user->profile->phonetic) == null ||($user->profile->phonetic2) == null ||($user->profile->phone_no) == null||($user->profile->postal_code) == null||($user->profile->prefectures) == null||($user->profile->municipility) == null ||($user->first_name) == null ||($user->last_name) == null )
+						<div class="row" style="margin-top: 30px;margin-bottom: 30px;">
+								<div class="col-12 text-center">
+									<a href="" class="btn btn-warning">商品を登録する</a>
+								</div>
+							</div>
+						@else
+							<div class="row" style="margin-top: 30px;margin-bottom: 30px;">
+								<div class="col-12 text-center">
+									<a href="{{ route('user-product-add') }}" class="btn btn-warning">商品を登録する</a>
+								</div>
+							</div>
+						@endif
+						<div class="row">
+							<div class="col-md-12 col-12">
+								<div class="row inner">
+									<div class="col-md-12 col-12 pt-3">
+										<h4 class="heading">購入済み商品</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+						@if($OrderDetails)
+							@foreach($OrderDetails as $orderDetail)
+								<div class="row mb-5">
+									<div class="col-md-12 col-12">
+										<div class="row inner">
+											<div class="col-md-12 col-12">
+												<div class="row inner_inner">
+													<div class="col-md-5">
+														<div class="row">
+															<div class="col-md-12 project-item">
+																<a href="{{route("front-product-details",['id'=>$orderDetail->product->id])}}">
+																	<div class="frame">
+																		<span class="helper"></span>
+																		<img src="{{$orderDetail->product->image ?  asset('uploads/products/'.$orderDetail->product->image) : asset('uploads/projects/1615154785167836.jpeg')}}"   style="max-height:242px;height:243px; margin-left:-5px" alt="" class="img-fluid imageResize">
+																	</div>
+																</a>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-7 margin_top">
+														<div class="row">
+															<div class="col-md-7 col-7">
+																<h6 class="category-name" style="color:#bfc5cc;">
+																	<i class="fa fa-tag"></i>
+																	<a href="{{route('front-product-list', ['c' => $orderDetail->product->subCategory->category->id])}}">
+																		{{ $orderDetail->product->subCategory->category->name }}
+																	</a>
+																</h6>
+															</div>
+															<div class="col-md-5 col-5">
+															</div>
+														</div>
+														<div class="row mt-1">
+															<a href="{{route("front-product-details",['id'=>$orderDetail->product->id])}}">
+																<div class="col-md-9">
+																	<h5  style="font-size:20px;" class="font-weight-bold">{{$orderDetail->product->title}}</h5>
+																</div>
+															</a>
+														</div>
+														<div class="row mt-2">
+															<div class="col-md-9">
+																<h5 style="font-size:21px; letter-spacing:2px;">{{number_format($orderDetail->product->price)}} ポイント</h5>
+															</div>
+														</div>
+														<div class="row  mt-2">
+															<div class="col-md-9">
+																<?php
+																	$specification = '';
+																	if($orderDetail->qty){
+																		$specification .= $orderDetail->qty.'個';
+																		if($orderDetail->product->color){
+																			$specification .= '/';
+																		}
+																	}
+																	if($orderDetail->color){
+																		$specification .= $orderDetail->color;
+																		if($orderDetail->size){
+																			$specification .= '/';
+																		}
+																	}
+																	if($orderDetail->size){
+																		$specification .= $orderDetail->size;
+																	}
+
+																?>
+																<h5 class="message-button" style="font-size:15px; letter-spacing:2px;">{{$specification}}</h5>
+															</div>
+														</div>
+														<div class="row  mt-2">
+															<div class="col-md-9">
+																<h5 class="message-button" style="font-size:15px; letter-spacing:2px;">購入日：2018年10月1日</h5>
+															</div>
+														</div>
+														<div class="row  mt-2">
+															<div class="col-md-9">
+																<h5 class="message-button" style="font-size:13px; letter-spacing:2px;">商品提供者：{{$orderDetail->product->user->first_name}} {{$orderDetail->product->user->last_name}}</h5>
+															</div>
+														</div>
+														<div class="row mt-3">
+															<div class="col-md-6 col-6 pr-1 pr-md-1">
+																<button class="p-2 text-white btn btn-md message-button btn-block w6-14 msg_send_btn btn-default" data-user_id="{{ $orderDetail->product->user->id }}" data-project_username="{{ $orderDetail->product->user->first_name.' '.$orderDetail->product->user->last_name }}" style="cursor:pointer; color:#FFFFFF;">
+																	<span style="color:#FFFFFF !important;"> <i class="fa fa-envelope"></i> </span>メッセージを送る
+																</button>
+															</div>
+															@php $my_rating = 0; @endphp
+															@foreach ($orderDetail->product->ratings as $rating)
+																@if ($rating->user_id == Auth::user()->id)
 																	@php
-																		$fav = 1;
+																		$my_rating = $rating->user_rating
 																	@endphp
 																@endif
 															@endforeach
-															@if(Auth::check())
-																@if($product->user_id==Auth::user()->id)
-																	<div class="col-md-4 col-sm-6 category_favourite"></div>
 
-																@else
-																	@if ($fav == 0)
-																		<a href="{{ route('user-favourite-add-product',$product->id) }}" class="pull-right favfont" ><span style="color:#ed49b6;"> <i class="fa fa-heart"></i> </span>お気に入りに追加</a>
-																	@else
-																		<a href="{{ route('user-favourite-remove-product', $product->id) }}" class="pull-right favfont" ><span style="color:#555"> <i class="fa fa-heart-o"></i> </span>お気に入り</a>
-																	@endif
-																@endif
-															@endif
-														</div>
-													</div>
-													<div class="row mt-1">
-														<a href="{{route("front-product-details",['id'=>$product->id])}}">
-															<div class="col-md-12">
-																<h5  class="font-weight-bold product-title-text">{{$product->title}}</h5>
-															</div>
-														</a>
-													</div>
-													<div class="row mt-3">
-														<div class="col-md-12">
-															<h5 style="font-size:21px; letter-spacing:2px;">{{number_format($product->price)}} ポイント</h5>
-														</div>
-													</div>
-													<div class="row  mt-3">
-														<div class="col-md-12">
-															<h5  style="font-size:15px; letter-spacing:2px;">カラー：
-																<?php
-																	$colors = [];
-																	foreach ($product->color as $pt){
-																		if ($pt->color != null && $pt->color != ''){
-																			array_push($colors, $pt->color);
-																		}
-																	}
-																	$color = implode(',',$colors);
-																?>
-																{{ $color }}
-															</h5>
-														</div>
-													</div>
-													<div class="row  mt-3">
-														<div class="col-md-12">
-															<h5 class="font" style="font-size:15px; letter-spacing:2px;">サイズ：
-																<?php
-																	$types = [];
-																	foreach ($product->color as $pt){
-																		if ($pt->type != null && $pt->type != ''){
-																			array_push($types, $pt->type);
-																		}
-																	}
-																	$type = implode(',',$types);
-																?>
-																{{ $type }}
-															</h5>
-														</div>
-													</div>
-													<div class="row mt-3">
-														<div class="col-md-12">
-															<div class="div-radius1">
-																<a style="font-family: w6; font-size: 18px;" href="{{ route('user-product-details', $product->id) }}" class="p-2 bg-dark text-white btn btn-secondary font-weight-bold">詳細をみる</a>
+															<div class="col-md-6 col-6 pl-1 pl-md-1">
+																<button type="button" style="" class="p-2  message-button text-white btn btn-md btn-block w6-14 btn-warning rating_btn" data-toggle="modal" data-target="#star" data-my-rate="{{ $my_rating }}" data-product-id = {{ $orderDetail->product_id }}>★★★  レビューを書く</button>
 															</div>
 														</div>
 													</div>
@@ -556,145 +683,17 @@
 										</div>
 									</div>
 								</div>
-							</div>
-						@endforeach
-					@endif
-					@if(($user->profile->phonetic) == null ||($user->profile->phonetic2) == null ||($user->profile->phone_no) == null||($user->profile->postal_code) == null||($user->profile->prefectures) == null||($user->profile->municipility) == null ||($user->first_name) == null ||($user->last_name) == null )
-					<div class="row" style="margin-top: 30px;margin-bottom: 30px;">
-							<div class="col-12 text-center">
-								<a href="" class="btn btn-warning">商品を登録する</a>
-							</div>
-						</div>
-					@else
-						<div class="row" style="margin-top: 30px;margin-bottom: 30px;">
-							<div class="col-12 text-center">
-								<a href="{{ route('user-product-add') }}" class="btn btn-warning">商品を登録する</a>
-							</div>
-						</div>
-					@endif
-					<div class="row">
-						<div class="col-md-12 col-12">
-							<div class="row inner">
-								<div class="col-md-12 col-12 pt-3">
-									<h4 class="heading">購入済み商品</h4>
-								</div>
-							</div>
-						</div>
-					</div>
-					@if($OrderDetails)
-						@foreach($OrderDetails as $orderDetail)
-							<div class="row mb-5">
-								<div class="col-md-12 col-12">
-									<div class="row inner">
-										<div class="col-md-12 col-12">
-											<div class="row inner_inner">
-												<div class="col-md-5">
-													<div class="row">
-														<div class="col-md-12 project-item">
-															<a href="{{route("front-product-details",['id'=>$orderDetail->product->id])}}">
-																<div class="frame">
-																	<span class="helper"></span>
-																	<img src="{{$orderDetail->product->image ?  asset('uploads/products/'.$orderDetail->product->image) : asset('uploads/projects/1615154785167836.jpeg')}}"   style="max-height:242px;height:243px; margin-left:-5px" alt="" class="img-fluid imageResize">
-																</div>
-															</a>
-														</div>
-													</div>
-												</div>
-												<div class="col-md-7 margin_top">
-													<div class="row">
-														<div class="col-md-7 col-7">
-															<h6 class="category-name" style="color:#bfc5cc;">
-																<i class="fa fa-tag"></i>
-																<a href="{{route('front-product-list', ['c' => $orderDetail->product->subCategory->category->id])}}">
-																	{{ $orderDetail->product->subCategory->category->name }}
-																</a>
-															</h6>
-														</div>
-														<div class="col-md-5 col-5">
-														</div>
-													</div>
-													<div class="row mt-1">
-														<a href="{{route("front-product-details",['id'=>$orderDetail->product->id])}}">
-															<div class="col-md-9">
-																<h5  style="font-size:20px;" class="font-weight-bold">{{$orderDetail->product->title}}</h5>
-															</div>
-														</a>
-													</div>
-													<div class="row mt-2">
-														<div class="col-md-9">
-															<h5 style="font-size:21px; letter-spacing:2px;">{{number_format($orderDetail->product->price)}} ポイント</h5>
-														</div>
-													</div>
-													<div class="row  mt-2">
-														<div class="col-md-9">
-															<?php
-																$specification = '';
-																if($orderDetail->qty){
-																	$specification .= $orderDetail->qty.'個';
-																	if($orderDetail->product->color){
-																		$specification .= '/';
-																	}
-																}
-																if($orderDetail->color){
-																	$specification .= $orderDetail->color;
-																	if($orderDetail->size){
-																		$specification .= '/';
-																	}
-																}
-																if($orderDetail->size){
-																	$specification .= $orderDetail->size;
-																}
+							@endforeach
+						@endif
+						@php
+							$error = 0;
 
-															?>
-															<h5 class="message-button" style="font-size:15px; letter-spacing:2px;">{{$specification}}</h5>
-														</div>
-													</div>
-													<div class="row  mt-2">
-														<div class="col-md-9">
-															<h5 class="message-button" style="font-size:15px; letter-spacing:2px;">購入日：2018年10月1日</h5>
-														</div>
-													</div>
-													<div class="row  mt-2">
-														<div class="col-md-9">
-															<h5 class="message-button" style="font-size:13px; letter-spacing:2px;">商品提供者：{{$orderDetail->product->user->first_name}} {{$orderDetail->product->user->last_name}}</h5>
-														</div>
-													</div>
-													<div class="row mt-3">
-														<div class="col-md-6 col-6 pr-1 pr-md-1">
-															<button class="p-2 text-white btn btn-md message-button btn-block w6-14 msg_send_btn btn-default" data-user_id="{{ $orderDetail->product->user->id }}" data-project_username="{{ $orderDetail->product->user->first_name.' '.$orderDetail->product->user->last_name }}" style="cursor:pointer; color:#FFFFFF;">
-																<span style="color:#FFFFFF !important;"> <i class="fa fa-envelope"></i> </span>メッセージを送る
-															</button>
-														</div>
-														@php $my_rating = 0; @endphp
-														@foreach ($orderDetail->product->ratings as $rating)
-															@if ($rating->user_id == Auth::user()->id)
-																@php
-																	$my_rating = $rating->user_rating
-																@endphp
-															@endif
-														@endforeach
+							if (empty($user->first_name) || empty($user->last_name) || empty($user->profile->phonetic) ||  empty($user->profile->phonetic2) ||  empty($user->profile->postal_code) || empty($user->profile->prefectures) || empty($user->profile->phone_no) || empty($user->profile->municipility)) {
+								$error = 1;
 
-														<div class="col-md-6 col-6 pl-1 pl-md-1">
-															<button type="button" style="" class="p-2  message-button text-white btn btn-md btn-block w6-14 btn-warning rating_btn" data-toggle="modal" data-target="#star" data-my-rate="{{ $my_rating }}" data-product-id = {{ $orderDetail->product_id }}>★★★  レビューを書く</button>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						@endforeach
-					@endif
-					@php
-						$error = 0;
-
-						if (empty($user->first_name) || empty($user->last_name) || empty($user->profile->phonetic) ||  empty($user->profile->phonetic2) ||  empty($user->profile->postal_code) || empty($user->profile->prefectures) || empty($user->profile->phone_no) || empty($user->profile->municipility)) {
-							$error = 1;
-
-						}
-					@endphp
-					<input type="hidden" name="getError" id="getError" value="{{ $error }}">
+							}
+						@endphp
+						<input type="hidden" name="getError" id="getError" value="{{ $error }}">
 
 					</div>
 				</div>
