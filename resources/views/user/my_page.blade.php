@@ -650,7 +650,7 @@
 														</div>
 														<div class="row  mt-2">
 															<div class="col-md-9">
-																<h5 class="message-button" style="font-size:15px; letter-spacing:2px;">購入日：2018年10月1日</h5>
+																<h5 class="message-button" style="font-size:15px; letter-spacing:2px;">購入日：{{$orderDetail->created_at}}</h5>
 															</div>
 														</div>
 														<div class="row  mt-2">
