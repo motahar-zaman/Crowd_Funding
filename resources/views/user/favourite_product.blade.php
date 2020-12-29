@@ -274,7 +274,7 @@
 												<div class="col-md-6 p-0">
 													<div class="row ">
 														<div class="col-md-8">
-															<h6 class="" style="font-size:14px; color:#bfc5cc;"> <span style="color:#bfc5cc;"> 会社名がここに入ります</h6>
+															<h6 class="" style="font-size:14px; color:#bfc5cc;"> <span style="color:#bfc5cc;"> 会社名がここに入ります</span></h6>
 														</div>
 														<div class="col-md-4">
 															<a href="{{route('user-favourite-remove-product', ['id' => $p->product->id])}}" class="pull-right" style="font-size:14px;"><span style="color:#ed49b6;"> <i class="fa fa-heart"></i> </span>お気に入り</a>
