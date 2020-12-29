@@ -567,7 +567,7 @@
 														</div>
 														<div class="noHover row mt-1">
 															<div class="col-md-6">
-																<p><span class="font-weight-bold price" style="font-size:23px; letter-spacing:2px;">{{ $p->product->price }}</span>
+																<p><span class="font-weight-bold price" style="font-size:23px; letter-spacing:2px;">{{ number_format($p->product->price) }}</span>
 																	<span class="title" style="font-size:20px; letter-spacing:1px;">ポイント</span>
 																</p>
 															</div>
