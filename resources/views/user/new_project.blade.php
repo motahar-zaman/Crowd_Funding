@@ -512,7 +512,8 @@
 					{{ csrf_field() }}
 					<div class="mt20">
 						<h3 class="step_title_area">
-							<span class="steptext">Step</span><span class="stepcount">1</span>
+							<span class="steptext">Step</span>
+							<span class="stepcount">1</span>
 							<span class="stepinfo">基本情報入力</span>
 						</h3>
 						<section class="mt-3">
@@ -596,275 +597,279 @@
 								<textarea id="budget_usage_breakdown" name="budget_usage_breakdown" rows="8" cols="80" class="form-control required col-12 project_details length2k_2" maxlength="2001"></textarea>
 							</div>
 						</section>
-									<h3 class="step_title_area">
-										<span class="steptext">Step</span><span class="stepcount">2</span>
-										<span class="stepinfo">リターン情報入力</span>
-									</h3>
 
-									<section id="section2">
-										<div class="row mt20">
-											<div class="col-md-12 amount_div">
-												<div class="row">
-													<label for="amount" class="col-md-12">金額</label>
-													<div class="col-md-4">
-														<input type="number" class="form-control amount required" name="amount[]" min="1" maxlength="10">
-													</div>
-													<sub class="p-0 mt-4 mr-3">円</sub>
-												</div>
-											</div>
-
-											<div class="col-md-12 mt-3 is_crofun_point_div">
-												<div class="row">
-													<label for="is_crofun_point" class="col-md-12">Crofunポイント  <span class="text-danger" data-toggle="modal" data-target="#add-project">(?)</span> </label>
-													<div class="col-md-4">
-														<input type="number" class="form-control is_crofun_point required" name="is_crofun_point[]" min="1" maxlength="10">
-														<span class="is_crofun_point_msg hide text-danger">金額以上のCrofunポイントを設定できません。</span>
-													</div>
-													<sub class="p-0 mt-4 mr-3">pt</sub>
-												</div>
-											</div>
-
-											<div class="col-md-12 mt-3">
-												<div class="row">
-													<label for="is_other" class="col-md-12">リターン品名</label>
-													<div class="col-md-4">
-														<span id="" class="text-danger is_other_message"></span>
-														<input type="text" class="form-control required is_other" name="is_other[]"  maxlength="21">
-													</div>
-												</div>
-											</div>
-											<div class="col-md-12 mt-3">
-												<div class="row">
-													<label for="other_description" class="col-md-12">内容</label>
-													<div class="col-md-10">
-															<span id="" class="text-danger other_description_message"></span>
-														<textarea name="other_description[]" rows="8" cols="80" class="form-control required other_description"  maxlength="201"></textarea>
-													</div>
-												</div>
-											</div>
-											<div class="col-md-12 mt-3">
-											 	<div class="reward_div">
-													<div class="row">
-														<label for="other_file" class="col-md-12">写真</label>
-														<div class="col-md-4">
-															<input type="file"  class="required file_step3 reward_file" name="other_file[]" accept=".jpg,.png,.jpeg">
-														</div>
-													</div>
-													<div class="">
-														<span style="font-size:12px;">*画像は 2MB 以下である必要があります。</span>
-													</div>
-												</div>
-											</div>
+						<h3 class="step_title_area">
+							<span class="steptext">Step</span>
+							<span class="stepcount">2</span>
+							<span class="stepinfo">リターン情報入力</span>
+						</h3>
+						<section id="section2">
+							<div class="row mt20">
+								<div class="col-md-12 amount_div">
+									<div class="row">
+										<label for="amount" class="col-md-12">金額</label>
+										<div class="col-md-4">
+											<input type="number" class="form-control amount required" name="amount[]" min="1" maxlength="10">
 										</div>
-										<div class="row  mt-3 mb-3 reward_button_area">
-											<div class="col-md-2 offset-4">
-												<a href="javascript:;" class="btn btn-outline-info add_reward">+ さらに追加する</a>
-											</div>
-										</div>
-										<div class="reward_container">
-										</div>
-									</section>
-
-									<h3 class="step_title_area">
-										<span class="steptext">Step</span><span class="stepcount">3</span>
-										<span class="stepinfo">追加情報入力</span>
-									</h3>
-
-									<section>
-										<div class="form-group">
-											<label for="details_title[]">見出しタイトル
-												<span id="additional_details_title_message" class="text-danger"></span>
-											</label>
-											<input type="text" class="form-control additional_details_title length20_2  col-12" id="additional_details_title" maxlength="21" placeholder="" name="details_title[]">
-										</div>
-
-										<div class="form-group">
-											<label for="details_description[]">内容</label>
-												<span id="additional_details_description_message" class="text-danger"></span>
-											<textarea name="details_description[]" class="form-control col-12 additional_details_description length2k_2" id="additional_details_description" maxlength="2001" rows="8" cols="80"></textarea>
-										</div>
-
-										<div class="form-group file_upload_section">
-											<label for="draft_file[]" class="">写真</label>
-											<br>
-											<input type="file" id="" class=" col-10 file_step3 additional_details_file" placeholder="" name="draft_file[]" accept=".jpg,.png,.jpeg">
-											<div class="">
-												<span style="font-size:12px;">*画像は 2MB 以下である必要があります。</span>
-											</div>
-										</div>
-
-										<div class="details_container"></div>
-										<div class="row  mt-3 mb-3">
-											<div class="col-md-2 offset-4">
-												<a href="#!" class="btn btn-outline-info add_details">+ さらに追加する</a>
-											</div>
-										</div>
-									</section>
-
-									<h3 class="step_title_area">
-										<span class="steptext">Step</span><span class="stepcount">4</span>
-										<span class="stepinfo">入力情報を確認</span>
-									</h3>
-									<section>
-										<div class="row" style="margin-top: 30px;">
-											<div class="col-12">
-												<div class="row preview_area">
-													<div class="col-3">基本情報入力</div>
-												</div>
-												<div class="row preview_area">
-													<div class="col-3">プロジェクト名</div>
-													<div class="col-9 project_title"></div>
-												</div>
-												<div class="row preview_area">
-													<div class="col-3">カテゴリ</div>
-													<div class="col-3 project_category"></div>
-												</div>
-												<div class="row preview_area">
-													<div class="col-3">画像</div>
-													<div class="col-9 project_image"></div>
-												</div>
-												<div class="row preview_area">
-													<div class="col-3">プロジェクト概要</div>
-													<div class="col-12 project_description"></div>
-												</div>
-												<div class="row preview_area">
-													<div class="col-3">目的</div>
-													<div class="col-12 project_purpose"></div>
-												</div>
-												<div class="row preview_area">
-													<div class="col-3">目標金額</div>
-													<div class="col-9 project_price"></div>
-												</div>
-												<div class="row preview_area">
-													<div class="col-3">募集期間</div>
-													<div class="col-3 project_from_estimation_date"></div>
-													<div class="col-3 project_to_estimation_date"></div>
-													<div class="col-3 project_total_estimation_date">日</div>
-												</div>
-												<div class="row preview_area">
-													<div class="col-3">支援金受取人名</div>
-													<div class="col-9 project_details_title"></div>
-												</div>
-												<div class="row preview_area">
-													<div class="col-3 pb-2">予算用途の内訳</div>
-													<div class="col-12 project_details"></div>
-												</div>
-												<div class="row preview_area">
-													<div class="col-12">リターン情報入力</div>
-												</div>
-												<div class="col-12 return_policy_amount"></div>
-												<div class="row preview_area">
-													<div class="col-12">追加情報入力</div>
-												</div>
-												<div class="col-12 aditional_info pb-3"></div>
-											</div>
-										</div>
-									</section>
-									<h3 class="step_title_area">
-										<span class="steptext">Step</span><span class="stepcount">5</span>
-										<span class="stepinfo">申請完了</span>
-									</h3>
-									<section>
-										<h4 class="text-center mt20 text-info">
-											プロジェクト申請が完了しました。
-										</h4>
-										<h6 class="mt-5 text-center">プロジェクトの申請ありがとうございました。</h6>
-										<h6 class="text-center">	これより審査に入らせていただきます。</h6>
-										<h6 class="text-center">	プロジェクトの公開までしばらくお待ちください。</h6>
-										<h4 class="text-center mt20">
-											<a href="{{route('user-project-list')}}" class="btn btn-md text-white" style="background-color:#C6C6C6;">< 戻る</a>
-										</h4>
-									</section>
+										<sub class="p-0 mt-4 mr-3">円</sub>
+									</div>
 								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
 
-			<div class="hide reward">
-				<div class="row mt20 reward_div">
-					<hr>
-					<div class="col-md-12 amount_div">
-						<div class="row">
-							<label for="amount" class="col-md-12">金額 <span class="close float-right" data-target="reward_div">X</span></label>
+								<div class="col-md-12 mt-3 is_crofun_point_div">
+									<div class="row">
+										<label for="is_crofun_point" class="col-md-12">Crofunポイント  <span class="text-danger" data-toggle="modal" data-target="#add-project">(?)</span> </label>
+										<div class="col-md-4">
+											<input type="number" class="form-control is_crofun_point required" name="is_crofun_point[]" min="1" maxlength="10">
+											<span class="is_crofun_point_msg hide text-danger">金額以上のCrofunポイントを設定できません。</span>
+										</div>
+										<sub class="p-0 mt-4 mr-3">pt</sub>
+									</div>
+								</div>
 
-							<div class="col-md-4">
-								<input type="number" class="form-control amount required" name="amount[]" min="1" required maxlenght="10">
-							</div>	<sub class="p-0 mt-4 mr-3">円</sub>
-						</div>
-					</div>
-
-					<div class="col-md-12 mt-3 is_crofun_point_div">
-						<div class="row">
-							<label for="is_crofun_point" class="col-md-12">Crofunポイント</label>
-							<div class="col-md-4">
-								<input type="number" class="form-control is_crofun_point required" name="is_crofun_point[]" min="1" required maxlenght="10">
-								<span class="is_crofun_point_msg hide text-danger">金額以上のCrofunポイントを設定できません。</span>
-							</div>	<sub class="p-0 mt-4 mr-3">pt</sub>
-						</div>
-					</div>
-
-					<div class="col-md-12 mt-3">
-						<div class="row">
-
-							<label for="is_other" class="col-md-12">リターン品名</label>
-							<div class="col-md-4">
-								<span id="" class="text-danger is_other_message"></span>
-								<input type="text" class="form-control required is_other" name="is_other[]" required maxlength="21">
-							</div>
-						</div>
-					</div>
-
-					<div class="col-md-12 mt-3">
-						<div class="row">
-							<label for="other_description" class="col-md-12">内容</label>
-							<div class="col-md-10">
-								<span id="" class="text-danger other_description_message"></span>
-								<textarea name="other_description[] required" rows="8" cols="80" class="form-control other_description" required maxlength="201"></textarea>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-md-12 mt-3">
-						<div class="col-md-12 reward_div">
-							<div class="row">
-								<label for="other_file" class="col-md-12">写真</label>
-								<div class="col-md-4">
-									<span class="is_crofun_point_msg hide text-danger">金額以上のCrofunポイントを設定できません。</span>
-									<input type="file" id="" class="required file_step3 reward_file" name="other_file[]" accept=".jpg,.png,.jpeg">
+								<div class="col-md-12 mt-3">
+									<div class="row">
+										<label for="is_other" class="col-md-12">リターン品名</label>
+										<div class="col-md-4">
+											<span id="" class="text-danger is_other_message"></span>
+											<input type="text" class="form-control required is_other" name="is_other[]"  maxlength="21">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 mt-3">
+									<div class="row">
+										<label for="other_description" class="col-md-12">内容</label>
+										<div class="col-md-10">
+												<span id="" class="text-danger other_description_message"></span>
+											<textarea name="other_description[]" rows="8" cols="80" class="form-control required other_description"  maxlength="201"></textarea>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 mt-3">
+									<div class="reward_div">
+										<div class="row">
+											<label for="other_file" class="col-md-12">写真</label>
+											<div class="col-md-4">
+												<input type="file"  class="required file_step3 reward_file" name="other_file[]" accept=".jpg,.png,.jpeg">
+											</div>
+										</div>
+										<div class="">
+											<span style="font-size:12px;">*画像は 2MB 以下である必要があります。</span>
+										</div>
+									</div>
 								</div>
 							</div>
-							<div class="">
-								<span style="font-size:12px;">*画像は 2MB 以下である必要があります。</span>
+							<div class="row  mt-3 mb-3 reward_button_area">
+								<div class="col-md-2 offset-4">
+									<a href="javascript:;" class="btn btn-outline-info add_reward">+ さらに追加する</a>
+								</div>
 							</div>
-						</div>
+							<div class="reward_container">
+							</div>
+						</section>
+
+						<h3 class="step_title_area">
+							<span class="steptext">Step</span>
+							<span class="stepcount">3</span>
+							<span class="stepinfo">追加情報入力</span>
+						</h3>
+						<section>
+							<div class="form-group">
+								<label for="details_title[]">見出しタイトル
+									<span id="additional_details_title_message" class="text-danger"></span>
+								</label>
+								<input type="text" class="form-control additional_details_title length20_2  col-12" id="additional_details_title" maxlength="21" placeholder="" name="details_title[]">
+							</div>
+
+							<div class="form-group">
+								<label for="details_description[]">内容</label>
+									<span id="additional_details_description_message" class="text-danger"></span>
+								<textarea name="details_description[]" class="form-control col-12 additional_details_description length2k_2" id="additional_details_description" maxlength="2001" rows="8" cols="80"></textarea>
+							</div>
+
+							<div class="form-group file_upload_section">
+								<label for="draft_file[]" class="">写真</label>
+								<br>
+								<input type="file" id="" class=" col-10 file_step3 additional_details_file" placeholder="" name="draft_file[]" accept=".jpg,.png,.jpeg">
+								<div class="">
+									<span style="font-size:12px;">*画像は 2MB 以下である必要があります。</span>
+								</div>
+							</div>
+
+							<div class="details_container"></div>
+							<div class="row  mt-3 mb-3">
+								<div class="col-md-2 offset-4">
+									<a href="#!" class="btn btn-outline-info add_details">+ さらに追加する</a>
+								</div>
+							</div>
+						</section>
+
+						<h3 class="step_title_area">
+							<span class="steptext">Step</span>
+							<span class="stepcount">4</span>
+							<span class="stepinfo">入力情報を確認</span>
+						</h3>
+						<section>
+							<div class="row" style="margin-top: 30px;">
+								<div class="col-12">
+									<div class="row preview_area">
+										<div class="col-3">基本情報入力</div>
+									</div>
+									<div class="row preview_area">
+										<div class="col-3">プロジェクト名</div>
+										<div class="col-9 project_title"></div>
+									</div>
+									<div class="row preview_area">
+										<div class="col-3">カテゴリ</div>
+										<div class="col-3 project_category"></div>
+									</div>
+									<div class="row preview_area">
+										<div class="col-3">画像</div>
+										<div class="col-9 project_image"></div>
+									</div>
+									<div class="row preview_area">
+										<div class="col-3">プロジェクト概要</div>
+										<div class="col-12 project_description"></div>
+									</div>
+									<div class="row preview_area">
+										<div class="col-3">目的</div>
+										<div class="col-12 project_purpose"></div>
+									</div>
+									<div class="row preview_area">
+										<div class="col-3">目標金額</div>
+										<div class="col-9 project_price"></div>
+									</div>
+									<div class="row preview_area">
+										<div class="col-3">募集期間</div>
+										<div class="col-3 project_from_estimation_date"></div>
+										<div class="col-3 project_to_estimation_date"></div>
+										<div class="col-3 project_total_estimation_date">日</div>
+									</div>
+									<div class="row preview_area">
+										<div class="col-3">支援金受取人名</div>
+										<div class="col-9 project_details_title"></div>
+									</div>
+									<div class="row preview_area">
+										<div class="col-3 pb-2">予算用途の内訳</div>
+										<div class="col-12 project_details"></div>
+									</div>
+									<div class="row preview_area">
+										<div class="col-12">リターン情報入力</div>
+									</div>
+									<div class="col-12 return_policy_amount"></div>
+									<div class="row preview_area">
+										<div class="col-12">追加情報入力</div>
+									</div>
+									<div class="col-12 aditional_info pb-3"></div>
+								</div>
+							</div>
+						</section>
+
+						<h3 class="step_title_area">
+							<span class="steptext">Step</span>
+							<span class="stepcount">5</span>
+							<span class="stepinfo">申請完了</span>
+						</h3>
+						<section>
+							<h4 class="text-center mt20 text-info">
+								プロジェクト申請が完了しました。
+							</h4>
+							<h6 class="mt-5 text-center">プロジェクトの申請ありがとうございました。</h6>
+							<h6 class="text-center">	これより審査に入らせていただきます。</h6>
+							<h6 class="text-center">	プロジェクトの公開までしばらくお待ちください。</h6>
+							<h4 class="text-center mt20">
+								<a href="{{route('user-project-list')}}" class="btn btn-md text-white" style="background-color:#C6C6C6;">< 戻る</a>
+							</h4>
+						</section>
 					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="hide reward">
+	<div class="row mt20 reward_div">
+		<hr>
+		<div class="col-md-12 amount_div">
+			<div class="row">
+				<label for="amount" class="col-md-12">金額 <span class="close float-right" data-target="reward_div">X</span></label>
+
+				<div class="col-md-4">
+					<input type="number" class="form-control amount required" name="amount[]" min="1" required maxlenght="10">
+				</div>	<sub class="p-0 mt-4 mr-3">円</sub>
+			</div>
+		</div>
+
+		<div class="col-md-12 mt-3 is_crofun_point_div">
+			<div class="row">
+				<label for="is_crofun_point" class="col-md-12">Crofunポイント</label>
+				<div class="col-md-4">
+					<input type="number" class="form-control is_crofun_point required" name="is_crofun_point[]" min="1" required maxlenght="10">
+					<span class="is_crofun_point_msg hide text-danger">金額以上のCrofunポイントを設定できません。</span>
+				</div>	<sub class="p-0 mt-4 mr-3">pt</sub>
+			</div>
+		</div>
+
+		<div class="col-md-12 mt-3">
+			<div class="row">
+
+				<label for="is_other" class="col-md-12">リターン品名</label>
+				<div class="col-md-4">
+					<span id="" class="text-danger is_other_message"></span>
+					<input type="text" class="form-control required is_other" name="is_other[]" required maxlength="21">
 				</div>
 			</div>
+		</div>
 
-			<div class="hide details">
-				<div class="mt20 details_div">
-					<hr>
-					<div class="">
-						<div class="form-group">
-							<label for="details_title[] " style="width:100%;">見出しタイトル</label>  <span class="additional_details_title_message 20_2" class="text-danger"></span> <span class="close float-right" data-target="details_div">X</span>
-							<input type="text" class="form-control additional_details_title 2k_2" id="additional_details_title" placeholder="" maxlength="21" name="details_title[]">
-						</div>
-						<div class="form-group">
-							<label for="details_description[]">内容 </label><span class="additional_details_description_message" class="text-danger"></span>
-							<textarea name="details_description[]" class="form-control required col-12 additional_details_description" id="additional_details_description" maxlength="2001" rows="8" cols="80"></textarea>
-						</div>
-
-						<div class="form-group file_upload_section">
-							<input type="file" id="" class=" col-10 file_step3 additional_details_file" placeholder="" name="draft_file[]" accept=".jpg,.png,.jpeg">
-							<div class="">
-								<span style="font-size:12px;">*画像は 2MB 以下である必要があります。</span>
-							</div>
-						</div>
-					</div>
+		<div class="col-md-12 mt-3">
+			<div class="row">
+				<label for="other_description" class="col-md-12">内容</label>
+				<div class="col-md-10">
+					<span id="" class="text-danger other_description_message"></span>
+					<textarea name="other_description[] required" rows="8" cols="80" class="form-control other_description" required maxlength="201"></textarea>
 				</div>
 			</div>
+		</div>
+
+		<div class="col-md-12 mt-3">
+			<div class="col-md-12 reward_div">
+				<div class="row">
+					<label for="other_file" class="col-md-12">写真</label>
+					<div class="col-md-4">
+						<span class="is_crofun_point_msg hide text-danger">金額以上のCrofunポイントを設定できません。</span>
+						<input type="file" id="" class="required file_step3 reward_file" name="other_file[]" accept=".jpg,.png,.jpeg">
+					</div>
+				</div>
+				<div class="">
+					<span style="font-size:12px;">*画像は 2MB 以下である必要があります。</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="hide details">
+	<div class="mt20 details_div">
+		<hr>
+		<div class="">
+			<div class="form-group">
+				<label for="details_title[] " style="width:100%;">見出しタイトル</label>  <span class="additional_details_title_message 20_2" class="text-danger"></span> <span class="close float-right" data-target="details_div">X</span>
+				<input type="text" class="form-control additional_details_title 2k_2" id="additional_details_title" placeholder="" maxlength="21" name="details_title[]">
+			</div>
+			<div class="form-group">
+				<label for="details_description[]">内容 </label><span class="additional_details_description_message" class="text-danger"></span>
+				<textarea name="details_description[]" class="form-control required col-12 additional_details_description" id="additional_details_description" maxlength="2001" rows="8" cols="80"></textarea>
+			</div>
+
+			<div class="form-group file_upload_section">
+				<input type="file" id="" class=" col-10 file_step3 additional_details_file" placeholder="" name="draft_file[]" accept=".jpg,.png,.jpeg">
+				<div class="">
+					<span style="font-size:12px;">*画像は 2MB 以下である必要があります。</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 @include('user.layouts.add-project')
 
@@ -877,6 +882,10 @@
 	<script src="https://cdn.jsdelivr.net/npm/jquery-dropdown-datepicker@1.3.0/dist/jquery-dropdown-datepicker.min.js"></script>
 
 	 <script>
+		 function numberWithCommas(x) {
+			 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		 }
+
 		$(document).ready(function(){
 			var maxDate = null, minDate = null;
 			$("#from").dropdownDatepicker({
@@ -1097,7 +1106,7 @@
 						project_purpose.push('<span>'+item+'</span>'+'<br/>')
 					})
 					$('.project_purpose').html(project_purpose);
-					$('.project_price').html($('.project_price').val());
+					$('.project_price').html(numberWithCommas($('.project_price').val()));
 
 					$('.project_from_estimation_date').html($('.from_calculate_day').val());
 					$('.project_to_estimation_date').html($('.to_calculate_day').val());
@@ -1168,8 +1177,8 @@
 						for( var i=0; i<amount.length; i++)
 						{
 							await sleep(500);
-							html_return.push ('<div class="row preview_area">'+"<div class=col-3>"+'金額'+'</div>'+'<div class="col-9">'+amount[i]+'</div>'+'</div>');
-							html_return.push ('<div class="row preview_area">'+"<div class=col-3>"+'Crofunポイント'+'</div>'+'<div class="col-9">'+is_crofun_point[i]+'</div>'+'</div>');
+							html_return.push ('<div class="row preview_area">'+"<div class=col-3>"+'金額'+'</div>'+'<div class="col-9">'+numberWithCommas(amount[i])+'</div>'+'</div>');
+							html_return.push ('<div class="row preview_area">'+"<div class=col-3>"+'Crofunポイント'+'</div>'+'<div class="col-9">'+numberWithCommas(is_crofun_point[i])+'</div>'+'</div>');
 							html_return.push ('<div class="row preview_area">'+"<div class=col-3>"+'リターン品名'+'</div>'+'<div class="col-9">'+is_other[i]+'</div>'+'</div>');
 
 							html_return.push ('<div style="padding-bottom:10px">'+'内容'+'</div>');
