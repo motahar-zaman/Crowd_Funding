@@ -511,7 +511,6 @@
 	<link rel="stylesheet" type="text/css" href="{{Request::root()}}/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.css">
 @stop
 
-
 @section('ecommerce')
 
 @stop
@@ -519,36 +518,26 @@
 @section('content')
 @include('user.layouts.tab')
 
-
 <div class="container" id="new-project">
-
-
 <div class="mt20">
 	<div class="row">
 		<div class="col-md-8 offset-md-2">
-
 			<h1 class="text-center page_title_product_register">商品を登録する</h1>
-
 			<form id="example-form" action="" class="mt20" method="post" enctype="multipart/form-data">
-
 				{{ csrf_field() }}
-
 			    <div class="mt20">
 			        <h3 class="step_title_area">
-				        	<span class="steptext">Step</span><span class="stepcount">1</span>
-				        	<span class="stepinfo">基本情報入力</span>
-				    	</h3>
+						<span class="steptext">Step</span>
+						<span class="stepcount">1</span>
+						<span class="stepinfo">基本情報入力</span>
+					</h3>
 			        <section>
-
-
 						  <div class="form-group">
 						    <label for="">商品名
 							<span id="product_title_message" class="text-danger"></span> </label>
 						    <input type="text" id="p_title" class="form-control required p_title " placeholder="" maxlength="21" name="title">
 						  </div>
-
 						  <div class="row">
-
 							<div class="form-group col">
 								<label for="">カテゴリ(分類)</label>
 								<select class="form-control required category" name="category">
@@ -561,18 +550,13 @@
 							<div class="form-group col">
 								<label for="">サブカテゴリー</label>
 								<select class="form-control required subcategory" name="subcategory">
-
 								</select>
 							</div>
-
 						  </div>
-
 						  <div class="form-group">
 						    <label for="">販売金額 (販売金額 ＝ 商品金額＋送料＋消費税)</label>
 						    <input type="number" class="form-control required p_price" placeholder="" name="price" maxlenght="10">
 						  </div>
-
-
 						  <div class="form-group">
 						    <label for="">商品内容およびセールスポイント <span class="text-danger" id="p_description_message"></span> </label>
 						    <textarea id="p_description" class="form-control required p_description " rows="6" cols="60" name="description" maxlength="201"></textarea>
@@ -585,61 +569,29 @@
 									<span style="font-size:12px;">*画像は 2MB 以下である必要があります。</span>
 								</div>
 						  </div>
-
-
-
 						  <div class="form-group">
 						    <label for="">カラー・サイズ選択</label>
 						    <div class="row">
 						    	<div class="col-6 col-md-3">
-						    		{{-- <select class="form-control product_color" name="color[]">
-						    			<option value="">色</option>
-						    			<option value="緑">緑</option>
-						    			<option value="黄">黄</option>
-						    			<option value="青白い">青白い</option>
-						    			<option value="ピンク">ピンク</option>
-						    			<option value="赤">赤</option>
-						    			<option value="青">青</option>
-									</select> --}}
 									<input type="text" class="form-control product_color" name="color[]" placeholder="色">
 						    	</div>
 						    	<div class="col-6 col-md-3">
-						    		{{-- <select class="form-control product_type" name="type[]">
-						    			<option value="">サイズ</option>
-						    			<option value="S">S</option>
-						    			<option value="M">M</option>
-						    			<option value="L">L</option>
-						    			<option value="XL">XL</option>
-						    			<option value="XXL">XXL</option>
-									</select> --}}
 									<input type="text" class="form-control product_type" name="type[]" placeholder="サイズ">
 						    	</div>
 						    </div>
-
 						    <div class="color_option"></div>
-
 						    <div class="text-left mt20">
 					    		<button class="btn btn-warning add_color" type="button"><i class="fa fa-plus-circle"></i> カラー・サイズを追加する</button>
 					    	</div>
-
 						  </div>
-
 						  <div class="form-group">
 						    <label for="">商品詳細(原材料・注意事項など) <span class="text-danger" id="p_details_message"></span> </label>
 						    <textarea id="p_details" class="form-control required p_details " rows="8" cols="80" name="explanation" maxlength="2001"></textarea>
 						  </div>
-						  <!-- <div class="form-group">
-						    <label for="">イメージ画像をアップロードする ( 複数枚可にする )</label>
-						    <input type="file" class="form-control" name="explanation_image">
-						  </div> -->
-
-
 						  <div class="form-group">
 						    <label for="">掲載者名 (個人・団体名を入力してください。) <span class="text-danger" id="p_company_name_message"></span> </label>
 						    <input type="text" id="p_company_name" class="form-control required company_name " maxlength="21" name="company_name">
 						  </div>
-
-
 						  <div class="form-group">
 						    <label for="">掲載者情報(HPのURL、住所、お問い合わせ先など）<span class="text-danger" id="p_company_info_message"></span> </label>
 						    <textarea id="p_company_info" class="form-control required p_company_info " rows="6" cols="60" maxlength="201" name="company_info"></textarea>
@@ -651,11 +603,11 @@
 								<span style="font-size:12px;">*画像は 2MB 以下である必要があります。</span>
 							</div>
 						  </div>
-
 			        </section>
 
 			        <h3 class="step_title_area">
-			        	<span class="steptext">Step</span><span class="stepcount">2</span>
+			        	<span class="steptext">Step</span>
+						<span class="stepcount">2</span>
 			        	<span class="stepinfo">情報確認</span>
 			    	</h3>
 			        <section>
@@ -728,65 +680,38 @@
 						</h4>
 						<h4 class="text-center mt20">
 							<a href="{{route('user-product-list')}}" class="btn btn-md text-white" style="background-color:#C6C6C6;">< 戻る</a>
-
 						</h4>
 			        </section>
 			    </div>
 			</form>
-
-
 		</div>
 	</div>
-
 </div>
-
 </div>
-
-
 
 <div class="color_container hide">
 	<div class="row mt10">
     	<div class="col-3">
-    		{{-- <select class="form-control product_color" name="color[]">
-    			<option value="">色</option>
-    			<option value="緑">緑</option>
-    			<option value="黄">黄</option>
-    			<option value="青白い">青白い</option>
-    			<option value="ピンク">ピンク</option>
-    			<option value="赤">赤</option>
-    			<option value="青">青</option>
-			</select> --}}
 			<input type="text" class="form-control product_color" name="color[]" placeholder="色">
     	</div>
     	<div class="col-3">
-    		{{-- <select class="form-control product_type" name="type[]">
-    			<option value="">サイズ</option>
-    			<option value="S">S</option>
-    			<option value="M">M</option>
-    			<option value="L">L</option>
-    			<option value="XL">XL</option>
-    			<option value="XXL">XXL</option>
-			</select> --}}
 			<input type="text" class="form-control product_type" name="type[]" placeholder="サイズ">
     	</div>
     </div>
 </div>
-
-
 @include('user.layouts.product_submit_modal');
 
 @stop
 
 @section('custom_js')
-
 	<script src="{{Request::root()}}/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="{{Request::root()}}/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.js"></script>
 
 	<script type="text/javascript" src="{{Request::root()}}/js/jquery.validate.min.js"></script>
-
-
 	<script type="text/javascript">
-
+		function numberWithCommas(x) {
+			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
 
 		var form = $("#example-form");
 
@@ -829,54 +754,9 @@
 		    {
 					var check = 0;
 					if (currentIndex == 0) {
-
-						// if ($('.length20').val().length > 20) {
-						// 	$('#length20').html('Maximum limit 20 charactar ');
-						// 	check = 1;
-						// }else {
-						// 	$('#length20').html('');
-						// 	// check = 0;
-						// }
-
-						// if ($('.length20_2').val().length > 20) {
-						// 	$('#length20_2').html('Maximum limit 20 charactar ');
-						// 	check = 1;
-						// }else {
-						// 	$('#length20_2').html('');
-						// 	// check = 0;
-						// }
-
-						// if ($('.length200_1').val().length > 200) {
-						// 	$('#length200_1').html('Maximum limit 200 charactar ');
-						// 	check = 1;
-						// }else {
-						// 	$('#length200_1').html('');
-						// 	// check = 0;
-						// }
-
-						// if ($('.length200_2').val().length > 200) {
-						// 	$('#length200_2').html('Maximum limit 200 charactar ');
-						// 	check = 1;
-						// }else {
-						// 	$('#length200_2').html('');
-						// 	// check = 0;
-						// }
-
-						// if ($('.length200_3').val().length > 200) {
-						// 	$('#length200_3').html('Maximum limit 200 charactar ');
-						// 	check = 1;
-						// }else {
-						// 	$('#length200_3').html('');
-						// 	// check = 0;
-						// }
-
-						// if (check == 1) {
-						// 	return false;
-						// }
 					}
 		        form.validate().settings.ignore = ":disabled,:hidden";
         		return form.valid();
-        		// return true;
 		    },
 		    onStepChanged: function (event, currentIndex, newIndex)
 		    {
@@ -913,7 +793,7 @@
 					// console.log(subcategory_data);
 					$('.product_subcategory').html(subcategory_data);
 
-					$('.product_price').html($('.p_price').val());
+					$('.product_price').html(numberWithCommas($('.p_price').val()));
 
 					$('.product_description').html($('.p_description').val());
 
@@ -953,9 +833,6 @@
 		});
 
 		$(function(){
-			// CKEDITOR.config.extraPlugins = 'imageuploader';
-			// CKEDITOR.config.filebrowserImageBrowseUrl = '{{Request::root()}}/ckeditor/plugins/imageuploader/imgbrowser.php';
-
 			$('.category').on('change', function(){
 				console.log('working');
 				loadSubCategory();
@@ -975,11 +852,8 @@
 				var html = $('.color_container').html();
 				$('.color_option').before(html);
 			});
-
 			loadSubCategory();
-
 		});
-
 		$('.product_image').change(function(){
 			if (this.files && this.files[0]) {
 			    var reader = new FileReader();
@@ -1004,66 +878,66 @@
 
 	</script>
 
-<script type="text/javascript">
-	$(document).ready(function () {
-		$('#p_title').keyup(function(e){
-			if ($(this).val().length > 20) {
-				$('#product_title_message').html('20文字以内でご記入ください');
-				e.preventDefault();
-				return false;
-			}else{
-				$('#product_title_message').html('');
-			}
-		})
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('#p_title').keyup(function(e){
+				if ($(this).val().length > 20) {
+					$('#product_title_message').html('20文字以内でご記入ください');
+					e.preventDefault();
+					return false;
+				}else{
+					$('#product_title_message').html('');
+				}
+			})
 
-		$('#p_description').keyup(function(e){
-			if ($(this).val().length > 200) {
-				$('#p_description_message').html('200文字以内でご記入ください');
-				e.preventDefault();
-				return false;
-			}else{
-				$('#p_description_message').html('');
-			}
-		})
+			$('#p_description').keyup(function(e){
+				if ($(this).val().length > 200) {
+					$('#p_description_message').html('200文字以内でご記入ください');
+					e.preventDefault();
+					return false;
+				}else{
+					$('#p_description_message').html('');
+				}
+			})
 
-		$('#p_details').keyup(function(e){
-			if ($(this).val().length > 2000) {
-				$('#p_details_message').html('2000文字以内でご記入ください');
-				e.preventDefault();
-				return false;
-			}else{
-				$('#p_details_message').html('');
-			}
-		})
-		$('#p_company_name').keyup(function(e){
-			console.log($(this).val().length)
-			if ($(this).val().length > 20) {
-				$('#p_company_name_message').html('20文字以内でご記入ください');
-				e.preventDefault();
-				return false;
-			}else{
-				$('#p_company_name_message').html('');
-			}
-		})
-		$('#p_company_info').keyup(function(e){
-			console.log($(this).val().length)
-			if ($(this).val().length > 200) {
-				$('#p_company_info_message').html('200文字以内でご記入ください');
-				e.preventDefault();
-				return false;
-			}else{
-				$('#p_company_info_message').html('');
-			}
-		})
-	});
-</script>
+			$('#p_details').keyup(function(e){
+				if ($(this).val().length > 2000) {
+					$('#p_details_message').html('2000文字以内でご記入ください');
+					e.preventDefault();
+					return false;
+				}else{
+					$('#p_details_message').html('');
+				}
+			})
+			$('#p_company_name').keyup(function(e){
+				console.log($(this).val().length)
+				if ($(this).val().length > 20) {
+					$('#p_company_name_message').html('20文字以内でご記入ください');
+					e.preventDefault();
+					return false;
+				}else{
+					$('#p_company_name_message').html('');
+				}
+			})
+			$('#p_company_info').keyup(function(e){
+				console.log($(this).val().length)
+				if ($(this).val().length > 200) {
+					$('#p_company_info_message').html('200文字以内でご記入ください');
+					e.preventDefault();
+					return false;
+				}else{
+					$('#p_company_info_message').html('');
+				}
+			})
+		});
+	</script>
 
-<script type="text/javascript">
-    $(function(){
-        $('#submit_button').one('click', function() {  
-        	$(this).attr('disabled','disabled');
-        });
-    });
-</script>
+	<script type="text/javascript">
+		$(function(){
+			$('#submit_button').one('click', function() {
+				$(this).attr('disabled','disabled');
+			});
+		});
+	</script>
 
 @stop
