@@ -418,7 +418,7 @@
 															<div class="edit-button ml-2 offset-0">
 																<p style="font-size:15px;" class="user-title">起案者：{{$invested_project->user->first_name}} {{$invested_project->user->last_name}}</p>
 																<div class="bg-dark div-radius1">
-																	<button class="p-2 text-white message-button btn btn-md btn-block w6-14 msg_send_btn btn-default" data-user_id="{{ $invested_project->user->id }}" data-project_username="{{ $invested_project->user->first_name.' '.$invested_project->user->last_name }}" style="cursor:pointer; color:#fff; font-family: w6; font-size: 18px;">
+																	<button class="p-2 text-white message-button btn btn-md btn-block w6-14 msg_send_btn btn-default" data-user_id="{{ $invested_project->user->id }}" data-project_username="{{ $invested_project->user->first_name.' '.$invested_project->user->last_name }}" msg_type = "project" style="cursor:pointer; color:#fff; font-family: w6; font-size: 18px;">
 																	 <span style="color:#fff !important;"> <i class="fa fa-envelope"></i> </span>メッセージを送る</button>
 																</div>
 															</div>
@@ -660,7 +660,7 @@
 														</div>
 														<div class="row mt-3">
 															<div class="col-md-6 col-6 pr-1 pr-md-1">
-																<button class="p-2 text-white btn btn-md message-button btn-block w6-14 msg_send_btn btn-default" data-user_id="{{ $orderDetail->product->user->id }}" data-project_username="{{ $orderDetail->product->user->first_name.' '.$orderDetail->product->user->last_name }}" style="cursor:pointer; color:#FFFFFF;">
+																<button class="p-2 text-white btn btn-md message-button btn-block w6-14 msg_send_btn btn-default" data-user_id="{{ $orderDetail->product->user->id }}" data-project_username="{{ $orderDetail->product->user->first_name.' '.$orderDetail->product->user->last_name }}" msg_type = "product" style="cursor:pointer; color:#FFFFFF;">
 																	<span style="color:#FFFFFF !important;"> <i class="fa fa-envelope"></i> </span>メッセージを送る
 																</button>
 															</div>
@@ -705,8 +705,6 @@
 @include('user.layouts.star-rating')
 @include('user.layouts.message_modal')
 
-
-
 @stop
 
 @section('custom_js')
@@ -724,12 +722,19 @@
 			$('.msg_send_btn').on('click', function(e){
 				var user_id = $(this).attr('data-user_id');
 				var user_name = $(this).attr('data-project_username');
+				var msg_type = $(this).attr('msg_type');
 
+				if(msg_type == "project"){
+					modal_title = "プロジェクトの起案者へのメッセージ";
+				}
+				else{
+					modal_title = "商品登録者へのメッセージ";
+				}
 
 				$('#to_id').val(user_id);
 				$('#project_user_name').val(user_name);
+				$('#modal-title').html(modal_title);
 				$('#send-message').modal('show');
-				//$('#send-message').addClass('show');
 			});
 
 			$('.rating_btn').on('click', function(){

@@ -449,14 +449,11 @@
 	</style>
 @stop
 
-
 @section('ecommerce')
 
 @stop
 
 @section('content')
-
-{{-- @include('user.layouts.tab') --}}
 
 <div class="row breadcrump p-0 m-0 project_sorting">
 	<div class="container">
@@ -589,12 +586,6 @@
 										@endif
 										( {{ $total_revs }} )
 										<p class=" mt-2">
-											{{--<span class="fa fa-star {{ $avgRating > 1?'checked':'' }}" style="font-size:20px;"></span>
-											<span class="fa fa-star-half-o {{ $avgRating >= 2?'checked':'' }}" style="font-size:20px;"></span>
-											<span class="fa fa-star {{ $avgRating >= 3?'checked':'' }}" style="font-size:20px;"></span>
-											<span class="fa fa-star {{ $avgRating >= 4?'checked':'' }}" style="font-size:20px;"></span>
-											<span class="fa fa-star {{ $avgRating >= 5?'checked':'' }}" style="font-size:20px;"></span>--}}
-											
 											<input type="hidden" id="avgRate" name=""  value="{{ $avgRating }}">
 										</p>
 									</div>
@@ -803,10 +794,11 @@
 					var user_id = $(this).attr('data-user_id');
 					var user_name = $(this).attr('data-project_username');
 					var company_name = $(this).attr('data-product_company_name');
-
+					var modal_title = "商品登録者へのメッセージ";
 
 					$('#to_id').val(user_id);
 					$('#project_user_name').html(user_name);
+					$('#modal-title').html(modal_title);
 					$('#get_vendor_name').html('宛先 : ' + ' ' + company_name);
 
 					$('#send-message').modal('show');

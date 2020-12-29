@@ -559,11 +559,12 @@
 				$('.msg_send_btn').on('click', function(e){
 					var user_id = $(this).attr('data-user_id');
 					var user_name = $(this).attr('data-project_username');
-					console.log(user_id);
+					var modal_title = "プロジェクトの起案者へのメッセージ";
 
 					$('#id').val(user_id);
 					$('#to_id').val(user_id);
 					$('#get_vendor_name').html('宛先 : ' + ' ' + user_name);
+					$('#modal-title').html(modal_title);
 					$('#send-message').modal('show');
 					//$('#send-message').addClass('show');
 				});

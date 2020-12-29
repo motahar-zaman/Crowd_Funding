@@ -527,12 +527,12 @@
 				$('.msg_send_btn').on('click', function(e){
 					var user_id = $(this).attr('data-user_id');
 					var user_name = $(this).attr('data-project_username');
-
+					var modal_title = "商品登録者へのメッセージ";
 
 					$('#to_id').val(user_id);
 					$('#project_user_name').val(user_name);
+					$('#modal-title').html(modal_title);
 					$('#send-message').modal('show');
-					//$('#send-message').addClass('show');
 				});
 			});
 	</script>
