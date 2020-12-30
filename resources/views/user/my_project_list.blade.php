@@ -177,12 +177,19 @@
 												<div class="col-md-5">
 													<div class="row">
 														<div class="col-md-12 project-item">
-															<a href="{{route("front-project-details",['id'=>$project->id])}}">
+															@if($project->status == 1)
+																<a href="{{route("front-project-details",['id'=>$project->id])}}">
+																	<div class="frame">
+																		<span class="helper"></span>
+																		<img src="{{$project->featured_image ?  asset('uploads/projects/'.$project->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}" style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
+																	</div>
+																</a>
+															@else
 																<div class="frame">
 																	<span class="helper"></span>
 																	<img src="{{$project->featured_image ?  asset('uploads/projects/'.$project->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}" style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
 																</div>
-															</a>
+															@endif
 															<?php
 																$start = strtotime("now");
 																$end = strtotime(date('Y-m-d 23:59:59', strtotime($project->end)));
@@ -257,11 +264,17 @@
 														</div>
 													</div>
 													<div class="row mt-1">
-														<a href="{{route("front-project-details",['id'=>$project->id])}}">
+														@if($project->status == 1)
+															<a href="{{route("front-project-details",['id'=>$project->id])}}">
+																<div class="col-md-12">
+																	<h5 style="font-size:20px;" class="font-weight-bold fontTitle">{{$project->title}}</h5>
+																</div>
+															</a>
+														@else
 															<div class="col-md-12">
 																<h5 style="font-size:20px;" class="font-weight-bold fontTitle">{{$project->title}}</h5>
 															</div>
-														</a>
+														@endif
 													</div>
 
 													<div class="row mt-2">

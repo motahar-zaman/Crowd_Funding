@@ -387,12 +387,19 @@
 											<div class="col-md-5">
 												<div class="row">
 													<div class="col-md-12 project-item">
-														<a href="{{route("front-product-details",['id'=>$product->product_id])}}">
+														@if($product->product->status == 1)
+															<a href="{{route("front-product-details",['id'=>$product->product_id])}}">
+																<div class="frame">
+																	<span class="helper"></span>
+																	<img src="{{$product->product->image ?  asset('uploads/products/'.$product->product->image) : ''}}" style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
+																</div>
+															</a>
+														@else
 															<div class="frame">
 																<span class="helper"></span>
 																<img src="{{$product->product->image ?  asset('uploads/products/'.$product->product->image) : ''}}" style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
 															</div>
-														</a>
+														@endif
 													</div>
 												</div>
 												<br>
@@ -409,11 +416,17 @@
 													</div>
 												</div>
 												<div class="row mt-1">
-													<a href="{{route("front-product-details",['id'=>$product->product->id])}}">
+													@if($product->product->status == 1)
+														<a href="{{route("front-product-details",['id'=>$product->product->id])}}">
+															<div class="col-md-12">
+																<h5 class="title"  style="font-size:20px;" class="font-weight-bold">{{$product->product->title}}</h5>
+															</div>
+														</a>
+													@else
 														<div class="col-md-12">
-															<h5 class="title"  style="font-size:20px;" class="font-weight-bold">{{$product->product->title}}</h5>
+															<h5 class="noHover title"  style="font-size:20px;" class="font-weight-bold">{{$product->product->title}}</h5>
 														</div>
-													</a>
+													@endif
 												</div>
 												<div class="row mt-3">
 													<div class="col-md-9">

@@ -185,47 +185,89 @@
 													<div class="col-md-5">
 														<div class="row">
 															<div class="col-md-12 project-item">
-																<a href="{{route("front-project-details",['id'=>$project->id])}}">
+																@if($project->status == 1)
+																	<a href="{{route("front-project-details",['id'=>$project->id])}}">
+																		<div class="frame">
+																			<span class="helper"></span>
+																			@php
+																			   $gapTxt = "";
+
+																			   if(mb_strlen($project->title) > 34){
+																				$cssStyle = 'max-height:245px;height:243px; margin-left:-5px';
+
+																			   }else{
+																				$cssStyle = 'max-height:245px;height:238px; margin-left:-5px';
+																				 for($i=1;$i<= 34-mb_strlen($project->title); $i++ ) {
+																					$gapTxt .= "&nbsp;";
+																				 }
+																			   }
+																			@endphp
+																			<img src="{{$project->featured_image ?  asset('uploads/projects/'.$project->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}"  style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
+																		</div>
+																		<?php
+																			if ($days_between <= 0) {
+																				$proStatus = 'status_3';
+																				$proMsg = '終了';
+																			} else {
+																				if ($done >= 100) {
+																					$proStatus = 'status_2';
+																					$proMsg = '達成';
+																				} else{
+																					if ($project->starting_status == 1) {
+																						$proStatus = 'status_1';
+																						$proMsg = '募集中';
+																					} else {
+																						$proStatus = 'status_1';
+																						$proMsg = '募集前';
+																					}
+																				}
+																			}
+																		?>
+																		<div class="project_status {{$proStatus}}">
+																			<span>{{  $proMsg }}</span>
+																		</div>
+																	</a>
+																@else
 																	<div class="frame">
 																		<span class="helper"></span>
 																		@php
-																		   $gapTxt = "";
+																			$gapTxt = "";
 
-																		   if(mb_strlen($project->title) > 34){
-																			$cssStyle = 'max-height:245px;height:243px; margin-left:-5px';
+                                                                            if(mb_strlen($project->title) > 34){
+                                                                             $cssStyle = 'max-height:245px;height:243px; margin-left:-5px';
 
-																		   }else{
-																			$cssStyle = 'max-height:245px;height:238px; margin-left:-5px';
-																			 for($i=1;$i<= 34-mb_strlen($project->title); $i++ ) {
-																				$gapTxt .= "&nbsp;";
-																			 }
-																		   }
+                                                                            }else{
+                                                                             $cssStyle = 'max-height:245px;height:238px; margin-left:-5px';
+                                                                              for($i=1;$i<= 34-mb_strlen($project->title); $i++ ) {
+                                                                                 $gapTxt .= "&nbsp;";
+                                                                              }
+                                                                            }
 																		@endphp
 																		<img src="{{$project->featured_image ?  asset('uploads/projects/'.$project->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}"  style="max-height:242px; margin-left:-5px" alt="" class="img-fluid imageResize">
 																	</div>
 																	<?php
-																		if ($days_between <= 0) {
-																			$proStatus = 'status_3';
-																			$proMsg = '終了';
-																		} else {
-																			if ($done >= 100) {
-																				$proStatus = 'status_2';
-																				$proMsg = '達成';
-																			} else{
-																				if ($project->starting_status == 1) {
-																					$proStatus = 'status_1';
-																					$proMsg = '募集中';
-																				} else {
-																					$proStatus = 'status_1';
-																					$proMsg = '募集前';
-																				}
+																	if ($days_between <= 0) {
+																		$proStatus = 'status_3';
+																		$proMsg = '終了';
+																	} else {
+																		if ($done >= 100) {
+																			$proStatus = 'status_2';
+																			$proMsg = '達成';
+																		} else{
+																			if ($project->starting_status == 1) {
+																				$proStatus = 'status_1';
+																				$proMsg = '募集中';
+																			} else {
+																				$proStatus = 'status_1';
+																				$proMsg = '募集前';
 																			}
 																		}
+																	}
 																	?>
 																	<div class="project_status {{$proStatus}}">
 																		<span>{{  $proMsg }}</span>
 																	</div>
-																</a>
+																@endif
 															</div>
 														</div>
 													</div>
@@ -241,11 +283,17 @@
 															</div>
 														</div>
 														<div class="row mt-1">
-															<a href="{{route("front-project-details",['id'=>$project->id])}}">
+															@if($project->status == 1)
+																<a href="{{route("front-project-details",['id'=>$project->id])}}">
+																	<div class="col-md-12">
+																		<h5 style="font-size:20px;" class="font-weight-bold fontTitle">{!!$project->title!!}{!! $gapTxt !!}</h5>
+																	</div>
+																</a>
+															@else
 																<div class="col-md-12">
 																	<h5 style="font-size:20px;" class="font-weight-bold fontTitle">{!!$project->title!!}{!! $gapTxt !!}</h5>
 																</div>
-															</a>
+															@endif
 														</div>
 														<div class="row mt-2">
 															<div class="col-md-12">
@@ -348,14 +396,23 @@
 													<div class="col-md-5">
 														<div class="row">
 															<div class="col-md-12 project-item">
-																<a href="{{route("front-project-details",['id'=>$invested_project->id])}}">
+																@if($invested_project->status == 1)
+																	<a href="{{route("front-project-details",['id'=>$invested_project->id])}}">
+																		<div class="frame">
+																			<img src="{{$invested_project->featured_image ?  asset('uploads/projects/'.$invested_project->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}"   style="max-height:245px;height:243px;margin-left:-5px;" alt="" class="img-fluid imageResize">
+																		</div>
+																		<div class="project_status {{$days_between <= 0 ? 'status_3' : ($done >= 100?'status_2':'status_1')}}">
+																			<span>{{ $days_between <= 0 ? '終了' : ($done >= 100?'達成':'募集中')}}</span>
+																		</div>
+																	</a>
+																@else
 																	<div class="frame">
 																		<img src="{{$invested_project->featured_image ?  asset('uploads/projects/'.$invested_project->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}"   style="max-height:245px;height:243px;margin-left:-5px;" alt="" class="img-fluid imageResize">
 																	</div>
 																	<div class="project_status {{$days_between <= 0 ? 'status_3' : ($done >= 100?'status_2':'status_1')}}">
 																		<span>{{ $days_between <= 0 ? '終了' : ($done >= 100?'達成':'募集中')}}</span>
 																	</div>
-																</a>
+																@endif
 															</div>
 														</div>
 													</div>
@@ -371,11 +428,17 @@
 															</div>
 														</div>
 														<div class="row mt-1">
-															<a href="{{route("front-project-details",['id'=>$invested_project->id])}}">
+															@if($invested_project->status == 1)
+																<a href="{{route("front-project-details",['id'=>$invested_project->id])}}">
+																	<div class="col-md-12">
+																		<h5 style="font-size:18px;" class="font-weight-bold ">{{$invested_project->title}}</h5>
+																	</div>
+																</a>
+															@else
 																<div class="col-md-12">
 																	<h5 style="font-size:18px;" class="font-weight-bold ">{{$invested_project->title}}</h5>
 																</div>
-															</a>
+															@endif
 														</div>
 
 														<div class="row mt-2">
@@ -450,19 +513,33 @@
 													<div class="col-md-5">
 														<div class="row">
 															<div class="col-md-12 project-item">
-																<a href="{{route("front-product-details",['id'=>$product->id])}}">
+																@if($product->status == 1)
+																	<a href="{{route("front-product-details",['id'=>$product->id])}}">
+																		<div class="frame">
+																			<span class="helper"></span>
+																			@php
+																			   if(mb_strlen($product->title) <= 34){
+																					$cssStyle = 'max-height:245px;height:238px; margin-left:-5px';
+																			   }else{
+																					$cssStyle = 'max-height:245px;height:243px; margin-left:-5px';
+																			   }
+																			@endphp
+																			<img src="{{$product->image ?  asset('uploads/products/'.$product->image) : asset('uploads/projects/1615154785167836.jpeg')}}"   style="{{ $cssStyle }}" alt="" class="img-fluid imageResize">
+																		</div>
+																	</a>
+																@else
 																	<div class="frame">
 																		<span class="helper"></span>
 																		@php
-																		   if(mb_strlen($product->title) <= 34){
-																				$cssStyle = 'max-height:245px;height:238px; margin-left:-5px';
-																		   }else{
-																				$cssStyle = 'max-height:245px;height:243px; margin-left:-5px';
-																		   }
+																			if(mb_strlen($product->title) <= 34){
+                                                                                 $cssStyle = 'max-height:245px;height:238px; margin-left:-5px';
+                                                                            }else{
+                                                                                 $cssStyle = 'max-height:245px;height:243px; margin-left:-5px';
+                                                                            }
 																		@endphp
 																		<img src="{{$product->image ?  asset('uploads/products/'.$product->image) : asset('uploads/projects/1615154785167836.jpeg')}}"   style="{{ $cssStyle }}" alt="" class="img-fluid imageResize">
 																	</div>
-																</a>
+																@endif
 															</div>
 														</div>
 													</div>
@@ -500,11 +577,17 @@
 															</div>
 														</div>
 														<div class="row mt-1">
-															<a href="{{route("front-product-details",['id'=>$product->id])}}">
+															@if($product->status == 1)
+																<a href="{{route("front-product-details",['id'=>$product->id])}}">
+																	<div class="col-md-12">
+																		<h5  class="font-weight-bold product-title-text">{{$product->title}}</h5>
+																	</div>
+																</a>
+															@else
 																<div class="col-md-12">
 																	<h5  class="font-weight-bold product-title-text">{{$product->title}}</h5>
 																</div>
-															</a>
+															@endif
 														</div>
 														<div class="row mt-3">
 															<div class="col-md-12">
@@ -590,12 +673,19 @@
 													<div class="col-md-5">
 														<div class="row">
 															<div class="col-md-12 project-item">
-																<a href="{{route("front-product-details",['id'=>$orderDetail->product->id])}}">
+																@if($orderDetail->product->status == 1)
+																	<a href="{{route("front-product-details",['id'=>$orderDetail->product->id])}}">
+																		<div class="frame">
+																			<span class="helper"></span>
+																			<img src="{{$orderDetail->product->image ?  asset('uploads/products/'.$orderDetail->product->image) : asset('uploads/projects/1615154785167836.jpeg')}}"   style="max-height:242px;height:243px; margin-left:-5px" alt="" class="img-fluid imageResize">
+																		</div>
+																	</a>
+																@else
 																	<div class="frame">
 																		<span class="helper"></span>
 																		<img src="{{$orderDetail->product->image ?  asset('uploads/products/'.$orderDetail->product->image) : asset('uploads/projects/1615154785167836.jpeg')}}"   style="max-height:242px;height:243px; margin-left:-5px" alt="" class="img-fluid imageResize">
 																	</div>
-																</a>
+																@endif
 															</div>
 														</div>
 													</div>
@@ -613,11 +703,17 @@
 															</div>
 														</div>
 														<div class="row mt-1">
-															<a href="{{route("front-product-details",['id'=>$orderDetail->product->id])}}">
+															@if($orderDetail->product->status == 1)
+																<a href="{{route("front-product-details",['id'=>$orderDetail->product->id])}}">
+																	<div class="col-md-9">
+																		<h5  style="font-size:20px;" class="font-weight-bold">{{$orderDetail->product->title}}</h5>
+																	</div>
+																</a>
+															@else
 																<div class="col-md-9">
 																	<h5  style="font-size:20px;" class="font-weight-bold">{{$orderDetail->product->title}}</h5>
 																</div>
-															</a>
+															@endif
 														</div>
 														<div class="row mt-2">
 															<div class="col-md-9">

@@ -442,13 +442,21 @@
 													<div class="col-md-5">
 														<div class="row">
 															<div class="col-md-12 project-item">
-																<a href="{{ route('front-project-details', ['id' => $investment->id] )}}">
+																@if($investment->status == 1)
+																	<a href="{{ route('front-project-details', ['id' => $investment->id] )}}">
+																		<div class="frame">
+																			<span class="helper"></span>
+																			<img src="{{$investment->featured_image ?  asset('uploads/projects/'.$investment->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}" style="max-height:242px;margin-left:-5px" alt="" class="img-fluid imageResize">
+																		</div>
+																		<div class="project_status {{ $days_between <= 0 ? 'status_3' : ($done >= 100?'status_2':'status_1')}}"><span>{{ $days_between <= 0 ? '終了' : ($done >= 100?'達成':'募集中')}}</span></div>
+																	</a>
+																@else
 																	<div class="frame">
 																		<span class="helper"></span>
 																		<img src="{{$investment->featured_image ?  asset('uploads/projects/'.$investment->featured_image) : asset('uploads/projects/1615154785167836.jpeg')}}" style="max-height:242px;margin-left:-5px" alt="" class="img-fluid imageResize">
+																		<div class="project_status {{ $days_between <= 0 ? 'status_3' : ($done >= 100?'status_2':'status_1')}}"><span>{{ $days_between <= 0 ? '終了' : ($done >= 100?'達成':'募集中')}}</span></div>
 																	</div>
-																</a>
-																<div class="project_status {{ $days_between <= 0 ? 'status_3' : ($done >= 100?'status_2':'status_1')}}"><span>{{ $days_between <= 0 ? '終了' : ($done >= 100?'達成':'募集中')}}</span></div>
+																@endif
 															</div>
 														</div>
 													</div>
@@ -465,9 +473,13 @@
 														</div>
 														<div class="row mt-1">
 															<div class="col-md-12">
-																<a href="{{ route('front-project-details', ['id' => $investment->id] )}}">
+																@if($investment->status == 1)
+																	<a href="{{ route('front-project-details', ['id' => $investment->id] )}}">
+																		<h5 style="font-size:20px;" class="font-weight-bold fontTitle">{{$investment->title}}</h5>
+																	</a>
+																@else
 																	<h5 style="font-size:20px;" class="font-weight-bold fontTitle">{{$investment->title}}</h5>
-																</a>
+																@endif
 															</div>
 														</div>
 
