@@ -7,8 +7,6 @@
 
 @section('content')
 	<div class="row">
-		
-
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header">
@@ -34,7 +32,7 @@
 			</div>
 		</div>
 	</div>
-@include('admin.project.message_modal', ['modal_title' => ' 販売者へのメッセージ'])
+@include('admin.project.message_modal', ['modal_title' => ' 商品登録者へのメッセージ'])
 @stop
 
 @section('custom_js')
