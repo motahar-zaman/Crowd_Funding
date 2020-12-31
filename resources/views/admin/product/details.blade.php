@@ -196,9 +196,7 @@
 <link rel="stylesheet" type="text/css" href="{{Request::root()}}/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.css">
 @stop
 
-
 @section('content')
-
 
 <div class="container">
 	<div class="mt20 full-block-align">	
@@ -219,15 +217,6 @@
 				$newTypedif[] = $np->type;
 			  }				  
 		  }
-
-
-		   
-		  //print_r($oldColordif);
-		  //print_r($oldTypedif);
-		  //echo '=====<br/>';
-		  //print_r($newColordif);
-		  //print_r($newTypedif);
-		  
 		  $colorDif = array_diff($oldColordif, $newColordif);
 		  $typeDif = array_diff($oldTypedif, $newTypedif);
 		@endphp 
@@ -235,312 +224,294 @@
 		<div class="row" style="margin-top: 30px;">
 			<div class="col-lg-6 col-md-6 col-sm-12 ">
 				<div class="block-one">
-				<h2>編集前</h2>			
-				
-						<div class="row preview_area">
-							<div class="col-3">商品名 
-							 
-							 </div>
-							<div class="col-9 product_title">{{$oldProductData->title}}</div>
+					<h2>編集前</h2>
+					<div class="row preview_area">
+						<div class="col-3">商品名
+
+						 </div>
+						<div class="col-9 product_title">{{$oldProductData->title}}</div>
+					</div>
+					<div class="row preview_area">
+						<div class="col-3">カテゴリ
+
 						</div>
-						<div class="row preview_area">
-							<div class="col-3">カテゴリ
-						
-							</div>
-							<div class="col-3 product_category">{{$oldProductData->subCategory->category->name}}</div>
-							<div class="col-3">サブカテゴリ
-						
-							</div>
-							<div class="col-3 product_subcategory">{{$oldProductData->subCategory->name}}</div>
+						<div class="col-3 product_category">{{$oldProductData->subCategory->category->name}}</div>
+						<div class="col-3">サブカテゴリ
+
 						</div>
-						<div class="row preview_area">
-							<div class="col-3">販売金額
-						 
-							</div>
-							<div class="col-9 product_price">{{$oldProductData->price}}</div>
+						<div class="col-3 product_subcategory">{{$oldProductData->subCategory->name}}</div>
+					</div>
+					<div class="row preview_area">
+						<div class="col-3">販売金額
+
 						</div>
-						<div class="row preview_area">
-							<div class="col-12">商品内容およびセールスポイント
-							
-							</div>
-							<div class="col-12 product_description">{!!nl2br(e($oldProductData->description))!!}</div>
+						<div class="col-9 product_price">{{number_format($oldProductData->price)}}</div>
+					</div>
+					<div class="row preview_area">
+						<div class="col-12">商品内容およびセールスポイント
+
 						</div>
-						<div class="row preview_area">
-							<div class="col-12">商品写真</div>
-							<div class="col-12 product_image">
-							   @if($oldProductData->image)
-								<img width="200" src="{{Request::root().'/uploads/products/'.$oldProductData->image}}">
-							   @endif	
-							</div>
+						<div class="col-12 product_description">{!!nl2br(e($oldProductData->description))!!}</div>
+					</div>
+					<div class="row preview_area">
+						<div class="col-12">商品写真</div>
+						<div class="col-12 product_image">
+						   @if($oldProductData->image)
+							<img width="200" src="{{Request::root().'/uploads/products/'.$oldProductData->image}}">
+						   @endif
 						</div>
-						<!-- <div class="row preview_area">
-							<div class="col-3">カラー・サイズ</div>
-							<div class="col-9 product_color_size"></div>
-						</div> -->
-						<div class="row preview_area">
-							<div class="col-3">カラー</div>
-							<div class="col-9 product_color_preview">
+					</div>
+
+					<div class="row preview_area">
+						<div class="col-3">カラー</div>
+						<div class="col-9 product_color_preview">
+						@if (count($oldProductColorData) > 0)
+							@foreach($oldProductColorData as $color)
+							<span>{{$color->color}} &nbsp;</span>
+							@endforeach
+						@endif
+						</div>
+					</div>
+					<div class="row preview_area">
+						<div class="col-3">サイズ</div>
+						<div class="col-9 product_size_preview">
 							@if (count($oldProductColorData) > 0)
-								@foreach($oldProductColorData as $color)
-								<span>{{$color->color}} &nbsp;</span>
-								@endforeach
-							@endif	
-							</div>
+							@foreach($oldProductColorData as $color)
+							<span>{{$color->type}} &nbsp;</span>
+							@endforeach
+							@endif
 						</div>
-						<div class="row preview_area">
-							<div class="col-3">サイズ</div>
-							<div class="col-9 product_size_preview">	
-								@if (count($oldProductColorData) > 0)
-								@foreach($oldProductColorData as $color)
-								<span>{{$color->type}} &nbsp;</span>
-								@endforeach
-								@endif
-							</div>
+					</div>
+					<div class="row preview_area">
+						<div class="col-12">商品詳細（原材料・注意事項など）
+
 						</div>
-						<div class="row preview_area">
-							<div class="col-12">商品詳細（原材料・注意事項など）
-							
-							</div>
-							<div class="col-12 product_details">{!! nl2br(e($oldProductData->explanation)) !!}</div>
+						<div class="col-12 product_details">{!! nl2br(e($oldProductData->explanation)) !!}</div>
+					</div>
+					<div class="row preview_area">
+						<div class="col-3">
+						掲載者情報
 						</div>
-						<div class="row preview_area">
-							<div class="col-3">
-							掲載者情報
-							</div>
-							<div class="col-9 product_company_name">{{ $oldProductData->company_name }}</div>
+						<div class="col-9 product_company_name">{{ $oldProductData->company_name }}</div>
+					</div>
+					<div class="row preview_area">
+						<div class="col-12">掲載者情報(HPのURL、住所、お問い合わせ先など）
 						</div>
-						<div class="row preview_area">
-							<div class="col-12">掲載者情報(HPのURL、住所、お問い合わせ先など）							
-							</div>
-							<div class="col-12 product_company_info">{!! nl2br(e($oldProductData->company_info)) !!}</div>
+						<div class="col-12 product_company_info">{!! nl2br(e($oldProductData->company_info)) !!}</div>
+					</div>
+					<div class="row preview_area">
+						<div class="col-12">企業写真
+
 						</div>
-						<div class="row preview_area">
-							<div class="col-12">企業写真
-						
-							</div>
-							<div class="col-12 product_company_image">
-							@if($oldProductData->company_info_image)
-								<img width="200" src="{{Request::root().'/uploads/products/'.$oldProductData->company_info_image}}">
-							@endif	
-							</div>
+						<div class="col-12 product_company_image">
+						@if($oldProductData->company_info_image)
+							<img width="200" src="{{Request::root().'/uploads/products/'.$oldProductData->company_info_image}}">
+						@endif
 						</div>
+					</div>
 				</div>
 			</div>
 
 			<div class="col-lg-6 col-md-6 col-sm-12">	
 			    <div class="block-two">		
 				<h2>編集後</h2>
-						<div class="row preview_area">
-							<div class="col-3">商品名
-							@if($oldProductData->title != $product->title)
-								<span style="color: #ff0000;">*</span>
-							@endif
-							</div>
-							<div class="col-9 product_title">{{$product->title}}</div>
+					<div class="row preview_area">
+						<div class="col-3">商品名
+						@if($oldProductData->title != $product->title)
+							<span style="color: #ff0000;">*</span>
+						@endif
 						</div>
-						<div class="row preview_area">
-							<div class="col-3">カテゴリ
-							@if($oldProductData->subCategory->category->name != $product->subCategory->category->name)
-								<span style="color: #ff0000;">*</span>
-							@endif
-							</div>
-							<div class="col-3 product_category">{{$product->subCategory->category->name}}</div>
-							<div class="col-3">サブカテゴリ
-							@if($oldProductData->subCategory->name != $product->subCategory->name)
-								<span style="color: #ff0000;">*</span>
-							@endif
-							</div>
-							<div class="col-3 product_subcategory">{{$product->subCategory->name}}</div>
+						<div class="col-9 product_title">{{$product->title}}</div>
+					</div>
+					<div class="row preview_area">
+						<div class="col-3">カテゴリ
+						@if($oldProductData->subCategory->category->name != $product->subCategory->category->name)
+							<span style="color: #ff0000;">*</span>
+						@endif
 						</div>
-						<div class="row preview_area">
-							<div class="col-3">販売金額
+						<div class="col-3 product_category">{{$product->subCategory->category->name}}</div>
+						<div class="col-3">サブカテゴリ
+						@if($oldProductData->subCategory->name != $product->subCategory->name)
+							<span style="color: #ff0000;">*</span>
+						@endif
+						</div>
+						<div class="col-3 product_subcategory">{{$product->subCategory->name}}</div>
+					</div>
+					<div class="row preview_area">
+						<div class="col-3">販売金額
 							@if($oldProductData->price != $product->price)
 								<span style="color: #ff0000;">*</span>
 							@endif
-							</div>
-							<div class="col-9 product_price">{{$product->price}}</div>
 						</div>
-						<div class="row preview_area">
-							<div class="col-12">商品内容およびセールスポイント
-							
-							@if($oldProductData->description != $product->description)
-								<span style="color: #ff0000;">*</span>
+						<div class="col-9 product_price">{{number_format($product->price)}}</div>
+					</div>
+					<div class="row preview_area">
+						<div class="col-12">商品内容およびセールスポイント
+
+						@if($oldProductData->description != $product->description)
+							<span style="color: #ff0000;">*</span>
+						@endif
+						</div>
+						<div class="col-12 product_description">{!!nl2br(e($product->description))!!}</div>
+					</div>
+					<div class="row preview_area">
+						<div class="col-12">商品写真</div>
+						<div class="col-12 product_image">
+						@if($product->image)
+							<img width="200" src="{{Request::root().'/uploads/products/'.$product->image}}">
+						@endif
+						</div>
+					</div>
+
+					<div class="row preview_area">
+						<div class="col-3">カラー
+							@if(count($colorDif) > 0  || count($oldColordif) != count($newColordif) )
+							<span style="color: #ff0000;">*</span>
 							@endif
-							</div>
-							<div class="col-12 product_description">{!!nl2br(e($product->description))!!}</div>
 						</div>
-						<div class="row preview_area">
-							<div class="col-12">商品写真</div>
-							<div class="col-12 product_image">
-							@if($product->image)
-								<img width="200" src="{{Request::root().'/uploads/products/'.$product->image}}">
-							@endif	
-							</div>
+						<div class="col-9 product_color_preview">
+							@foreach($productColor as $color)
+							<span>{{$color->color}} &nbsp;</span>
+							@endforeach
 						</div>
-						<!-- <div class="row preview_area">
-							<div class="col-3">カラー・サイズ</div>
-							<div class="col-9 product_color_size"></div>
-						</div> -->
-						<div class="row preview_area">
-							<div class="col-3">カラー
-								@if(count($colorDif) > 0  || count($oldColordif) != count($newColordif) )
-								<span style="color: #ff0000;">*</span>
-								@endif
-							</div>
-							<div class="col-9 product_color_preview">
-								@foreach($productColor as $color)
-								<span>{{$color->color}} &nbsp;</span>
-								@endforeach
-							</div>
-						</div>
-						<div class="row preview_area">
-							<div class="col-3">サイズ 
-								@if (count($typeDif) > 0 || count($newTypedif) != count($oldTypedif)) 
-								<span style="color: #ff0000;">*</span>
-								@endif
-							</div>
-							<div class="col-9 product_size_preview">																
-								@foreach($productColor as $color)
-								<span>{{$color->type}} &nbsp;</span>
-								@endforeach
-							</div>
-						</div>
-						<div class="row preview_area">
-							<div class="col-12">商品詳細（原材料・注意事項など）
-							@if($oldProductData->explanation != $product->explanation)
-								<span style="color: #ff0000;">*</span>
+					</div>
+					<div class="row preview_area">
+						<div class="col-3">サイズ
+							@if (count($typeDif) > 0 || count($newTypedif) != count($oldTypedif))
+							<span style="color: #ff0000;">*</span>
 							@endif
-							</div>
-							<div class="col-12 product_details">{!! nl2br(e($product->explanation)) !!}</div>
 						</div>
-						<div class="row preview_area">
-							<div class="col-3">掲載者情報
-							@if($oldProductData->company_name != $product->company_name)
-								<span style="color: #ff0000;">*</span>
-							@endif
-							</div>
-							<div class="col-9 product_company_name">{{ $product->company_name }}</div>
+						<div class="col-9 product_size_preview">
+							@foreach($productColor as $color)
+							<span>{{$color->type}} &nbsp;</span>
+							@endforeach
 						</div>
-						<div class="row preview_area">
-							<div class="col-12">掲載者情報(HPのURL、住所、お問い合わせ先など）
-							@if($oldProductData->company_info != $product->company_info)
-								<span style="color: #ff0000;">*</span>
-							@endif
-							</div>
-							<div class="col-12 product_company_info">{!! nl2br(e($product->company_info)) !!}</div>
+					</div>
+					<div class="row preview_area">
+						<div class="col-12">商品詳細（原材料・注意事項など）
+						@if($oldProductData->explanation != $product->explanation)
+							<span style="color: #ff0000;">*</span>
+						@endif
 						</div>
-						<div class="row preview_area">
-							<div class="col-12">企業写真
-							@if($oldProductData->company_info_image != $product->company_info_image)
-								<span style="color: #ff0000;">*</span>
-							@endif
-							</div>
-							<div class="col-12 product_company_image">
-							@if($product->company_info_image)
-								<img width="200" src="{{Request::root().'/uploads/products/'.$product->company_info_image}}">
-							@endif	
-							</div>
+						<div class="col-12 product_details">{!! nl2br(e($product->explanation)) !!}</div>
+					</div>
+					<div class="row preview_area">
+						<div class="col-3">掲載者情報
+						@if($oldProductData->company_name != $product->company_name)
+							<span style="color: #ff0000;">*</span>
+						@endif
 						</div>
+						<div class="col-9 product_company_name">{{ $product->company_name }}</div>
+					</div>
+					<div class="row preview_area">
+						<div class="col-12">掲載者情報(HPのURL、住所、お問い合わせ先など）
+						@if($oldProductData->company_info != $product->company_info)
+							<span style="color: #ff0000;">*</span>
+						@endif
+						</div>
+						<div class="col-12 product_company_info">{!! nl2br(e($product->company_info)) !!}</div>
+					</div>
+					<div class="row preview_area">
+						<div class="col-12">企業写真
+						@if($oldProductData->company_info_image != $product->company_info_image)
+							<span style="color: #ff0000;">*</span>
+						@endif
+						</div>
+						<div class="col-12 product_company_image">
+						@if($product->company_info_image)
+							<img width="200" src="{{Request::root().'/uploads/products/'.$product->company_info_image}}">
+						@endif
+						</div>
+					</div>
 
 				</div>		
 			</div>
 		</div>	
 		@else 
 		<div class="row" style="margin-top: 30px;">
-			<div class="col-lg-12 col-md-12 col-sm-12">			
-				
-						<div class="row preview_area">
-							<div class="col-3">商品名
-							
-							</div>
-							<div class="col-9 product_title">{{$product->title}}</div>
-						</div>
-						<div class="row preview_area">
-							<div class="col-3">カテゴリ
-							
-							</div>
-							<div class="col-3 product_category">{{$product->subCategory->category->name}}</div>
-							<div class="col-3">サブカテゴリ
-							 
-							</div>
-							<div class="col-3 product_subcategory">{{$product->subCategory->name}}</div>
-						</div>
-						<div class="row preview_area">
-							<div class="col-3">販売金額
-							 
-							</div>
-							<div class="col-9 product_price">{{$product->price}}</div>
-						</div>
-						<div class="row preview_area">
-							<div class="col-12">商品内容およびセールスポイント
-							
-							 
-							</div>
-							<div class="col-12 product_description">{!!nl2br(e($product->description))!!}</div>
-						</div>
-						<div class="row preview_area">
-							<div class="col-12">商品写真</div>
-							<div class="col-12 product_image">
-							@if($product->image)
-								<img width="200" src="{{Request::root().'/uploads/products/'.$product->image}}">
-							@endif	
-							</div>
-						</div>
-						<!-- <div class="row preview_area">
-							<div class="col-3">カラー・サイズ</div>
-							<div class="col-9 product_color_size"></div>
-						</div> -->
-						<div class="row preview_area">
-							<div class="col-3">カラー</div>
-							<div class="col-9 product_color_preview">
-								@foreach($productColor as $color)
-								<span>{{$color->color}} &nbsp;</span>
-								@endforeach
-							</div>
-						</div>
-						<div class="row preview_area">
-							<div class="col-3">サイズ</div>
-							<div class="col-9 product_size_preview">	
-								@foreach($productColor as $color)
-								<span>{{$color->type}} &nbsp;</span>
-								@endforeach
-							</div>
-						</div>
-						<div class="row preview_area">
-							<div class="col-12">商品詳細（原材料・注意事項など）
-							 
-							</div>
-							<div class="col-12 product_details">{!! nl2br(e($product->explanation)) !!}</div>
-						</div>
-						<div class="row preview_area">
-							<div class="col-3">掲載者情報
-							 
-							</div>
-							<div class="col-9 product_company_name">{{ $product->company_name }}</div>
-						</div>
-						<div class="row preview_area">
-							<div class="col-12">掲載者情報(HPのURL、住所、お問い合わせ先など）
-							 
-							</div>
-							<div class="col-12 product_company_info">{!! nl2br(e($product->company_info)) !!}</div>
-						</div>
-						<div class="row preview_area">
-							<div class="col-12">企業写真
-							 
-							</div>
-							<div class="col-12 product_company_image">
-							@if($product->company_info_image)
-								<img width="200" src="{{Request::root().'/uploads/products/'.$product->company_info_image}}">
-							@endif	
-							</div>
-						</div>
+			<div class="col-lg-12 col-md-12 col-sm-12">
+				<div class="row preview_area">
+					<div class="col-3">商品名
+
+					</div>
+					<div class="col-9 product_title">{{$product->title}}</div>
+				</div>
+				<div class="row preview_area">
+					<div class="col-3">カテゴリ
+
+					</div>
+					<div class="col-3 product_category">{{$product->subCategory->category->name}}</div>
+					<div class="col-3">サブカテゴリ
+
+					</div>
+					<div class="col-3 product_subcategory">{{$product->subCategory->name}}</div>
+				</div>
+				<div class="row preview_area">
+					<div class="col-3">販売金額
+
+					</div>
+					<div class="col-9 product_price">{{number_format($product->price)}}</div>
+				</div>
+				<div class="row preview_area">
+					<div class="col-12">商品内容およびセールスポイント</div>
+					<div class="col-12 product_description">{!!nl2br(e($product->description))!!}</div>
+				</div>
+				<div class="row preview_area">
+					<div class="col-12">商品写真</div>
+					<div class="col-12 product_image">
+					@if($product->image)
+						<img width="200" src="{{Request::root().'/uploads/products/'.$product->image}}">
+					@endif
+					</div>
+				</div>
+
+				<div class="row preview_area">
+					<div class="col-3">カラー</div>
+					<div class="col-9 product_color_preview">
+						@foreach($productColor as $color)
+						<span>{{$color->color}} &nbsp;</span>
+						@endforeach
+					</div>
+				</div>
+				<div class="row preview_area">
+					<div class="col-3">サイズ</div>
+					<div class="col-9 product_size_preview">
+						@foreach($productColor as $color)
+						<span>{{$color->type}} &nbsp;</span>
+						@endforeach
+					</div>
+				</div>
+				<div class="row preview_area">
+					<div class="col-12">商品詳細（原材料・注意事項など）
+
+					</div>
+					<div class="col-12 product_details">{!! nl2br(e($product->explanation)) !!}</div>
+				</div>
+				<div class="row preview_area">
+					<div class="col-3">掲載者情報
+
+					</div>
+					<div class="col-9 product_company_name">{{ $product->company_name }}</div>
+				</div>
+				<div class="row preview_area">
+					<div class="col-12">掲載者情報(HPのURL、住所、お問い合わせ先など）
+
+					</div>
+					<div class="col-12 product_company_info">{!! nl2br(e($product->company_info)) !!}</div>
+				</div>
+				<div class="row preview_area">
+					<div class="col-12">企業写真
+
+					</div>
+					<div class="col-12 product_company_image">
+					@if($product->company_info_image)
+						<img width="200" src="{{Request::root().'/uploads/products/'.$product->company_info_image}}">
+					@endif
+					</div>
+				</div>
 			</div>
-
-
-
 		</div>	
 		@endif
-
 		@if ($product->status == 0 )
 		<div class="row" >
 			<div class="col-md-12 col-lg-12 col-xs-12">

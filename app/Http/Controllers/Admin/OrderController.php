@@ -56,6 +56,12 @@ class OrderController extends Controller
                         <i class="fa fa-envelope"></i> </span>メッセージを送る
                     </button>';
         })
+        ->addColumn('purchase_price', function ($result) {
+            return number_format($result->order->total_point);
+        })
+        ->addColumn('deposit_price', function ($result) {
+            return number_format($result->order->total_point);
+        })
         ->addColumn('product_owner', function ($result) {
             return '<a href="'.route('admin-user-details',['id'=>$result->product->user_id]).'">'. $result->product->user->first_name.' '.$result->product->user->last_name.'</a>
                     <button id="msg_send_btn" onclick="ownerId(this,'.$result->product->user_id.')" class="p-2 text-white btn btn-md btn-block w6-14 btn-default" data-user_id="'.$result->product->user_id.'" data-project_username="'.$result->product->user->first_name.' '.$result->product->user->last_name.'" style="cursor:pointer; color:#fff;background-color:gray !important;font-size:12px"> <span style="color:#fff !important;">
@@ -64,9 +70,6 @@ class OrderController extends Controller
         })
         ->editColumn('order_no', function ($result) {
             return '<a href="'.route('admin-order-details',['id'=>$result->order->id]).'" target="_blank">'.$result->order->order_no.'</a>';
-        })
-        ->editColumn('price', function ($result) {
-                return '<p>'.$result->order->total_point.'</p>';
         })
         ->editColumn('status', function ($result) {
             if ($result->status==0) {

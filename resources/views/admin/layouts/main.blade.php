@@ -10,40 +10,27 @@
 
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
-
 		<link rel="stylesheet" type="text/css" href="{{Request::root()}}/assets/admin/css/style.css">
 
 		@yield('custom_css')
 	</head>
 	<body>
-		
-
 		<div class="side-menu">
 			<nav class="navbar navbar-toggleable-md navbar-light">				
 				<a class="navbar-brand text-white" href="#">CROFUN</a>
 			</nav>
-
-
 			<ul class="sidebar-nav">
                 <li>
                     <a href="{{route('admin-dashboard')}}"><i class="fa fa-home" aria-hidden="true"></i>  ダッシュボード</a>
-                    
                 </li>
 				<!-- project category -->
                 <li>
                     <a href="{{route('admin-project-category-list')}}"><i class="fa fa-home" aria-hidden="true"></i> プロジェクト カテゴリ</a>
-                    
                 </li>
                 <!-- product category -->
                 <li>
                     <a href="{{route('admin-product-category-list')}}"><i class="fa fa-home" aria-hidden="true"></i> カタログ カテゴリ</a>
                 </li>
-				 <!-- product sub category -->
-                {{-- <li>
-                    <a href="{{route('admin-product-subcategory-list')}}"><i class="fa fa-home" aria-hidden="true"></i> カタログ サブカテゴリ</a>
-                </li> --}}
-				 <!-- Content  -->
                 <li>
                     <a href="{{route('admin-content-list')}}"><i class="fa fa-home" aria-hidden="true"></i> コンテンツ管理 </a>
                 </li>
@@ -62,9 +49,7 @@
 	        </ul>
 		</div>
 
-
 		<header>
-
 			<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 			    <span class="navbar-toggler-icon"></span>
@@ -88,27 +73,21 @@
 					</div>
 			  </div>
 			</nav>
-
 		</header>
 		<main>
 			<div class="content-wrapper">
 				<p>
-					<div class="page-heading pl-4">{{isset($title)?$title:''}}</div> 
-				{{--	<div class="sub-heading">something awesome</div>	--}}
+					<div class="page-heading pl-4">{{isset($title)?$title:''}}</div>
 				</p>
 				@yield('content')
 			</div>
 		</main>
 		<footer></footer>
 
-		
-
-
 		<!-- jQuery first, then Tether, then Bootstrap JS. -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-
 
 		@yield('custom_js')
 	</body>

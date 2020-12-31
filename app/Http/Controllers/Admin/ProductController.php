@@ -70,27 +70,22 @@ class ProductController extends Controller
             $query->where('status', $request->status);
         }
         $Product = $query->whereIn('status',[1,3])->get();
-    	// dd($ProjectCategory[0]->createdBy->name);
 
         return Datatables::of($Product)
+            ->addColumn('price', function ($result) {
+                return number_format($result->price);
+            })
 
         ->editColumn('created_at', function($result){
             return  str_limit($result->created_at, $limit = 11, $end = '');
         })
 
-        // ->editColumn('created_at', '{!! date("j M Y h:i A", strtotime($created_at)) !!}')
         ->addColumn('created_by', function ($result) {
             return '<a href="'.route('admin-user-details',['id'=>$result->user_id]).'">'. $result->user->first_name.' '.$result->user->last_name.'</a>
-                                <button id="msg_send_btn" onclick="selectvalue(this,'.$result->user_id.')" class="p-2 text-white btn btn-md btn-block w6-14 btn-default" data-user_id="'.$result->user_id.'" data-project_username="'.$result->user->first_name.' '.$result->user->last_name.'" style="cursor:pointer; color:#fff;background-color:gray !important;font-size:12px"> <span style="color:#fff !important;">
-                                    <i class="fa fa-envelope"></i> </span>メッセージを送る
-                                </button>';
+                    <button id="msg_send_btn" onclick="selectvalue(this,'.$result->user_id.')" class="p-2 text-white btn btn-md btn-block w6-14 btn-default" data-user_id="'.$result->user_id.'" data-project_username="'.$result->user->first_name.' '.$result->user->last_name.'" style="cursor:pointer; color:#fff;background-color:gray !important;font-size:12px"> <span style="color:#fff !important;">
+                        <i class="fa fa-envelope"></i> </span>メッセージを送る
+                    </button>';
         })
-      
-        // ->addColumn('message', function ($result) {
-        //     return ' <button id="msg_send_btn" onclick="selectvalue(this,'.$result->user_id.')" class="p-2 text-white btn btn-md btn-block font-weight-bold btn-default" data-user_id="'.$result->user_id.'" data-project_username="'.$result->user->first_name.' '.$result->user->last_name.'" style="cursor:pointer; color:#fff;background-color:gray !important;font-size:12px"> <span style="color:#fff !important;">
-        //                 <i class="fa fa-envelope"></i> </span>メッセージを送る
-        //             </button>';
-        // })
 
         ->addColumn('title', function ($result) {
             return '<a href="'.route('admin-product-details',['id'=>$result->id]).'">'.$result->title.'</a>';
@@ -124,20 +119,6 @@ class ProductController extends Controller
             else{
                 $returnData .= '<a href="'.route('admin-product-feature-status-change',['id'=>$result->id, 'status'=>0]).'" class="btn btn-sm btn-danger inline">オススメ削除</a> ';
             }
-
-            // if ($result->status==0) {
-            //     $returnData .= '<a href="'.route('admin-product-status-change',['id'=>$result->id, 'status'=>1]).'" class="btn btn-sm btn-success inline">Active</a> '; //last_interest_at = current date time
-            //     $returnData .= '<a href="'.route('admin-product-status-change',['id'=>$result->id, 'status'=>4]).'" class="btn btn-sm btn-danger inline">Reject</a> ';
-            // }
-            // else if ($result->status==1) {
-            //     $returnData .= '<a href="'.route('admin-product-status-change',['id'=>$result->id, 'status'=>3]).'" class="btn btn-sm btn-warning inline">Hold</a> ';
-            //     $returnData .= '<a href="'.route('admin-product-status-change',['id'=>$result->id, 'status'=>4]).'" class="btn btn-sm btn-danger inline">Reject</a> ';
-            // }
-            // else if ($result->status==3) {
-            //     $returnData .= '<a href="'.route('admin-product-status-change',['id'=>$result->id, 'status'=>1]).'" class="btn btn-sm btn-success inline">Active</a> ';
-            //     $returnData .= '<a href="'.route('admin-product-status-change',['id'=>$result->id, 'status'=>4]).'" class="btn btn-sm btn-danger inline">Reject</a> ';
-            // }
-            // else 
             if ($result->status==1) {
                 $returnData .= '<a href="'.route('admin-product-status-change',['id'=>$result->id, 'status'=>3]).'" class="btn btn-sm btn-warning inline" style="color:#fff">非公開にする</a> ';
             }
@@ -145,12 +126,8 @@ class ProductController extends Controller
                 $returnData .= '<a href="'.route('admin-product-status-change',['id'=>$result->id, 'status'=>1]).'" class="btn btn-sm btn-success inline">公開にする</a> ';
             }
             else{
-                //
             }
-
-
             return $returnData;
-            
         })
         ->rawColumns(['title','created_at', 'created_by', 'action', 'status'])
         ->make(true);
@@ -205,12 +182,10 @@ class ProductController extends Controller
                             <i class="fa fa-envelope"></i> </span>メッセージを送る
                         </button>';
         })
-        // ->addColumn('message', function ($result) {
-        //     return ' <button id="msg_send_btn" onclick="selectvalue(this,'.$result->user_id.')" class="p-2 text-white btn btn-md btn-block font-weight-bold btn-default" data-user_id="'.$result->user_id.'" data-project_username="'.$result->user->first_name.' '.$result->user->last_name.'" style="cursor:pointer; color:#fff;background-color:gray !important;font-size:12px"> <span style="color:#fff !important;">
-        //                 <i class="fa fa-envelope"></i> </span>メッセージを送る
-        //             </button>';
-        // })
-        
+        ->addColumn('price', function ($result) {
+            return number_format($result->price);
+        })
+
         ->addColumn('title', function ($result) {
             return '<a href="'.route('admin-product-details',['id'=>$result->id]).'">'.$result->title.'</a>';
         })
@@ -239,18 +214,6 @@ class ProductController extends Controller
 
             $returnData .= '<a href="'.route('admin-product-details', ['id' => $result->id]).'" class="btn btn-sm btn-success">詳細をみる</a>';
 
-            // if ($result->is_featured==0) {
-            //     $returnData .= '<a href="'.route('admin-product-feature-status-change',['id'=>$result->id, 'status'=>1]).'" class="btn btn-sm btn-success inline">オススメにする</a> ';
-            // }
-            // else{
-            //     $returnData .= '<a href="'.route('admin-product-feature-status-change',['id'=>$result->id, 'status'=>0]).'" class="btn btn-sm btn-danger inline">オススメ削除</a> ';
-            // }
-
-            // if ($result->status==0 && $result->no_of_time_added <= 1) {
-            //     $returnData .= '<a href="'.route('admin-product-status-change',['id'=>$result->id, 'status'=>1]).'" class="btn btn-sm btn-success inline">承認する</a> '; //last_interest_at = current date time
-            //     $returnData .= '<a href="'.route('admin-product-status-change',['id'=>$result->id, 'status'=>4]).'" class="btn btn-sm btn-danger inline">拒否する</a> ';
-            // }
-            // else 
             if ($result->status==1) {
                 $returnData .= '<a href="'.route('admin-product-status-change',['id'=>$result->id, 'status'=>3]).'" class="btn btn-sm btn-warning inline">Hold</a> ';
                 $returnData .= '<a href="'.route('admin-product-status-change',['id'=>$result->id, 'status'=>4]).'" class="btn btn-sm btn-danger inline">Reject</a> ';
@@ -260,13 +223,8 @@ class ProductController extends Controller
                 $returnData .= '<a href="'.route('admin-product-status-change',['id'=>$result->id, 'status'=>4]).'" class="btn btn-sm btn-danger inline">拒否する</a> ';
             }
             else{
-                //
             }
-
-            // $returnData .= '<a href="'.route('admin-product-delete', ['id' => $result->id]).'" class="btn btn-sm btn-danger delete-sure">Delete</a>';
-
             return $returnData;
-            
         })
         ->rawColumns(['title','created_at', 'created_by', 'action', 'status'])
         ->make(true);
@@ -303,10 +261,6 @@ class ProductController extends Controller
             ProductsColorTemp::where('product_id', $request->id)->delete();
         }
 
-
-
-        // dd($Product);
-        //send mail to seller if reject
         if($Product->status == 4){
         $seller = User::find($Product->user_id);
         $emailData = [
@@ -363,9 +317,6 @@ class ProductController extends Controller
     public function details(Request $request)
     {
         $data['product'] = Product::find($request->id);
-        // $data['productColor'] = ProductColor::where('product_id',$request->id)->whereHas('product',function($q){
-        //     $q->where('status', true);
-        // })->get();
         $data['productColor'] = ProductColor::where('product_id', $request->id)->get();
         
         //==== old data fetching feature
@@ -382,7 +333,6 @@ class ProductController extends Controller
         }else {
             $data['oldProductColorData'] = [];
         }
-        // dd($request->id, $data);
         
         return view('admin.product.details', $data);
     }

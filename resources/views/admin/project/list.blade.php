@@ -1,14 +1,11 @@
 @extends('admin.layouts.main')
 
 @section('custom_css')
-<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css"> -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
 @stop
 
 @section('content')
 	<div class="row">
-		
-
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header">
@@ -19,13 +16,13 @@
 						<thead>
 							<tr>								
 								<th style="min-width:70px">申請日</th><!--Created At-->
-								<th>Title</th><!--Title-->
-								<th>Budget</th><!--Budget-->
-								<th>No. of support</th><!--No. of support-->
-								<th>Support amount</th><!--Support amount-->
-								<th>Crofun points</th><!--Crofun points-->
-								<th>Status</th><!--Status-->
-								<th>Added By</th><!--Added By-->
+								<th>プロジェクト名</th><!--Title-->
+								<th>目標金額</th><!--Budget-->
+								<th>支援数</th><!--No. of support-->
+								<th>支援金</th><!--Support amount-->
+								<th>ポイント保有</th><!--Crofun points-->
+								<th>対応</th><!--Status-->
+								<th>起案者</th><!--Added By-->
 								<th></th> <!--title-->
 							</tr>
 						</thead>
@@ -65,11 +62,6 @@ $(function() {
 			]
     });
 });
-
-
-
-
-
 </script>
 <script type="text/javascript">
 	function selectvalue(e,s){

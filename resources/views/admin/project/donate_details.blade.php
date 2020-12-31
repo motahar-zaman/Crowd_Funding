@@ -30,15 +30,15 @@
 				<table class="table table-sm" id="data-table" style="overflow-x:auto;overflow-y: hidden;max-width:1300px">
 					<thead>
 						<tr>								
-							<th >Payment date</th>
-							<th style="text-align:center">Amount</th>
-							<th >Return name</th>
-							<th style="text-align:center">Crofun Point</th>
-							<th style="min-width:80px" >Supporter Name</th>
+							<th >支援日</th>
+							<th style="text-align:center">支援金</th>
+							<th >リターン名</th>
+							<th style="text-align:center">ポイント保有</th>
+							<th style="min-width:80px" >応援者</th>
 						</tr>
 					</thead>
 					<tbody>
-						
+
 					</tbody>
 				</table>
 			</div>
@@ -95,6 +95,4 @@ $(function() {
 		$('#send-message').modal('show');
 	}
 </script>
-
-
 @stop

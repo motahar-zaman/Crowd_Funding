@@ -1,7 +1,6 @@
 @extends('admin.layouts.main')
 
 @section('custom_css')
-<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css"> -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
 <style>
 	button:focus,
@@ -9,7 +8,6 @@
 	input:focus {
 		outline: 0 !important;
 	}
-
 </style>
 @stop
 
@@ -49,8 +47,6 @@
 
 @section('custom_js')
 
-<!-- https://code.jquery.com/jquery-3.3.1.js -->
-<!-- <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> -->
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
 <script type="text/javascript">
@@ -64,12 +60,12 @@
 			columns: [
 					{ data: 'created_at', name: 'created_at' },
 					{ data: 'order_no', name: 'order_no' },
-					{ data: 'price', name: 'price' },
+					{ data: 'purchase_price', name: 'purchase_price' },
 					{ data: 'order_by', name: 'order_by'},
 					{ data: 'product_owner', name: 'product_owner'},
 					{ data: 'status', name: 'status',bSearchable:false, bSortable:false},
 					{ data: 'action', name: 'action',bSearchable:false, bSortable:false},
-					{ data: 'price', name: 'price'},
+					{ data: 'deposit_price', name: 'deposit_price'},
 				]
 		});
 	});

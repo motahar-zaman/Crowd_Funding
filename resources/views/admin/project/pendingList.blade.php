@@ -1,14 +1,11 @@
 @extends('admin.layouts.main')
 
 @section('custom_css')
-<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css"> -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
 @stop
 
 @section('content')
 	<div class="row">
-		
-
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header">

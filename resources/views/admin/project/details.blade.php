@@ -182,31 +182,18 @@ margin-right: 0 !important;
 @stop
 
 <?php
-$budget = $project->budget;
-$invested = $project->investment->where('status', true)->sum('amount');
-$done = $invested*100/$budget;
-$done = round($done);
+	$budget = $project->budget;
+	$invested = $project->investment->where('status', true)->sum('amount');
+	$done = $invested*100/$budget;
+	$done = round($done);
 ?>
-
 @section('content')
-
-
-<div class="container-fluid">
-
-@php
-
-$start = strtotime(date('Y-m-d 23:59:59', strtotime($project->start)));
-							$end = strtotime(date('Y-m-d 23:59:59', strtotime($project->end)));
-
-$days_between = ceil(abs($end - $start) / 86400);
-	//$timeDiff = $project->start - $project->end;		
-	// var timeDiff = Math.abs(timeDiff);
-	//var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); -->
-
-@endphp
-
-
-
+	<div class="container-fluid">
+	@php
+		$start = strtotime(date('Y-m-d 23:59:59', strtotime($project->start)));
+		$end = strtotime(date('Y-m-d 23:59:59', strtotime($project->end)));
+		$days_between = ceil(abs($end - $start) / 86400);
+	@endphp
 
 	<div class="mt20">
 		<div class="row" style="margin-top: 30px;">
@@ -238,7 +225,7 @@ $days_between = ceil(abs($end - $start) / 86400);
 				</div>
 				<div class="row preview_area">
 					<div class="col-3">目標金額</div>
-					<div class="col-9"> {{App\Helpers\Number::number_format_short($budget)}} 円</div>
+					<div class="col-9"> {{number_format($budget)}} 円</div>
 				</div>
 				<div class="row preview_area">
 					<div class="col-3">募集期間</div>
@@ -259,11 +246,11 @@ $days_between = ceil(abs($end - $start) / 86400);
 				@foreach ($project->reward->sortBy('amount') as $reward)
 					<div class="row preview_area">
 						<div class="col-3">金額</div>
-						<div class="col-9 ">{{ $reward->amount }} 円</div>
+						<div class="col-9 ">{{ number_format($reward->amount) }} 円</div>
 					</div>
 					<div class="row preview_area">
 						<div class="col-3">Crofunポイント</div>
-						<div class="col-9 ">{{ $reward->is_crofun_point }}  ポイント </div>
+						<div class="col-9 ">{{ number_format($reward->is_crofun_point) }}  ポイント </div>
 					</div>
 					<div class="row preview_area">
 						<div class="col-3">リターン品名</div>
@@ -301,31 +288,8 @@ $days_between = ceil(abs($end - $start) / 86400);
 				@endforeach
 			</div>
 		</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-
-	
+	</div>
 </div>
-
-
-</div>
-
-
-
-
-
 @stop
 
 @section('custom_js')

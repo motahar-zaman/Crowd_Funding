@@ -63,7 +63,7 @@
 			columns: [
 					{ data: 'created_at', name: 'created_at' },
 					{ data: 'title', name: 'title' },
-					{ data: 'budget', name: 'budget' },
+					{ data: 'budget_formatted', name: 'budget_formatted' },
 					{ data: 'total_invested',name: 'total_invested'},
 					{ data: 'total_invested_amount', name: 'total_invested_amount'},
 					{ data: 'total_point', name: 'total_point' },

@@ -204,8 +204,6 @@ class ProjectController extends Controller
         ->editColumn('created_at', function($result){
             return str_limit($result->created_at,$limit=11,$end='');
         })
-        // ->editColumn('created_at', '{!! date("j M Y ", strtotime($created_at)) !!}')
-        //->editColumn('end', '{!! date("j M Y h:i A", strtotime($end)) !!}')
         ->editColumn('status', function ($result) {
             if ($result->status==0) {
                 return '<span class="text-info">Pending</span>';
@@ -226,30 +224,28 @@ class ProjectController extends Controller
                 return '<span class="text-default">Unknown</span>';
             }
         })
+        ->addColumn('budget', function ($result) {
+            return  number_format($result->budget);
+        })
         ->addColumn('created_by', function ($result) {
             return '<a href="'.route('admin-user-details',['id'=>$result->user_id]).'">'. $result->user->first_name.' '.$result->user->last_name.'</a> <button id="msg_send_btn" onclick="selectvalue(this,'.$result->user_id.')" class="p-2 text-white btn btn-md btn-block w6-14 btn-default" data-user_id="'.$result->user_id.'" data-project_username="'.$result->user->first_name.' '.$result->user->last_name.'" style="cursor:pointer; color:#fff;background-color:gray !important;font-size:12px"> <span style="color:#fff !important;">
             <i class="fa fa-envelope"></i> </span>メッセージを送る
         </button>';
         })
-        
-        /*->addColumn('category', function ($result) {
-            return $result->category->name;
-        })*/
+
         ->addColumn('total_point', function ($result) {
             if ($result->status!=0) {
-                return  '<a href="'.route('admin-project-donate',['id'=>$result->id]).'">'.$result->investment->sum('point').'</a>';
+                return  '<a href="'.route('admin-project-donate',['id'=>$result->id]).'">'.number_format($result->investment->sum('point')).'</a>';
             }
-            // return $result->reward->sum('amount');
         })
         ->addColumn('total_invested', function ($result) {
             if ($result->status!=0) {
-                return  '<a href="'.route('admin-project-donate',['id'=>$result->id]).'">'.$result->investment->count().'</a>';
+                return  '<a href="'.route('admin-project-donate',['id'=>$result->id]).'">'.number_format($result->investment->count()).'</a>';
             }
-            // return $result->investment->count();
         })
        ->addColumn('total_invested_amount', function ($result) {
             if ($result->status!=0) {
-                return  '<a href="'.route('admin-project-donate',['id'=>$result->id]).'">'.$result->investment->sum('amount').'</a>';
+                return  '<a href="'.route('admin-project-donate',['id'=>$result->id]).'">'.number_format($result->investment->sum('amount')).'</a>';
             }
         })
         ->addColumn('title', function ($result) {
@@ -258,25 +254,18 @@ class ProjectController extends Controller
         ->addColumn('action', function ($result) {
             $returnData = '';
             if ($result->status==0) {
-                $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>1]).'" class="btn btn-xs btn-success inline">Approve</a> '; //last_interest_at = current date time
-                $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>4]).'" class="btn btn-xs btn-danger inline">Reject</a> ';
+                $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>1]).'" class="btn btn-xs btn-success inline">承認する</a> ';
+                $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>4]).'" class="btn btn-xs btn-danger inline">拒否する</a> ';
             }
             else if ($result->status==1) {
-                $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>3]).'" class="btn btn-xs btn-warning inline">Hold</a> ';
-                // $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>4]).'" class="btn btn-xs btn-danger inline">Reject</a> ';
+                $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>3]).'" class="btn btn-xs btn-warning inline">非公開する</a> ';
             }
             else if ($result->status==3) {
-                $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>1]).'" class="btn btn-xs btn-success inline">Active</a> ';
-                // $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>4]).'" class="btn btn-xs btn-danger inline">Reject</a> ';
+                $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>1]).'" class="btn btn-xs btn-success inline">公開する</a> ';
             }
             else{
-                //
             }
-
-            // $returnData .= '<a href="'.route('admin-project-delete', ['id' => $result->id]).'" class="btn btn-xs btn-danger delete-sure">Delete</a>';
-
             return $returnData;
-            
         })
         ->rawColumns(['title', 'created_at', 'created_by', 'action', 'status','total_point','total_invested_amount','total_invested'])
         ->make(true);
@@ -312,9 +301,8 @@ class ProjectController extends Controller
         if($request->status !== null){
             $query->where('status', $request->status);
         }
-        // $s = $query->where('status',1)->get();
+
         $Project = $query->whereIn('status',[1, 3])->get();
-// dd($Project);
         
         return Datatables::of($Project)
 
@@ -341,19 +329,22 @@ class ProjectController extends Controller
                 return '<span class="text-default">Unknown</span>';
             }
         })
+        ->addColumn('budget_formatted', function ($result) {
+            return  number_format($result->budget);
+        })
         ->addColumn('created_by', function ($result) {
             return '<a href="'.route('admin-user-details',['id'=>$result->user_id]).'">'. $result->user->first_name.' '.$result->user->last_name.'</a><button id="msg_send_btn" onclick="selectvalue(this,'.$result->user_id.')" class="p-2 text-white btn btn-md btn-block w6-14 btn-default" data-user_id="'.$result->user_id.'" data-project_username="'.$result->user->first_name.' '.$result->user->last_name.'" style="cursor:pointer; color:#fff;background-color:gray !important;font-size:12px"> <span style="color:#fff !important;">
                         <i class="fa fa-envelope"></i> </span>メッセージを送る
                     </button>';
         })
         ->addColumn('total_point', function ($result) {
-                return  '<div class="text-center"><a href="'.route('admin-project-donate',['id'=>$result->id]).'">'.$result->investment->sum('point').'</a></div>';
+                return  '<div class="text-center"><a href="'.route('admin-project-donate',['id'=>$result->id]).'">'.number_format($result->investment->sum('point')).'</a></div>';
         })
         ->addColumn('total_invested', function ($result) {
-                return  '<div class="text-center"><a href="'.route('admin-project-donate',['id'=>$result->id]).'">'.$result->investment->count().'</a></div>';
+                return  '<div class="text-center"><a href="'.route('admin-project-donate',['id'=>$result->id]).'">'.number_format($result->investment->count()).'</a></div>';
         })
        ->addColumn('total_invested_amount', function ($result) {
-                return  '<div class="text-center"><a href="'.route('admin-project-donate',['id'=>$result->id]).'">'.$result->investment->sum('amount').'</a></div>';
+                return  '<div class="text-center"><a href="'.route('admin-project-donate',['id'=>$result->id]).'">'.number_format($result->investment->sum('amount')).'</a></div>';
         })
         ->addColumn('title', function ($result) {
             return '<a href="'.route('admin-project-details',['id'=>$result->id]).'">'.$result->title.'</a>';
@@ -361,7 +352,7 @@ class ProjectController extends Controller
         ->addColumn('action', function ($result) {
             $returnData = '';
             if ($result->status==0) {
-                $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>1]).'" class="btn btn-xs btn-success inline">Approve</a> '; //last_interest_at = current date time
+                $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>1]).'" class="btn btn-xs btn-success inline">Approve</a> ';
                 $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>4]).'" class="btn btn-xs btn-danger inline">Reject</a> ';
             }
             else if ($result->status==1) {
@@ -411,78 +402,77 @@ class ProjectController extends Controller
         }
         $Project = $query->get();
 
-    	
-        
         return Datatables::of($Project)
-        ->editColumn('created_at', function($result){
-            return  str_limit($result->created_at, $limit = 11, $end = '');
-        })
-        // ->editColumn('created_at', '{!! date("j M Y ", strtotime($created_at)) !!}')
-        //->editColumn('end', '{!! date("j M Y h:i A", strtotime($end)) !!}')
-        ->editColumn('status', function ($result) {
-            if ($result->status==0) {
-                return '<span class="text-info">申請中</span>';
-            }
-            else if ($result->status==1) {
-                return '<span class="text-success">Approve</span>';
-            }
-            else if ($result->status==2) {
-                return '<span class="text-primary">Completed</span>';
-            }
-            else if ($result->status==3) {
-                return '<span class="text-warning">Hold</span>';
-            }
-            else if ($result->status==4) {
-                return '<span class="text-danger">拒否されました</span>';
-            }
-            else{
-                return '<span class="text-default">Unknown</span>';
-            }
-        })
-        ->addColumn('created_by', function ($result) {
-            return '<a href="'.route('admin-user-details',['id'=>$result->user_id]).'">'. $result->user->first_name.' '.$result->user->last_name.'</a> <button id="msg_send_btn" onclick="selectvalue(this,'.$result->user_id.')" class="p-2 text-white btn btn-md btn-block w6-14 btn-default" data-user_id="'.$result->user_id.'" data-project_username="'.$result->user->first_name.' '.$result->user->last_name.'" style="cursor:pointer; color:#fff;background-color:gray !important;font-size:12px"> <span style="color:#fff !important;">
-                                    <i class="fa fa-envelope"></i> </span>メッセージを送る
-                                </button>';
-        })
+            ->editColumn('created_at', function($result){
+                return  str_limit($result->created_at, $limit = 11, $end = '');
+            })
+            ->editColumn('status', function ($result) {
+                if ($result->status==0) {
+                    return '<span class="text-info">申請中</span>';
+                }
+                else if ($result->status==1) {
+                    return '<span class="text-success">Approve</span>';
+                }
+                else if ($result->status==2) {
+                    return '<span class="text-primary">Completed</span>';
+                }
+                else if ($result->status==3) {
+                    return '<span class="text-warning">Hold</span>';
+                }
+                else if ($result->status==4) {
+                    return '<span class="text-danger">拒否されました</span>';
+                }
+                else{
+                    return '<span class="text-default">Unknown</span>';
+                }
+            })
+            ->addColumn('created_by', function ($result) {
+                return '<a href="'.route('admin-user-details',['id'=>$result->user_id]).'">'. $result->user->first_name.' '.$result->user->last_name.'</a> <button id="msg_send_btn" onclick="selectvalue(this,'.$result->user_id.')" class="p-2 text-white btn btn-md btn-block w6-14 btn-default" data-user_id="'.$result->user_id.'" data-project_username="'.$result->user->first_name.' '.$result->user->last_name.'" style="cursor:pointer; color:#fff;background-color:gray !important;font-size:12px"> <span style="color:#fff !important;">
+                                        <i class="fa fa-envelope"></i> </span>メッセージを送る
+                                    </button>';
+            })
+            ->addColumn('budget', function ($result) {
+                return number_format($result->budget);
+            })
 
-        ->addColumn('total_point', function ($result) {
-            if ($result->status!=0) {
-                return  '<div class="text-center"><a href="'.route('admin-project-donate',['id'=>$result->id]).'">'.$result->investment->sum('point').'</a></div>';
-            }
-        })
-        ->addColumn('total_invested', function ($result) {
-            if ($result->status!=0) {
-                return  '<div class="text-center"><a href="'.route('admin-project-donate',['id'=>$result->id]).'">'.$result->investment->count().'</a></div>';
-            }
-        })
-       ->addColumn('total_invested_amount', function ($result) {
-            if ($result->status!=0) {
-                return  '<div class="text-center"><a href="'.route('admin-project-donate',['id'=>$result->id]).'">'.$result->investment->sum('amount').'</a></div>';
-            }
-        })
-        ->addColumn('title', function ($result) {
-            return '<a href="'.route('admin-project-details',['id'=>$result->id]).'">'.$result->title.'</a>';
-        })
-        ->addColumn('action', function ($result) {
-            $returnData = '';
-            if ($result->status==0) {
-                $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>1]).'" class="btn btn-xs btn-success inline">承認する</a> '; //last_interest_at = current date time
-                $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>4]).'" class="btn btn-xs btn-danger inline">拒否する</a> ';
-            }
-            else if ($result->status==1) {
-                $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>3]).'" class="btn btn-xs btn-warning inline">Hold</a> ';
-            }
-            else if ($result->status==3) {
-                $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>1]).'" class="btn btn-xs btn-success inline">Active</a> ';
-            }
-            else{
-            }
+            ->addColumn('total_point', function ($result) {
+                if ($result->status!=0) {
+                    return  '<div class="text-center"><a href="'.route('admin-project-donate',['id'=>$result->id]).'">'.$result->investment->sum('point').'</a></div>';
+                }
+            })
+            ->addColumn('total_invested', function ($result) {
+                if ($result->status!=0) {
+                    return  '<div class="text-center"><a href="'.route('admin-project-donate',['id'=>$result->id]).'">'.$result->investment->count().'</a></div>';
+                }
+            })
+           ->addColumn('total_invested_amount', function ($result) {
+                if ($result->status!=0) {
+                    return  '<div class="text-center"><a href="'.route('admin-project-donate',['id'=>$result->id]).'">'.$result->investment->sum('amount').'</a></div>';
+                }
+            })
+            ->addColumn('title', function ($result) {
+                return '<a href="'.route('admin-project-details',['id'=>$result->id]).'">'.$result->title.'</a>';
+            })
+            ->addColumn('action', function ($result) {
+                $returnData = '';
+                if ($result->status==0) {
+                    $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>1]).'" class="btn btn-xs btn-success inline">承認する</a> '; //last_interest_at = current date time
+                    $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>4]).'" class="btn btn-xs btn-danger inline">拒否する</a> ';
+                }
+                else if ($result->status==1) {
+                    $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>3]).'" class="btn btn-xs btn-warning inline">Hold</a> ';
+                }
+                else if ($result->status==3) {
+                    $returnData .= '<a href="'.route('admin-project-status-change',['id'=>$result->id, 'status'=>1]).'" class="btn btn-xs btn-success inline">Active</a> ';
+                }
+                else{
+                }
 
-            return $returnData;
-            
-        })
-        ->rawColumns(['title', 'created_at', 'created_by', 'action', 'status'])
-        ->make(true);
+                return $returnData;
+
+            })
+            ->rawColumns(['title', 'created_at', 'created_by', 'action', 'status'])
+            ->make(true);
     }
 
     public function statusChange(Request $request)
@@ -568,29 +558,20 @@ class ProjectController extends Controller
             return  str_limit($result->created_at, $limit = 11, $end = '');
         })
         ->addColumn('amount', function ($result) {
-            return  '<div class="text-center">'.$result->amount.'</div>';
+            return  '<div class="text-center">'.number_format($result->amount).'</div>';
         })
         ->addColumn('return_name', function ($result) {
             return  $result->rewardname->reward->is_other;
         })
         ->addColumn('crofun_points', function ($result) {
-            return '<div class="text-center">'.$result->point .'ポイント </div>';
+            return '<div class="text-center">'.number_format($result->point).'ポイント </div>';
         })
        ->addColumn('supporter_name', function ($result) {
             return '<a href="'.route('admin-user-details',['id'=>$result->user_id]).'">'. $result->user->first_name.' '.$result->user->last_name.'</a>
                     <button id="msg_send_btn" onclick="selectvalue(this,'.$result->user_id.')" class="p-2 text-white btn btn-md btn-block w6-14 btn-default" data-user_id="'.$result->user_id.'" data-project_username="'.$result->user->first_name.' '.$result->user->last_name.'" style="cursor:pointer; color:#fff;background-color:gray !important;font-size:14px"> <span style="color:#fff !important;">
                         <i class="fa fa-envelope"></i> </span>メッセージを送る
                     </button>';
-
-       
-            // return $result->user->first_name .''.$result->user->last_name;
         })
-    //    ->addColumn('message', function ($result) {
-    //         return '<button class="p-2 text-white btn btn-md btn-block font-weight-bold msg_send_btn btn-default" data-user_id="'.$result->user_id.'" data-project_username="'.$project->user->first_name.' '.$project->user->last_name.'" style="cursor:pointer; color:#fff;"> <span style="color:#fff !important;">
-    //                     <i class="fa fa-envelope"></i> </span>メッセージを送る
-    //                 </button>';
-    //         // return $result->user->first_name .''.$result->user->last_name;
-    //     })
         ->rawColumns([ 'created_at','amount','return_name','crofun_points','supporter_name'])
         ->make(true);
     }

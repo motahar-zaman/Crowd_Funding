@@ -38,9 +38,6 @@ class UserController extends Controller
     public function data(Request $request)
     {
     	$User = User::get();
-
-    	// dd($User[0]->createdBy->name);
-
         return Datatables::of($User)
 
         ->editColumn('created_at', function($result){
@@ -49,11 +46,7 @@ class UserController extends Controller
         ->editColumn('first_name', function($result){
             return '<a href="'.route('admin-user-details', ['id' => $result->id]).'" class="" >'.$result->first_name.' '.$result->last_name.'</a> ';
         })
-        // ->editColumn('last_name', function($result){
-        //     return '<a href="'.route('admin-user-details', ['id' => $result->id]).'" class="" >'.$result->last_name.'</a> ';
-        // })
 
-        // ->editColumn('created_at', '{!! date("j M Y h:i A", strtotime($created_at)) !!}')
         ->editColumn('last_login_date', '{!! date("j M Y h:i A", strtotime($last_login_date)) !!}')
         ->editColumn('status', function ($result) {
             if ($result->status==0) {
@@ -83,7 +76,7 @@ class UserController extends Controller
             return '<div class="text-center"><a href="'.route('admin-project-list', ['user_id' => $result->id]).'" class="btn btn-link text-center">'.$result->projects->count().'</a> </div>';
         })
         ->addColumn('point', function ($result) {
-            return '<div class="text-center">'.$result->point.'</div>';
+            return '<div class="text-center">'.number_format($result->point).'</div>';
         })
         ->addColumn('total_products', function ($result) {
             return '<div class="text-center"><a href="'.route('admin-product-list', ['user_id' => $result->id]).'" class="btn btn-link text-center">'.$result->products->count().'</a> </div>';
@@ -95,24 +88,9 @@ class UserController extends Controller
             }
             else{
                 $output .= '<a href="'.route('admin-user-quit-request', ['id' => $result->id,'status'=> 0]).'" class="btn btn-sm btn-danger"> 無効にする</a>';
-                // $output .= '<a href="'.route('admin-project-category-status-change', ['id' => $result->id, 'status'=> 0]).'" class="btn btn-xs btn-danger">Disable</a> ';
             }
-            // $output .= '<a href="'.route('admin-project-category-edit', ['id' => $result->id]).'" class="btn btn-xs btn-info">Edit</a>';
-            
-
-            // $output .= ' <a href="'.route('admin-user-delete', ['id' => $result->id]).'" class="btn btn-sm btn-danger delete-sure">Delete</a>';
-            // dd($result->quit_request);
-            // if($result->withdrawRequest()==1 && $result->status==1){
-            //     $output .= ' <a href="'.route('admin-user-quit-request', ['id' => $result->id, 'status'=> 0]).'" class="btn btn-sm btn-success" style="">Deactive</a> ';
-            // }
-
-            // $withdraw = Withdrawal::where('user_id', $request->id)->first();
-            // if($withdraw){
-            //     $output .= ' <a href="'.route('admin-user-quit-request', ['id' => $result->id, 'status'=> 0]).'" class="btn btn-sm btn-success">Deactive</a> ';
-            // }
             
             return $output;
-            
         })
         ->rawColumns(['first_name','total_projects','total_products','created_at', 'last_login_date', 'is_email_verified', 'action', 'status', 'cancel_request','point'])
         ->make(true);
@@ -212,23 +190,15 @@ class UserController extends Controller
     }
 
     public function details(Request $request){
-        //echo "test";exit();
         $userDetails = User::where('id',$request->id)->with('profile')->first();
-        // $userDetailsProfile = Profile::where('user_id',$request->id)->with('user')->first();
-        // $userDetails = User::where('id', $request->id)->first();
          $userDetailsProfile = Profile::where('user_id',$request->id)   ->first();
-        //dd( $userDetails,$userDetailsProfile);
-        
-        // dd($userDetails->profile);
-        // dd($request->id);
-        // dd($userDetailsProfile, $userDetails);
+
         $data['title'] = $userDetails->first_name.$userDetails->last_name.'\'s details' ;
         $data['userDetails'] = $userDetails;
 
-        // dd( $request->id ,$data);
         return view('admin.user.details',$data);
-
     }
+
     public function cancelRequest(Request $request){
         $id = $request->get('id');
         $test = Withdrawal::where('id', $id)->first();
