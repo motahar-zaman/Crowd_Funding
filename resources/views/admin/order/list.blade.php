@@ -103,7 +103,6 @@
 		$('#send-message-order').modal('show');
 	}
 	function ownerId(e,s){
-		// console.log(s);
 		$('#to_id').val(s);
 		$('#send-message').modal('show');
 	}

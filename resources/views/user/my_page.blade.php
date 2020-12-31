@@ -150,7 +150,7 @@
 							お問い合わせはこちら '; 
 						@endphp -->
 						@include('user.layouts.notifications')
-						{{--@include('front.displaymodal')--}}
+
 						<div class="row">
 							<div class="col-md-12 col-12">
 								<div class="row inner">
@@ -739,7 +739,6 @@
 																	if($orderDetail->size){
 																		$specification .= $orderDetail->size;
 																	}
-
 																?>
 																<h5 class="message-button" style="font-size:15px; letter-spacing:2px;">{{$specification}}</h5>
 															</div>
@@ -773,6 +772,27 @@
 																<button type="button" style="" class="p-2  message-button text-white btn btn-md btn-block w6-14 btn-warning rating_btn" data-toggle="modal" data-target="#star" data-my-rate="{{ $my_rating }}" data-product-id = {{ $orderDetail->product_id }}>★★★  レビューを書く</button>
 															</div>
 														</div>
+													</div>
+												</div>
+												<div class="mt-3">
+													<div class="status_font">
+														@if($orderDetail->status == 1)
+															対応状況 : 新規受注
+														@elseif($orderDetail->status == 2)
+															対応状況 : 配送準備中&nbsp;&nbsp;
+															伝票番号:
+															{{$orderDetail->order->document_number}}&nbsp;&nbsp;
+															配送会社:
+															{{$orderDetail->order->shipping_company}}
+														@elseif($orderDetail->status == 3)
+															対応状況 : 配送済み&nbsp;&nbsp;
+															伝票番号:
+															{{$orderDetail->order->document_number}}&nbsp;&nbsp;
+															配送会社:
+															{{$orderDetail->order->shipping_company}}
+														@elseif($orderDetail->status == 4)
+															対応状況 : キャンセル&nbsp;&nbsp;
+														@endif
 													</div>
 												</div>
 											</div>

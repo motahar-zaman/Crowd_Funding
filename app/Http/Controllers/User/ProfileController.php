@@ -593,12 +593,14 @@ class ProfileController extends Controller
                                     ->orderBy('created_at', 'desc')
                                     ->get();
         $data['invested_projects'] = $invested_projects;
-        $data['OrderDetails'] = OrderDetail::where('status', 1)
-                                            ->whereHas('order', function($q){
-                                                $q->where('user_id', Auth::user()->id)->where('status', 1);
-                                            })
-                                            ->orderBy('created_at', 'desc')
-                                            ->get();
+        $data['OrderDetails'] = OrderDetail::whereHas('order', function ($query) {
+                                    $query->where('user_id', Auth::user()->id)->where('status', 1);
+                                })
+                                ->with('order')
+                                ->with('product')
+                                ->orderBy('created_at', 'desc')
+                                ->get();
+
         $data['OrderDetailsNotification'] = OrderDetail::where('status', 1)
                                             ->whereHas('product', function($q){
                                                 $q->where('user_id', Auth::user()->id)->where('status', 1);
