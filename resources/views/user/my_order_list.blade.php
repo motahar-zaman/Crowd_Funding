@@ -237,7 +237,7 @@
 														<span>入金完了</span>
 													@endif
 												</td>
-												<td class="{{ $OrderDetailData->order->is_read==1?'':'bold'}}">{{ number_format($OrderDetailData->product->price) }}</td>
+												<td class="{{ $OrderDetailData->order->is_read==1?'':'bold'}}">{{ number_format($OrderDetailData->order->total_point) }}</td>
 											</tr>
 										@endforeach
 									@endif
