@@ -78,6 +78,7 @@ Route::get('/profile/{id}', 'Front\HomeController@profile')->name('front-profile
 
 Route::get('/facebook', 'User\AuthController@facebook')->name('front-facebook');
 Route::any('/facebook-action', 'User\AuthController@facebookAction')->name('front-facebook-action');
+Route::post('/facebook-user-email', 'User\AuthController@facebookUserEmail')->name('facebook-user-email');
 Route::get('/google', 'User\AuthController@google')->name('front-google');
 Route::any('/google-action', 'User\AuthController@googleAction')->name('front-google-action');
 Route::get('/twitter', 'User\AuthController@twitter')->name('front-twitter');

@@ -222,7 +222,7 @@ class AuthController extends Controller
         }
         $redirectUrl = $request->root().'/facebook-action';
         $user = Socialite::driver('facebook')->redirectUrl($redirectUrl)->user();
-        $check = User::where('email', $user->email)->first();
+        $check = User::where('facebook_id', $user->id)->first();
         if($check){
             $check->facebook_id = $user->id;
             $check->is_email_verified = true;
@@ -252,6 +252,23 @@ class AuthController extends Controller
         if(Auth::check()){
             return redirect()->to(route('user-social'))->with('success_message', 'Facebook connected!');
         }
+
+        if($user->email || isset($check->email)){
+            Auth::loginUsingId($userId, true);
+            return redirect()->intended(route('user-my-page'));
+        }
+        else{
+            return view('auth.email.facebookUserEmail',['userId'=>$userId]);
+        }
+    }
+
+    public function facebookUserEmail(Request $request){
+	    $userId = $request->userId;
+	    $userEmail = $request->email;
+
+	    $user = User::find($userId);
+	    $user->email = $userEmail;
+	    $user->save();
 
         Auth::loginUsingId($userId, true);
         return redirect()->intended(route('user-my-page'));
