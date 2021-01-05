@@ -67,8 +67,7 @@ class ProfileController extends Controller
                 'phone_no.max' => '電話番号は11文字を超えることはできません。'
             ]);
         if ($validator->fails()) {           
-            return redirect()->back()->with('test', $request->all())
-            ->withErrors($validator);
+            return redirect()->back()->withInput()->withErrors($validator);
         }
 
         $User = User::find(Auth::user()->id);
@@ -131,7 +130,6 @@ class ProfileController extends Controller
 
         $Profile->url = $request->url;
         $Profile->profile = $request->profile;
-        // $Profile->dob = date("Y-m-d", strtotime($request->birth_year.'-'.$request->birth_month.'-'.$request->birth_day));
         $Profile->dob = $request->dob;
         $Profile->postal_code = $request->postal_code;
         $Profile->prefectures = $request->prefectures;
