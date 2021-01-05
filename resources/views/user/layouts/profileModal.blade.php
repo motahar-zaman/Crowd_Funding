@@ -190,10 +190,6 @@
 	</div>
 </div>
 
-<?php 
-	$defaultDate = old('dob');
-?>
-
 <script src="https://cdn.jsdelivr.net/npm/jquery-dropdown-datepicker@1.2.2/dist/jquery-dropdown-datepicker.min.js"></script>
 	<script type="text/javascript">
     function removealert(name)
