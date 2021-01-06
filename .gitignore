@@ -52,7 +52,6 @@ Thumbs.db
 *.zip
 *.gz
 
-/vendor
 public/uploads/products/
 public/uploads/profile/
 public/uploads/projects/
