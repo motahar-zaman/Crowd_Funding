@@ -155,15 +155,8 @@
 @section('custom_js')
     <script type="text/javascript">
         $(document).ready(function(){
-
-
-
             $('[data-toggle="tooltip"]').tooltip();
-                
-
-
             $(document).on('click', '#submit', function(){
-
                 function validPassword(password) {
                     let errors = '';
                     let flag = 0;
