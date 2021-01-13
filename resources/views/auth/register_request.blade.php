@@ -31,18 +31,18 @@
                 <div class="col-md-10 offset-md-1 col-sm-12 bg-white area_auth">
                     <div class="row">
                         <div class="col-md-6 col-sm-12 part_1">
-                            <h2>メールアドレスで新規登録</h2>
+                            @if(isset($facebookErrorMessage))
+                                <h2>{{$facebookErrorMessage}}</h2>
+                            @else
+                                <h2>メールアドレスで新規登録</h2>
+                            @endif
                             @include('layouts.message')
-
                             <form class="form-horizontal" method="POST" action="">
                                 {{ csrf_field() }}
-
                                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                     <label for="email" class="control-label">登録メールアドレス</label>
-
                                     <div>
                                         <input id="email" type="email" class="form-control required" name="email" value="{{ old('email') }}">
-
                                         @if ($errors->has('email'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('email') }}</strong>
@@ -50,7 +50,6 @@
                                         @endif
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     <div class="col-md-12 text-center">
                                         <button type="submit" class="btn btn-warning">
@@ -73,13 +72,11 @@
                         </div>
                         <div class="col-md-6 col-sm-12 part_2">
                             <h2>ソーシャルで新規登録</h2>
-
                             <div class="panel-body">
                                 <a href="{{route('front-facebook')}}" class="btn btn-primary btn-lg btn-block facebook login_font_size"><i class="fa fa-facebook"></i> Facebookアカウントでログインする</a>
                                 <a href="{{route('front-google')}}" class="btn btn-danger btn-lg btn-block google login_font_size"><i class="fa fa-google"></i> Googleアカウントでログインする</a>
                                 <a href="{{route('front-twitter')}}" class="btn btn-info btn-lg btn-block twitter login_font_size"><i class="fa fa-twitter"></i> Twitterアカウントでログインする</a>
                                 <!-- <a href="{{route('front-yahoo')}}" class="btn btn-danger btn-lg btn-block"><i class="fa fa-yahoo"></i> Login With Yahoo</a> -->
-
 
                                  <p class="text-left" style="margin-top: 20px;">
                                      ソーシャルメディアにログイン後、新規登録フォームのメールアドレス欄に、ソーシャルメディアに登録しているメールアドレスが自動的に反映されます。その他の項目を入力し新規登録を完了させてください。

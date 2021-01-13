@@ -258,7 +258,10 @@ class AuthController extends Controller
             return redirect()->intended(route('user-my-page'));
         }
         else{
-            return view('auth.email.facebookUserEmail',['userId'=>$userId]);
+            $data['title'] = '新規登録 | Crofun';
+            $data['facebookErrorMessage'] = "Facebookアカウントにメールアドレスが添付されていません。有効なメールアドレスで登録してください。";
+            return view('auth.register_request', $data);
+            //return view('auth.email.facebookUserEmail',['userId'=>$userId]);
         }
     }
 
@@ -321,7 +324,6 @@ class AuthController extends Controller
         Auth::loginUsingId($userId, true);
         return redirect()->intended(route('user-my-page'));
     }
-
 
     public function twitter(Request $request)
     {
