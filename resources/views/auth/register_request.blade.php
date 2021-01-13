@@ -28,14 +28,13 @@
     <section class="auth_form_area">
         <div class="container">
             <div class="row">
+                @if(isset($facebookErrorMessage))
+                    <div class="col-md-10 offset-md-1 col-sm-12 alert alert-danger" style="font-size: 12px; text-align: center">{{$facebookErrorMessage}}</div>
+                @endif
                 <div class="col-md-10 offset-md-1 col-sm-12 bg-white area_auth">
                     <div class="row">
                         <div class="col-md-6 col-sm-12 part_1">
-                            @if(isset($facebookErrorMessage))
-                                <h2>{{$facebookErrorMessage}}</h2>
-                            @else
-                                <h2>メールアドレスで新規登録</h2>
-                            @endif
+                            <h2>メールアドレスで新規登録</h2>
                             @include('layouts.message')
                             <form class="form-horizontal" method="POST" action="">
                                 {{ csrf_field() }}

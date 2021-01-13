@@ -51,7 +51,10 @@ class AuthController extends Controller
     public function registerRequest(Request $request)
     {
         $data['title'] = '新規登録 | Crofun';
-        return view('auth.register_request', $data);
+        if($request->fb){
+            $data['facebookErrorMessage'] = $request->fb;
+        }
+        return view('auth.register_request')->with($data);
     }
 
     public function registerRequestAction(Request $request)
@@ -223,45 +226,44 @@ class AuthController extends Controller
         $redirectUrl = $request->root().'/facebook-action';
         $user = Socialite::driver('facebook')->redirectUrl($redirectUrl)->user();
         $check = User::where('facebook_id', $user->id)->first();
-        if($check){
-            $check->facebook_id = $user->id;
-            $check->is_email_verified = true;
-            $check->status = true;
-            $check->save();
-            $userId = $check->id;
-        }
-        else{
-            $User = new User();
-            $User->facebook_id = $user->id;
-            $User->first_name = $user->name;
-            $User->pic = $user->avatar_original;
-            $User->last_name = '';
-            $User->email = $user->email;
-            $User->is_email_verified = true;
-            $User->status = true;
-            $User->created_at = date('Y-m-d H:i:s');
-            $User->updated_at = date('Y-m-d H:i:s');
-            $User->save();
-
-            $Profile = new Profile();
-            $Profile->user_id = $User->id;
-            $Profile->save();
-
-            $userId = $User->id;
-        }
-        if(Auth::check()){
-            return redirect()->to(route('user-social'))->with('success_message', 'Facebook connected!');
-        }
 
         if($user->email || isset($check->email)){
+            if($check){
+                $check->facebook_id = $user->id;
+                $check->is_email_verified = true;
+                $check->status = true;
+                $check->save();
+                $userId = $check->id;
+            }
+            else{
+                $User = new User();
+                $User->facebook_id = $user->id;
+                $User->first_name = $user->name;
+                $User->pic = $user->avatar_original;
+                $User->last_name = '';
+                $User->email = $user->email;
+                $User->is_email_verified = true;
+                $User->status = true;
+                $User->created_at = date('Y-m-d H:i:s');
+                $User->updated_at = date('Y-m-d H:i:s');
+                $User->save();
+
+                $Profile = new Profile();
+                $Profile->user_id = $User->id;
+                $Profile->save();
+
+                $userId = $User->id;
+            }
+            if(Auth::check()){
+                return redirect()->to(route('user-social'))->with('success_message', 'Facebook connected!');
+            }
+
             Auth::loginUsingId($userId, true);
             return redirect()->intended(route('user-my-page'));
         }
         else{
-            $data['title'] = '新規登録 | Crofun';
-            $data['facebookErrorMessage'] = "Facebookアカウントにメールアドレスが添付されていません。有効なメールアドレスで登録してください。";
-            return view('auth.register_request', $data);
-            //return view('auth.email.facebookUserEmail',['userId'=>$userId]);
+            $facebookErrorMessage = "Facebookアカウントにメールアドレスが添付されていません。有効なメールアドレスで登録してください。";
+            return redirect()->route("user-register-request", ['fb' => $facebookErrorMessage]);
         }
     }
 
@@ -371,7 +373,6 @@ class AuthController extends Controller
         Auth::loginUsingId($userId, true);
         return redirect()->intended(route('user-my-page'));
     }
-
 
     public function line(Request $request)
     {
