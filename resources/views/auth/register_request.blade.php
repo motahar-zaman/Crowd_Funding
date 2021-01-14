@@ -29,7 +29,7 @@
         <div class="container">
             <div class="row">
                 @if(isset($facebookErrorMessage))
-                    <div class="col-md-10 offset-md-1 col-sm-12 alert alert-danger" style="font-size: 12px; text-align: center">{{$facebookErrorMessage}}</div>
+                    <div class="col-md-10 offset-md-1 col-sm-12 alert alert-danger" style="font-size: 12px; text-align: center">Facebookアカウントにメールアドレスが登録されていません。<br>Facebookアカウントにメールアドレスを登録するか、下記の「メールアドレスで新規登録」をお試しください。</div>
                 @endif
                 <div class="col-md-10 offset-md-1 col-sm-12 bg-white area_auth">
                     <div class="row">

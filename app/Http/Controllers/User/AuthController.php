@@ -262,7 +262,7 @@ class AuthController extends Controller
             return redirect()->intended(route('user-my-page'));
         }
         else{
-            $facebookErrorMessage = "Facebookアカウントにメールアドレスが添付されていません。有効なメールアドレスで登録してください。";
+            $facebookErrorMessage = true;
             return redirect()->route("user-register-request", ['fb' => $facebookErrorMessage]);
         }
     }
