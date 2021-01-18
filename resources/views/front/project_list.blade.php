@@ -1,7 +1,6 @@
 @extends('main_layout')
 
 @section('custom_css')
-
 	<style>
 		.padding_search{
 			padding-left: 10px;
@@ -308,60 +307,50 @@
 @include('front.layouts.project-list-breadcrums-search')
 
 <div class="container">
-<div class="mt20">
-	<div class="row container_div justify-content-center ">
-		<div class="col-md-12 col-12">
-			<!-- Tab panes -->
-			<div class="tab-content">
-				<div class="tab-pane active" id="popular">
-					<div class="row mb-4">
-						<div class="col-md-4 col-sm-6 offset-md-0">
-							<span class="project_count_area">すべてのプロジェクト  {{$totalProjects}} 件</span>
-							{{--<span class="project_count_area">すべてのプロジェクト  {{count($projects)}} 件</span>--}}
-						</div>
-						<div class="col-md-4 col-sm-0 "></div>
-						<div class="col-md-4 col-sm-6">
-							<div class="col-md-6 p-0 offset-md-6">
-							@if(isset($rank))
-								@if($rank == 1)
-									<select class="form-control sort" name="s">
-										<option value="0">ランキング</option> 
-									</select>
-								@else
-									@include('front.layouts.sort')
+	<div class="mt20">
+		<div class="row container_div justify-content-center ">
+			<div class="col-md-12 col-12">
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div class="tab-pane active" id="popular">
+						<div class="row mb-4">
+							<div class="col-md-4 col-sm-6 offset-md-0">
+								<span class="project_count_area">すべてのプロジェクト  {{$totalProjects}} 件</span>
+								{{--<span class="project_count_area">すべてのプロジェクト  {{count($projects)}} 件</span>--}}
+							</div>
+							<div class="col-md-4 col-sm-0 "></div>
+							<div class="col-md-4 col-sm-6">
+								<div class="col-md-6 p-0 offset-md-6">
+								@if(isset($rank))
+									@if($rank == 1)
+										<select class="form-control sort" name="s">
+											<option value="0">ランキング</option>
+										</select>
+									@else
+										@include('front.layouts.sort')
+									@endif
 								@endif
-							@endif
+								</div>
 							</div>
 						</div>
+						<div class="row projects">
+							<?php
+								foreach($projects as $p){
+							?>
+								<div class="col-md-4">
+									@include('front.layouts.project')
+								</div>
+							<?php }?>
+						</div>
+						<div class="row text-center">
+							{!! $projects->appends(request()->except('page'))->links() !!}
+						</div>
 					</div>
-					<div class="row projects">
-					<?php
-				 
-					foreach($projects as $p){?>
-						<div class="col-md-4">
-							@include('front.layouts.project')
-						</div>	
-					<?php }?>
-					</div>
-
-					<div class="row text-center">
-						{!! $projects->appends(request()->except('page'))->links() !!}
-					</div>
-
 				</div>
-
 			</div>
 		</div>
-
-		{{-- <div class="col-md-2 mt50">
-			@include('front.layouts.right_menu')
-		</div> --}}
 	</div>
-
 </div>
-
-</div>
-
 
 @stop
 

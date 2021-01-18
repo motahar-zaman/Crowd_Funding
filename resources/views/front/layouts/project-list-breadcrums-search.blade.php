@@ -148,28 +148,18 @@
 						if(isset($_GET['c']) && $_GET['c']){
 							$project_list_menu = $_GET['c'];
 						}
-						// $project_list_menu = 1;
-						// if(isset($_GET['s']) && $_GET['s'] == 'per'){
-						// 	$project_list_menu = 1;
-						// }
 					?>
-					@if(!empty($rank))
-						@php
-							$project_list_menu = 1;
-						@endphp
-					@endif 
-					<li class="list-inline-item"><a href="{{route('front-project-list-bycat', ['s' => 'd'])}}" class="{{ ($project_list_menu == 0) ? 'active' : '' }}">ALL</a></li>
-
-					<li class="list-inline-item"><a href="{{route('front-project-list-rank', ['s' => 'r'])}}" class="{{ ($project_list_menu == 1) ? 'active' : '' }}">ランキング</a></li>
+					<li class="list-inline-item"><a href="{{route('front-project-list-bycat', ['s' => 'd'])}}" class="{{ ($project_list_menu == 0  && !$rank) ? 'active' : '' }}">ALL</a></li>
+					<li class="list-inline-item"><a href="{{route('front-project-list-rank', ['s' => 'r'])}}" class="{{ ($rank == 1) ? 'active' : '' }}">ランキング</a></li>
 					<?php foreach($categories as $c){?>
-						<li class="list-inline-item"><a href="{{route('front-project-list-bycat',['c'=> $c->id,'s' => 'd'])}}" class="{{ ($project_list_menu == $c->id) ? 'active' : '' }}">{{$c->name}}</a></li>
+						<li class="list-inline-item"><a href="{{route('front-project-list-bycat',['c'=> $c->id,'s' => 'd'])}}" class="{{ ($project_list_menu == $c->id && !$rank) ? 'active' : '' }}">{{$c->name}}</a></li>
 					<?php }?>
 				</ul>
 				<select class="project_category_sm_data form-control project-list-page-alignment">
 					<option value="{{route('front-project-list-bycat', ['s' => 'd'])}}" {{ ($project_list_menu == 0) ? 'selected' : '' }}>ALL</option>
 					<option value="{{route('front-project-list-rank', ['s' => 'r'])}}"  {{ ($project_list_menu == 1) ? 'selected' : '' }}>ランキング</option>
 					<?php foreach($categories as $c){?>
-						<option value="{{route('front-project-list-bycat',['c'=> $c->id,'s' => 'd'])}}" {{ ($project_list_menu == $c->id) ? 'selected' : '' }}>{{$c->name}}</option>
+						<option value="{{route('front-project-list-bycat',['c'=> $c->id,'s' => 'd'])}}" {{ ($project_list_menu == $c->id) ? 'selected' : '' }}>{{$c->name}}H</option>
 					<?php }?>
 				</select>
 			</div>

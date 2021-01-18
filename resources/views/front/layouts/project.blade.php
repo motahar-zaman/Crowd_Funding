@@ -6,9 +6,7 @@
 	// print(strtotime($p->end) < strtotime(date('Y-m-d H:i:s')));
 ?>
 <?php
-
 	// $running_projects = App\Models\Projects::where('status', 1)->get();
-
 	$start = strtotime("now");
 	$end = strtotime(date('Y-m-d 23:59:59', strtotime($p->end)));
 	$days_between = ceil(abs($end - $start) / 86400);
@@ -36,20 +34,13 @@
 			{{--<div class="project_status {{$days_between <= 0 ? 'status_3' : ($done >= 100?'status_2':'status_1')}}"><span>{{$days_between <= 0 ? '終了' : ($done >= 100?'達成':'募集中')}}</span></div>--}}
 		</div>
 	</a>
-
-
 	<div class="project_text">
 		<ul class="project_tags list-inline project_category_items">
 			<li class="list-inline-item">
 				<i class="fa fa-tag"></i> <a class="category-name" href="{{ route('front-project-list', ['c' => $p->category->id]) }}" class="category">{{$p->category->name}}</a>
 			</li>
 		</ul>
-
-
-
-
 		<h2 class="project_title"><a title="{{$p->title}}" class="title Cdiv" href="{{route('front-project-details', ['id' => $p->id])}}">{{ $p->title }}</a></h2>
-
 		<div class="row project_progress project_progress_height">
 			<div class="col-12">
 				<div class="progress project_progress">
