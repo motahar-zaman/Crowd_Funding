@@ -132,10 +132,6 @@
 				font-size: 9px;
 			}
 		}
-
-
-	
-	
 </style>
 
 <section class="first_tabs">

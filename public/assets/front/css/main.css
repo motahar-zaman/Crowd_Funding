@@ -4,7 +4,9 @@
 * @Last Modified by:   Md Shafkat Hussain Tanvir
 * @Last Modified time: 2017-11-09 18:43:18
 */
-
+html {
+    overflow-y: scroll;
+}
 @font-face {
     font-family: w3,w6;
     /* src: url(../fonts/stdw3.otf); */

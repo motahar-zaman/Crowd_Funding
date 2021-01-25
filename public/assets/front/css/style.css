@@ -1,5 +1,8 @@
 
 /*========== user main layout inside csss block ================*/
+html {
+    overflow-y: scroll;
+}
 #body {
     padding-bottom: 0px;
     margin-bottom: 0px;
