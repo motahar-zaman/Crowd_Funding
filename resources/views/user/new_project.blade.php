@@ -789,10 +789,10 @@
 
 <div class="hide reward">
 	<div class="row mt20 reward_div">
-		<hr>
+		<hr><div class="close col-md-12 text-right text-danger" onclick="closeDiv(this.parentNode)">X</div>
 		<div class="col-md-12 amount_div">
 			<div class="row">
-				<label for="amount" class="col-md-12">金額 <span class="close float-right" data-target="reward_div">X</span></label>
+				<label for="amount" class="col-md-12">金額</label>
 
 				<div class="col-md-4">
 					<input type="number" class="form-control amount required" name="amount[]" min="1" required maxlenght="10">
@@ -850,10 +850,10 @@
 
 <div class="hide details">
 	<div class="mt20 details_div">
-		<hr>
+		<hr><div class="close col-md-12 text-right text-danger" onclick="closeDiv(this.parentNode)">X</div>
 		<div class="">
 			<div class="form-group">
-				<label for="details_title[] " style="width:100%;">見出しタイトル</label>  <span class="additional_details_title_message 20_2" class="text-danger"></span> <span class="close float-right" data-target="details_div">X</span>
+				<label for="details_title[] " style="width:100%;">見出しタイトル</label>  <span class="additional_details_title_message 20_2" class="text-danger"></span>
 				<input type="text" class="form-control additional_details_title 2k_2" id="additional_details_title" placeholder="" maxlength="21" name="details_title[]">
 			</div>
 			<div class="form-group">
@@ -882,6 +882,10 @@
 	<script src="https://cdn.jsdelivr.net/npm/jquery-dropdown-datepicker@1.3.0/dist/jquery-dropdown-datepicker.min.js"></script>
 
 	 <script>
+		 function closeDiv(section){
+		 	section.style.display = "none";
+		 }
+
 		 function numberWithCommas(x) {
 			 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		 }
