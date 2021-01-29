@@ -34,7 +34,6 @@ class ProjectController extends Controller
 {
 	public function __construct()
     {
-
     }
 
     public function index()
@@ -68,7 +67,6 @@ class ProjectController extends Controller
     {
         $Project = new Project();
         $Project->title = $request->title;
-
         $name = '';
 
         if ($request->hasFile('featured_image')) {
@@ -113,10 +111,12 @@ class ProjectController extends Controller
                 $extension = $request->other_file[$i]->extension();
                 $name = time().rand(1000,9999).'.'.$extension;
                 $path = $request->other_file[$i]->storeAs('projects', $name);
-
                 $Reward->other_file = $name;
             }
-            $Reward->save();
+            if($Reward->amount && $Reward->is_other)
+            {
+                $Reward->save();
+            }
         }
 
         for($i=0; $i<count($request->details_title);$i++) {
@@ -132,15 +132,15 @@ class ProjectController extends Controller
                     $path = $request->draft_file[$i]->storeAs('projects', $name);
                     $ProjectDetails->draft_file = $name;
                 }
-
-                $ProjectDetails->save();
+                if($ProjectDetails->details_title && $ProjectDetails->details_description){
+                    $ProjectDetails->save();
+                }
             }
-
         }
 
          //send mail to admin
-         $Owner = User::find($Project->user_id);
-         $emailData = [
+        $Owner = User::find($Project->user_id);
+        $emailData = [
              'name' => $Owner->first_name.' '.$Owner->last_name,
              'register_token' =>'',
              'subject' => '【Crofun管理者用】新規プロジェクト申請の通知',
@@ -155,11 +155,11 @@ class ProjectController extends Controller
              'project_url'  => 'http://crofun.jp/admin/project/details/'.$Project->id,
              ];
      
-             Mail::to('administrator@crofun.jp')
-                 ->send(new Common($emailData));
+        Mail::to('administrator@crofun.jp')
+            ->send(new Common($emailData));
          
           //send mail to Project owner
-          $emailData = [
+        $emailData = [
              'name' => $Owner->first_name.' '.$Owner->last_name,
              'register_token' =>'',
              'subject' => '【Crofun】プロジェクト申請を受け付けました',
@@ -171,8 +171,8 @@ class ProjectController extends Controller
      
              ];
      
-             Mail::to($Owner->email)
-                 ->send(new Common($emailData));
+        Mail::to($Owner->email)
+            ->send(new Common($emailData));
 
         return redirect()->to(route('user-project-add', ['finish' => true]));
     }
@@ -208,10 +208,8 @@ class ProjectController extends Controller
 
                     $ProjectDetails->draft_file = $name;
                 }
-
                 $ProjectDetails->save();
             }
-
         }
 
          //send mail to admin
@@ -231,8 +229,8 @@ class ProjectController extends Controller
             'project_url'  => 'http://crofun.jp/admin/project/details/'.$Project->id,
          ];
 
-         Mail::to('administrator@crofun.jp')
-             ->send(new Common($emailData));
+        Mail::to('administrator@crofun.jp')
+            ->send(new Common($emailData));
 
         return redirect()->to(route('user-project-edit', [ 'id' => $request->id,'finish' => true]));
     }
