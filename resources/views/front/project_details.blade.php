@@ -555,23 +555,26 @@
 @stop
 @section('custom_js')
 	<script type="text/javascript">
-			$(document).ready(function(){
-				$('.msg_send_btn').on('click', function(e){
-					var user_id = $(this).attr('data-user_id');
-					var user_name = $(this).attr('data-project_username');
-					var modal_title = "プロジェクトの起案者へのメッセージ";
+		$(document).ready(function(){
+			$('.msg_send_btn').on('click', function(e){
+				var user_id = $(this).attr('data-user_id');
+				var user_name = $(this).attr('data-project_username');
+				var modal_title = "プロジェクトの起案者へのメッセージ";
 
-					$('#id').val(user_id);
-					$('#to_id').val(user_id);
-					$('#get_vendor_name').html('宛先 : ' + ' ' + user_name);
-					$('#modal-title').html(modal_title);
-					$('#send-message').modal('show');
-					//$('#send-message').addClass('show');
-				});
+				$('#id').val(user_id);
+				$('#to_id').val(user_id);
+				$('#get_vendor_name').html('宛先 : ' + ' ' + user_name);
+				$('#modal-title').html(modal_title);
+				$('#send-message').modal('show');
+				//$('#send-message').addClass('show');
 			});
+		});
 
 		$('.profileModal').on('click',function(){
 			$('#myModal').modal('show');
+		});
+		$('form').submit(function(){
+			document.getElementById("submit_message").disabled = true;
 		});
 
 		$(function() {
