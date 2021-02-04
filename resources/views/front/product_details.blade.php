@@ -819,5 +819,8 @@
 		$('.profileModal').on('click',function(){
 			$('#myModal').modal('show');
 		});
+		$('form').submit(function(){
+			document.getElementById("submit_message").disabled = true;
+		});
 	</script>
 @stop
