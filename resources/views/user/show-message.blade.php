@@ -133,7 +133,7 @@
                                                         <textarea name="message" rows="4" cols="80" class="form-control" required></textarea>
                                                         <input type="hidden" name="subject" value="{{ $thread->title }}">
                                                         <input type="hidden" name="thread_id" value="{{ $thread->id }}">
-                                                        <input type="hidden" name="to_id" value="{{ $lastMessage[0]->from_id }}">
+                                                        <input type="hidden" name="to_id" value="@if($thread->side_1 != Auth::user()->id) {{$thread->side_1}} @else {{$thread->side_2}} @endif">
                                                         <input type="hidden" name="reply_message_id" value="{{ $messages[0]->id }}">
                                                     </div>
                                                 </div>

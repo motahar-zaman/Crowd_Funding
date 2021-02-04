@@ -205,7 +205,6 @@
 	</style>
 @stop
 
-
 @section('ecommerce')
 
 @stop
@@ -312,13 +311,6 @@
 </div>
 
 @include('user.layouts.profileModal')
-
-
-
-
-
-
-
 @stop
 
 @section('custom_js')

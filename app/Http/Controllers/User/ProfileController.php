@@ -259,14 +259,16 @@ class ProfileController extends Controller
                 $thrd->save();
 
                 $thread_id = $thrd->id;
-            } else if(($is_exist->side_1 == 0 && $is_exist->side_2 == $request->to_id) || ($is_exist->side_2 == 0 && $is_exist->side_1 == $request->to_id)){
+            }
+            else if(($is_exist->side_1 == 0 && $is_exist->side_2 == $request->to_id) || ($is_exist->side_2 == 0 && $is_exist->side_1 == $request->to_id)){
                 $is_exist->last_message_time = date('Y-m-d H:i:s');
                 if($is_exist->side_2 == 0){
                     $is_exist->location = 2;
                 }
                 $is_exist->save();
                 $thread_id = $is_exist->id;
-            } else {
+            }
+            else {
                 $thrd = new Threads();
                 $thrd->side_1 = 0;
                 $thrd->side_2 = $request->to_id;
@@ -288,7 +290,8 @@ class ProfileController extends Controller
             $Message->message = $request->message;
             $Message->save();
        
-        } else {
+        }
+        else {
         //Thread generation
             $thread_id = 0;
             $is_exist = Threads::where('title', $request->subject)->first();
@@ -427,15 +430,10 @@ class ProfileController extends Controller
 
         $thread = Threads::where('id', $request->id)->update(['read_status' => 2]);
 
-        $user = User::where('id', Auth::user()->id)->with('profile')->first();
-        $data['user'] = $user;
-        $message = Message::where('thread_id', $request->id)->get();
-        $lastMessage = Message::where('thread_id', $request->id)->orderBy('id','desc')->get();
-
-        $data['messages'] = $message;
-        $data['lastMessage'] = $lastMessage;
+        $data['user'] = User::where('id', Auth::user()->id)->with('profile')->first();
+        $data['messages'] = Message::where('thread_id', $request->id)->get();
+        $data['lastMessage'] = Message::where('thread_id', $request->id)->orderBy('id','desc')->get();
         $data['thread'] = Threads::where('id', $request->id)->with('side1')->with('side2')->first();
-
         return view('user.show-message', $data);
     }
 
@@ -473,7 +471,6 @@ class ProfileController extends Controller
                  'template' => 'user.email.12',
                  'root'     => $request->root(),
                  'email'     => 'administrator@crofun.jp',
-         
              ];
          
              Mail::to('administrator@crofun.jp')
@@ -491,9 +488,7 @@ class ProfileController extends Controller
                 'template' => 'user.email.12',
                 'root'     => $request->root(),
                 'email'     => $Receiver->email,
-        
             ];
-        
             Mail::to($Receiver->email)
                 ->send(new Common($emailData));
         }
