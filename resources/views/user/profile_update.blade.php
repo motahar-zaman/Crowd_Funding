@@ -487,8 +487,8 @@
 							</div>
 							<div class="col-md-9 col-9 ">
 								<div class="row pt-2">
-									<div class="col-md-10 col-10 mb-2 ml-4 p-0">
-										<img id="blah" src="/uploads/{{$user->pic}}" alt="your image" class="" style="height: 200px; width: auto"/>
+									<div class="col-md-10 col-10 mb-2 ml-4 p-0" style="height: 200px; width: auto;">
+										<img id="blah" src="/uploads/{{$user->pic}}" alt="your image" class="" style="max-width: 100%; max-height: 100%; object-fit: contain;"/>
 									</div>
 									<div class="col-md-12 col-10 p-0 ml-4 pb-3">
 										<input type="file" onchange="readURL(this);" class="" id="pic" placeholder="アイコン画像" name="pic" accept=".jpg,.png,.jpeg">

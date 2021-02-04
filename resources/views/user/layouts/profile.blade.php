@@ -4,19 +4,19 @@
 		right: 0px;
 		font-size: 20px;
 	}
-
 	.profile_font {
 		font-family: w6;
 		font-size: 16px;			
 	}
-
 	.point_area a {			
 			color: #fff;
 			text-decoration: none;
 		}
-
-	
-
+	.pro-img {
+		max-width: 100%;
+		max-height: 100%;
+		object-fit: contain;
+	}
 </style>
 
 <div class="list-group text-center">
@@ -27,7 +27,7 @@
 			if(isset($pic['host'])) $pic = Auth::user()->pic;
 			else $pic = Request::root().'/uploads/'.Auth::user()->pic;
 			?>
-			<a href="{{ url('/user/my-page') }}"><img src="{{$pic}}" alt="..."></a>
+			<a href="{{ url('/user/my-page') }}"><img class="pro-img" src="{{$pic}}" alt="..."></a>
 		</div>
 		<div class="point_area">
 			<a style="font-family: w3;font-size: 14px;" href="{{ url('/user/my-page') }}">
