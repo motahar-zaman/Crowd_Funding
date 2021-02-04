@@ -117,13 +117,11 @@
                                         @foreach($messages as $msg)
                                             @if($msg->from_id == Auth::user()->id)
                                                 <div class="col-md-12 col-12 col-sm-12 p-0 mt-3 text-left">
-                                                    <div class="chat_box"
-                                                         style="text-align: left; background-color: #96acb7;color:#fff">{!!nl2br($msg->message)!!}</div>
+                                                    <div class="chat_box" style="text-align: left; background-color: #96acb7;color:#fff">{!!nl2br($msg->message)!!}</div>
                                                 </div>
                                             @else
                                                 <div class="col-md-12 col-12 col-sm-12 p-0 mt-3 text-right">
-                                                    <div class="chat_box"
-                                                         style="text-align: left">{!!nl2br($msg->message)!!}</div>
+                                                    <div class="chat_box" style="text-align: left">{!!nl2br($msg->message)!!}</div>
                                                 </div>
                                             @endif
                                         @endforeach
@@ -141,7 +139,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-10 col-10 text-center mt-3">
-                                                <button type="submit" class="btn btn-md btn-bottom w6-18">更新する</button>
+                                                <button id="submit_message" type="submit" class="btn btn-md btn-bottom w6-18">更新する</button>
                                             </div>
                                             {!! Form::close() !!}
                                         </div>
@@ -156,4 +154,9 @@
 	</div>
 @stop
 @section('custom_js')
+    <script>
+        $('form').submit(function(){
+            document.getElementById("submit_message").disabled = true;
+        });
+    </script>
 @stop
