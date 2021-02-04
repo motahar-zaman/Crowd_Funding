@@ -207,7 +207,7 @@
 																		$proStatus = 'status_2';
 																		$proMsg = '達成';
 																	} else{
-																		if ($project->starting_status == 1) {
+																		if ($project->status == 1) {
 																			$proStatus = 'status_1';
 																			$proMsg = '募集中';
 																		} else {
