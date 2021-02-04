@@ -208,7 +208,6 @@
 	</style>
 @stop
 
-
 @section('ecommerce')
 
 @stop
@@ -223,7 +222,7 @@
 			<div class="row">
 				<div class="col-md-3">
 					@include('user.layouts.profile')
-					
+
 				</div>
       			<div class="col-md-9">
 					{{-- @include('user.layouts.tab') --}}
