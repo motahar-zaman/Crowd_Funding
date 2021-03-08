@@ -335,43 +335,48 @@ class AuthController extends Controller
 
     public function twitterAction(Request $request)
     {
-        $redirectUrl = $request->root().'/twitter-action';
-        $user = Socialite::driver('twitter')->user();
-
-        $check = User::where('twitter_id', $user->id)->first();
-        if($check){
-            $check->twitter_id = $user->id;
-            $check->is_email_verified = true;
-            $check->status = true;
-            $check->save();
-            $userId = $check->id;
+        if ($request->exists('denied') || $request->exists('error'))
+        {
+            return redirect(route("user-register-request"));
         }
-        else{
-            $User = new User();
-            $User->twitter_id = $user->id;
-            $User->first_name = $user->name;
-            $User->pic = $user->avatar_original;
-            $User->last_name = '';
-            $User->email = 'user'.$User->twitter_id.rand(1000,9999).'@example.com';
-            $User->is_email_verified = true;
-            $User->status = true;
-            $User->created_at = date('Y-m-d H:i:s');
-            $User->updated_at = date('Y-m-d H:i:s');
-            $User->save();
+        else {
+            $user = Socialite::driver('twitter')->user();
 
-            $Profile = new Profile();
-            $Profile->user_id = $User->id;
-            $Profile->save();
+            $check = User::where('twitter_id', $user->id)->first();
+            if ($check) {
+                $check->twitter_id = $user->id;
+                $check->is_email_verified = true;
+                $check->status = true;
+                $check->save();
+                $userId = $check->id;
+            }
+            else {
+                $User = new User();
+                $User->twitter_id = $user->id;
+                $User->first_name = $user->name;
+                $User->pic = $user->avatar_original;
+                $User->last_name = '';
+                $User->email = 'user' . $User->twitter_id . rand(1000, 9999) . '@example.com';
+                $User->is_email_verified = true;
+                $User->status = true;
+                $User->created_at = date('Y-m-d H:i:s');
+                $User->updated_at = date('Y-m-d H:i:s');
+                $User->save();
 
-            $userId = $User->id;
+                $Profile = new Profile();
+                $Profile->user_id = $User->id;
+                $Profile->save();
+
+                $userId = $User->id;
+            }
+
+            if (Auth::check()) {
+                return redirect()->to(route('user-social'))->with('success_message', 'Twitter connected!');
+            }
+
+            Auth::loginUsingId($userId, true);
+            return redirect()->intended(route('user-my-page'));
         }
-
-        if(Auth::check()){
-            return redirect()->to(route('user-social'))->with('success_message', 'Twitter connected!');
-        }
-
-        Auth::loginUsingId($userId, true);
-        return redirect()->intended(route('user-my-page'));
     }
 
     public function line(Request $request)
