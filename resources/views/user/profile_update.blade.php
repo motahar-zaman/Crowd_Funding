@@ -56,147 +56,6 @@
 		.error_font{
 			font-size: 10px !important;
 		}
-		
-		/* @media (max-width: 1370px) {
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 15px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-
-		@media (max-width: 1295px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 16px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 13px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		
-		@media (max-width: 1170px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 15px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 11px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 1080px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 12px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 8px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 930px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 11px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 7px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 870px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 10px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 7px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		}
-		@media (max-width: 830px) {
-			.top_menu li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 9px !important;
-				font-weight: 500;
-				margin-left: 20px;
-				padding-bottom: 5px;
-				font-family: w3;
-			}
-			.first_tabs ul li a {
-				color: #333333;
-				text-decoration: none;
-				font-size: 6px;
-				font-weight: 500;
-				font-weight: bold;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				display: inline-block;
-			}
-		} */
 		@media (max-width: 575.73px) {
 			.side_padding{
 				padding:0px 10px!important;
@@ -485,10 +344,15 @@
 							<div class="col-md-3 side_padding col-3 bg-dark">
 								<p class="pt-3 side_title">アイコン画像 </p>
 							</div>
+							<?php
+								$image = parse_url($user->pic);
+								if(isset($image['host'])) $image = $user->pic;
+								else $image = '/uploads/'.$user->pic;
+							?>
 							<div class="col-md-9 col-9 ">
 								<div class="row pt-2">
 									<div class="col-md-10 col-10 mb-2 ml-4 p-0" style="height: 200px; width: auto;">
-										<img id="blah" src="/uploads/{{$user->pic}}" alt="your image" class="" style="max-width: 100%; max-height: 100%; object-fit: contain;"/>
+										<img id="blah" src="{{$image}}" alt="your image" class="" style="max-width: 100%; max-height: 100%; object-fit: contain;"/>
 									</div>
 									<div class="col-md-12 col-10 p-0 ml-4 pb-3">
 										<input type="file" onchange="readURL(this);" class="" id="pic" placeholder="アイコン画像" name="pic" accept=".jpg,.png,.jpeg">
