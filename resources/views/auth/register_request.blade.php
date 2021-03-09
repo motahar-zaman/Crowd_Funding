@@ -36,7 +36,7 @@
                         <div class="col-md-6 col-sm-12 part_1">
                             <h2>メールアドレスで新規登録</h2>
                             @include('layouts.message')
-                            <form class="form-horizontal" method="POST" action="">
+                            <form id="reg_form" class="form-horizontal" method="POST" action="">
                                 {{ csrf_field() }}
                                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                     <label for="email" class="control-label">登録メールアドレス</label>
@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-12 text-center">
-                                        <button type="submit" class="btn btn-warning">
+                                        <button id="send" type="submit" class="btn btn-warning">
                                             認証メールを送信
                                         </button>
                                     </div>
@@ -94,4 +94,11 @@
 
 @section('custom_js')
     <script type="text/javascript" src="{{Request::root()}}/js/jquery.validate.min.js"></script>
+    <script>
+        $('#reg_form').bind('submit', function (e) {
+            var button = $('#send');
+            // Disable the submit button while evaluating if the form should be submitted
+            button.prop('disabled', true);
+        });
+    </script>
 @endsection
