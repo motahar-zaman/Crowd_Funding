@@ -36,7 +36,7 @@
                                 </div>
                             @endif
                             @include('layouts.message')
-                            <form class="form-horizontal" method="POST" action="">
+                            <form id="reg_form" class="form-horizontal" method="POST" action="">
                                 {{ csrf_field() }}
 
                                 <div class="form-group{{ $errors->has('first_name') ? ' has-error' : '' }}">
@@ -192,6 +192,13 @@
                 var password = $('#password').val();
                 validPassword(password);
             });
+        });
+    </script>
+    <script>
+        $('#reg_form').bind('submit', function (e) {
+            var button = $('#submit');
+            // Disable the submit button while evaluating if the form should be submitted
+            button.prop('disabled', true);
         });
     </script>
 @endsection
