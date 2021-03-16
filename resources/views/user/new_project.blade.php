@@ -563,25 +563,6 @@
 									<label for="">募集期間</label>
 									<div class="row" style="margin:0px;">
 										<div class="col">
-											<input type="hidden" id="from" class="calculateDay from_calculate_day" name="from">
-										</div>
-										<div class="text-center" style="width:50px;">
-											~
-										</div>
-										<div class="col">
-											<input type="hidden" id="to" class="calculateDay to_calculate_day" name="to">
-										</div>
-										<div class="form-group" style="width:100px;">
-											<input type="text" class="form-control required totalday" placeholder="" value="0" name="total_day" readonly id="totalDay">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<label for="">募集期間</label>
-									<div class="row" style="margin:0px;">
-										<div class="col">
 											<input type="hidden" id="fromDate" class="calculateDay from_calculate_day" name="from">
 											<select class="year col-md-3 form-control mr-1" id="fromYear" name="date_[year]" onchange="fromYearChange()"></select>
 											<select class="month col-md-3 form-control mr-1" id="fromMonth" name="date_[month]" onchange="fromMonthChange()" disabled></select>
@@ -591,7 +572,7 @@
 											~
 										</div>
 										<div class="col">
-											<input type="hidden" id="toDate" class="calculateDay from_calculate_day" name="from">
+											<input type="hidden" id="toDate" class="calculateDay to_calculate_day" name="to">
 											<select class="year col-md-3 form-control mr-1" id="toYear" name="date_[year]" onchange="toYearChange()" disabled></select>
 											<select class="month col-md-3 form-control mr-1" id="toMonth" name="date_[month]" onchange="toMonthChange()" disabled></select>
 											<select class="day col-md-3 form-control mr-1" id="toDay" name="date_[day]" onchange="toDayChange()" disabled></select>
@@ -904,7 +885,6 @@
 @section('custom_js')
 	<script src="{{Request::root()}}/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="{{Request::root()}}/js/jquery.validate.min.js"></script>
-	<script type="text/javascript" src="{{Request::root()}}/js/datePicker1-3.js"></script>
 
 	<script>
 		 function closeDiv(section){
@@ -1504,6 +1484,15 @@
 		var current_year = (new Date).getFullYear();
 		var current_month = (new Date).getMonth() + 1;
 		var current_day = (new Date).getDate();
+		var from_year_selected = 0;
+		var from_month_selected = 0;
+		var from_day_selected = 0;
+		var to_year_selected = 0;
+		var to_month_selected = 0;
+		var to_day_selected = 0;
+		var to_year_end = 0;
+		var to_month_end = 0;
+		var to_day_end = 0;
 
 		(function () {
 			let year_start = current_year;
@@ -1517,19 +1506,18 @@
 		})();
 
 		function fromYearChange(){
-			let fromYear = $('#fromYear').find(":selected").val();
-			if(fromYear){
+			from_year_selected = $('#fromYear').find(":selected").val();
+			if(from_year_selected){
 				$( "#fromMonth" ).prop( "disabled", false );
 				let month_start = 1;
 
-				if(fromYear == current_year){ //if selected year is current year, start month should not be before than current month
+				if(from_year_selected == current_year){ //if selected year is current year, start month should not be before than current month
 					month_start = current_month;
 				}
 
 				let option = '<option value="">月</option>';
 				for (let i = month_start; i < 13; i++) {
-					let month = (i <= 9) ? '0'+i : i;
-					option += '<option value="' + month + '">' + i + '月</option>';
+					option += '<option value="' + i + '">' + i + '月</option>';
 				}
 				$('#fromMonth').html(option);
 			}
@@ -1549,21 +1537,19 @@
 		}
 
 		function fromMonthChange(){
-			let fromMonth = $('#fromMonth').find(":selected").val();
-			let fromYear = $('#fromYear').find(":selected").val();
+			from_month_selected = $('#fromMonth').find(":selected").val();
 
-			if(fromMonth){
+			if(from_month_selected){
 				$( "#fromDay" ).prop( "disabled", false );
 				let day_start = 1;
-				let day_end = daysInMonth(fromYear, fromMonth);
+				let day_end = daysInMonth(from_year_selected, from_month_selected);
 
-				if(fromMonth == current_month && fromYear == current_year){	//if selected month and year is current month and year, start day should not be before than today
+				if(from_month_selected == current_month && from_year_selected == current_year){	//if selected month and year is current month and year, start day should not be before than today
 					day_start = current_day;
 				}
 				let option = '<option value="">日</option>';
 				for (let i = day_start; i <= day_end; i++) {
-					let day = (i <= 9) ? '0'+i : i;
-					option += '<option value="' + day + '">' + day + '日</option>';
+					option += '<option value="' + i + '">' + i + '日</option>';
 				}
 				$('#fromDay').html(option);
 			}
@@ -1582,17 +1568,19 @@
 		}
 
 		function fromDayChange(){
-			let fromDay = $('#fromDay').find(":selected").val();
-			if(fromDay){
+			from_day_selected = $('#fromDay').find(":selected").val();
+			if(from_day_selected){
 				$( "#toYear" ).prop( "disabled", false );
-				let year_start = (new Date).getFullYear();
-				let year_end =  year_start + 12;
-				let option = '<option value="">年</option>';  //first option
+				setOptionRangeToDate();
 
-				for (let i = year_start; i < year_end; i++) {
+				let year_start = (new Date).getFullYear();
+				let option = '<option value="">年</option>';
+
+				for (let i = year_start; i <= to_year_end; i++) {
 					option += '<option value="' + i + '">' + i + '年</option>';
 				}
 				$('#toYear').html(option);
+				console.log(to_year_end, to_month_end, to_day_end);
 			}
 			else{
 				$( "#toYear" ).prop( "disabled", true );
@@ -1607,14 +1595,16 @@
 		}
 
 		function toYearChange(){
-			let toYear = $('#toYear').find(":selected").val();
-			if(toYear){
+			to_year_selected = $('#toYear').find(":selected").val();
+			if(to_year_selected){
 				$( "#toMonth" ).prop( "disabled", false );
 
+				let start_month = from_year_selected == to_year_selected ? from_month_selected : 1;
+				let end_month = from_year_selected == to_year_selected && from_year_selected != to_year_end ? 12 : to_month_end;
+
 				let option = '<option value="">月</option>';
-				for (let i = 1; i < 13; i++) {
-					let month = (i <= 9) ? '0'+i : i;
-					option += '<option value="' + month + '">' + i + '月</option>';
+				for (let i = start_month; i <= end_month; i++) {
+					option += '<option value="' + i + '">' + i + '月</option>';
 				}
 				$('#toMonth').html(option);
 			}
@@ -1627,17 +1617,16 @@
 		}
 
 		function toMonthChange(){
-			let toMonth = $('#toMonth').find(":selected").val();
-			let toYear = $('#toYear').find(":selected").val();
+			to_month_selected = $('#toMonth').find(":selected").val();
 
-			if(toMonth){
+			if(to_month_selected){
 				$( "#toDay" ).prop( "disabled", false );
-				let day_end = daysInMonth(toYear, toMonth);
+				let day_start = to_month_selected == from_month_selected && to_year_selected == from_year_selected ? from_day_selected : 1;
+				let day_end = to_year_selected == to_year_end && to_month_selected == to_month_end ? to_day_end : daysInMonth(to_year_selected, to_month_selected);
 				let option = '<option value="">日</option>';
 
-				for (let i = 1; i <= day_end; i++) {
-					let day = (i <= 9) ? '0'+i : i;
-					option += '<option value="' + day + '">' + day + '日</option>';
+				for (let i = day_start; i <= day_end; i++) {
+					option += '<option value="' + i + '">' + i + '日</option>';
 				}
 				$('#toDay').html(option);
 			}
@@ -1648,15 +1637,9 @@
 		}
 
 		function toDayChange(){
-			let fromYear = $("#fromYear option:selected").val();
-			let fromMonth = $("#fromMonth option:selected").val();
-			let fromDay = $("#fromDay option:selected").val();
-			let fromDate = fromYear+'-'+fromMonth+'-'+fromDay;
-
-			let toYear = $("#toYear option:selected").val();
-			let toMonth = $("#toMonth option:selected").val();
-			let toDay = $("#toDay option:selected").val();
-			let toDate = toYear+'-'+toMonth+'-'+toDay;
+			to_day_selected = $('#toDay').find(":selected").val();
+			let fromDate = getFromDate();
+			let toDate = getToDate();
 
 			$("#fromDate").val(fromDate);
 			$("#toDate").val(toDate);
@@ -1671,6 +1654,23 @@
 
 		function daysInMonth (year, month) {
 			return new Date(year, month, 0).getDate();
+		}
+
+		function setOptionRangeToDate(){
+			let fromDate = new Date(getFromDate());
+			let toDateRange = new Date(fromDate.getTime() + (59 * 24 * 60 * 60 * 1000));
+
+			to_year_end = toDateRange.getFullYear();
+			to_month_end = toDateRange.getMonth() + 1;
+			to_day_end = toDateRange.getDate();
+		}
+
+		function getFromDate(){
+			return from_year_selected+'-'+from_month_selected+'-'+from_day_selected;
+		}
+
+		function getToDate(){
+			return to_year_selected+'-'+to_month_selected+'-'+to_day_selected;
 		}
 	</script>
 @stop
