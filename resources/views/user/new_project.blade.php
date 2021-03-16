@@ -490,7 +490,11 @@
 				padding-bottom: 3px;
 				position: relative;
 				border-right: none;
-				/* border-left: none; */
+			}
+		}
+		@media (max-width: 768px) {
+			.call-divider{
+				text-align: center !important;
 			}
 		}
 	</style>
@@ -562,22 +566,24 @@
 								<div class="col-md-12">
 									<label for="">募集期間</label>
 									<div class="row" style="margin:0px;">
-										<div class="col">
+										<div class="col-md-5">
 											<input type="hidden" id="fromDate" class="calculateDay from_calculate_day" name="from">
-											<select class="year col-md-3 form-control mr-1" id="fromYear" name="date_[year]" onchange="fromYearChange()"></select>
-											<select class="month col-md-3 form-control mr-1" id="fromMonth" name="date_[month]" onchange="fromMonthChange()" disabled></select>
-											<select class="day col-md-3 form-control mr-1" id="fromDay" name="date_[day]" onchange="fromDayChange()" disabled></select>
+											<div class="row">
+												<select class="year col-md-3 form-control mr-4 mb-3" id="fromYear" name="date_[year]" onchange="fromYearChange()"></select>
+												<select class="month col-md-3 form-control mr-4 mb-3" id="fromMonth" name="date_[month]" onchange="fromMonthChange()" disabled></select>
+												<select class="day col-md-3 form-control mr-4 mb-3" id="fromDay" name="date_[day]" onchange="fromDayChange()" disabled></select>
+											</div>
 										</div>
-										<div class="text-center" style="width:50px;">
-											~
-										</div>
-										<div class="col">
+										<div class="col-md-1 text-left call-divider mb-3">~</div>
+										<div class="col-md-5">
 											<input type="hidden" id="toDate" class="calculateDay to_calculate_day" name="to">
-											<select class="year col-md-3 form-control mr-1" id="toYear" name="date_[year]" onchange="toYearChange()" disabled></select>
-											<select class="month col-md-3 form-control mr-1" id="toMonth" name="date_[month]" onchange="toMonthChange()" disabled></select>
-											<select class="day col-md-3 form-control mr-1" id="toDay" name="date_[day]" onchange="toDayChange()" disabled></select>
+											<div class="row">
+												<select class="year col-md-3 form-control mr-4 mb-3" id="toYear" name="date_[year]" onchange="toYearChange()" disabled></select>
+												<select class="month col-md-3 form-control mr-4 mb-3" id="toMonth" name="date_[month]" onchange="toMonthChange()" disabled></select>
+												<select class="day col-md-3 form-control mr-4 mb-3" id="toDay" name="date_[day]" onchange="toDayChange()" disabled></select>
+											</div>
 										</div>
-										<div class="form-group" style="width:100px;">
+										<div class="col-md-1 form-group pr-0 pl-0" style="width:100px;">
 											<input type="text" class="form-control required totalday" placeholder="" value="" name="total_day" readonly id="totalDays">
 										</div>
 									</div>
@@ -1573,14 +1579,13 @@
 				$( "#toYear" ).prop( "disabled", false );
 				setOptionRangeToDate();
 
-				let year_start = (new Date).getFullYear();
+				let year_start = from_year_selected;
 				let option = '<option value="">年</option>';
 
 				for (let i = year_start; i <= to_year_end; i++) {
 					option += '<option value="' + i + '">' + i + '年</option>';
 				}
 				$('#toYear').html(option);
-				console.log(to_year_end, to_month_end, to_day_end);
 			}
 			else{
 				$( "#toYear" ).prop( "disabled", true );
