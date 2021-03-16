@@ -1555,12 +1555,13 @@
 			if(fromMonth){
 				$( "#fromDay" ).prop( "disabled", false );
 				let day_start = 1;
+				let day_end = daysInMonth(fromYear, fromMonth);
 
 				if(fromMonth == current_month && fromYear == current_year){	//if selected month and year is current month and year, start day should not be before than today
 					day_start = current_day;
 				}
 				let option = '<option value="">日</option>';
-				for (let i = day_start; i <= 31; i++) {
+				for (let i = day_start; i <= day_end; i++) {
 					let day = (i <= 9) ? '0'+i : i;
 					option += '<option value="' + day + '">' + day + '日</option>';
 				}
@@ -1627,11 +1628,14 @@
 
 		function toMonthChange(){
 			let toMonth = $('#toMonth').find(":selected").val();
+			let toYear = $('#toYear').find(":selected").val();
+
 			if(toMonth){
 				$( "#toDay" ).prop( "disabled", false );
-
+				let day_end = daysInMonth(toYear, toMonth);
 				let option = '<option value="">日</option>';
-				for (let i = 1; i <= 31; i++) {
+
+				for (let i = 1; i <= day_end; i++) {
 					let day = (i <= 9) ? '0'+i : i;
 					option += '<option value="' + day + '">' + day + '日</option>';
 				}
@@ -1663,6 +1667,10 @@
 			let first = new Date(fromDate);
 			let second = new Date(toDate);
 			return Math.round((second-first)/(1000*60*60*24));
+		}
+
+		function daysInMonth (year, month) {
+			return new Date(year, month, 0).getDate();
 		}
 	</script>
 @stop
