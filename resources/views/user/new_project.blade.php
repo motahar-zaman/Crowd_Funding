@@ -597,7 +597,7 @@
 											<select class="day col-md-3 form-control mr-1" id="toDay" name="date_[day]" onchange="toDayChange()" disabled></select>
 										</div>
 										<div class="form-group" style="width:100px;">
-											<input type="text" class="form-control required totalday" placeholder="" value="0" name="total_day" readonly id="totalDays">
+											<input type="text" class="form-control required totalday" placeholder="" value="" name="total_day" readonly id="totalDays">
 										</div>
 									</div>
 								</div>
@@ -905,9 +905,8 @@
 	<script src="{{Request::root()}}/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="{{Request::root()}}/js/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="{{Request::root()}}/js/datePicker1-3.js"></script>
-{{--	<script src="https://cdn.jsdelivr.net/npm/jquery-dropdown-datepicker@1.3.0/dist/jquery-dropdown-datepicker.min.js"></script>--}}
 
-	 <script>
+	<script>
 		 function closeDiv(section){
 		 	section.style.display = "none";
 		 }
@@ -1502,8 +1501,12 @@
 	</script>
 
 	<script type="text/javascript">
+		var current_year = (new Date).getFullYear();
+		var current_month = (new Date).getMonth() + 1;
+		var current_day = (new Date).getDate();
+
 		(function () {
-			let year_start = (new Date).getFullYear();
+			let year_start = current_year;
 			let year_end =  year_start + 10;
 			let option = '<option value="">年</option>';
 
@@ -1517,9 +1520,14 @@
 			let fromYear = $('#fromYear').find(":selected").val();
 			if(fromYear){
 				$( "#fromMonth" ).prop( "disabled", false );
+				let month_start = 1;
+
+				if(fromYear == current_year){ //if selected year is current year, start month should not be before than current month
+					month_start = current_month;
+				}
 
 				let option = '<option value="">月</option>';
-				for (let i = 1; i < 13; i++) {
+				for (let i = month_start; i < 13; i++) {
 					let month = (i <= 9) ? '0'+i : i;
 					option += '<option value="' + month + '">' + i + '月</option>';
 				}
@@ -1542,11 +1550,17 @@
 
 		function fromMonthChange(){
 			let fromMonth = $('#fromMonth').find(":selected").val();
+			let fromYear = $('#fromYear').find(":selected").val();
+
 			if(fromMonth){
 				$( "#fromDay" ).prop( "disabled", false );
+				let day_start = 1;
 
+				if(fromMonth == current_month && fromYear == current_year){	//if selected month and year is current month and year, start day should not be before than today
+					day_start = current_day;
+				}
 				let option = '<option value="">日</option>';
-				for (let i = 1; i <= 31; i++) {
+				for (let i = day_start; i <= 31; i++) {
 					let day = (i <= 9) ? '0'+i : i;
 					option += '<option value="' + day + '">' + day + '日</option>';
 				}
