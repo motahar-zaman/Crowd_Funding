@@ -162,7 +162,7 @@
                     let flag = 0;
                     //password < 8
                     if (password.length < 8 ) {
-                        errors = "パソワードが８文字以上にする必要です";
+                        errors = "8文字以上、アルファベットと数字が混在したパスワードにする必要です。";
                         flag = 1;
                     }
                     //password has number and chars
