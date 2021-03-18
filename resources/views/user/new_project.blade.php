@@ -901,88 +901,6 @@
 			 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		 }
 
-		$(document).ready(function(){
-			var maxDate = null, minDate = null;
-			$("#from").dropdownDatepicker({
-				displayFormat: 'ymd',
-				wrapperClass: 'row',
-				dropdownClass: 'col form-control mr-1',
-				allowPast: false,
-				maxDate: maxDate,
-				monthFormat: 'short',
-				// Identifies the "Day" dropdown
-				dayLabel: '日',
-
-				// Identifies the "Month" dropdown
-				monthLabel: '月',
-
-				// Identifies the "Year" dropdown
-				yearLabel: '年',
-				sortYear: 'asc',
-				// Long month dropdown values (can be overridden for internationalisation purposes)
-				monthLongValues: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-
-				// Short month dropdown values (can be overridden for internationalisation purposes)
-				// monthShortValues: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-				monthShortValues: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-
-				// Initial dropdown values (can be overridden for internationalisation purposes)
-				initialDayMonthYearValues: ['Day', 'Month', 'Year'],
-
-				// Ordinal indicators (can be overridden for internationalisation purposes)
-				// daySuffixValues: ['st', 'nd', 'rd', 'th']
-				daySuffixValues: ['日', '日', '日', '日'],
-				onChange: function(day, month, year){
-					if(day!=null && month!=null && year!=null){
-						$("#to").dropdownDatepicker('destroy');
-						minDate = year+'-'+month+'-'+day;
-						minDate = new Date(minDate);
-						minDate.setDate(minDate.getDate());
-						minDate = minDate.getFullYear()+'-'+(minDate.getMonth()+1)+'-'+minDate.getDate();
-						maxDate = new Date(minDate);
-						maxDate.setDate(maxDate.getDate()+58);
-						maxDate = maxDate.getFullYear()+'-'+(maxDate.getMonth()+1)+'-'+maxDate.getDate();
-						createToDate();
-					}
-				}
-			});
-			var createToDate = function(){
-				$("#to").dropdownDatepicker({
-					displayFormat: 'ymd',
-					wrapperClass: 'row',
-					dropdownClass: 'col form-control mr-1',
-					allowPast: false,
-					minDate: minDate,
-					maxDate: maxDate,
-					monthFormat: 'short',
-					// Identifies the "Day" dropdown
-					dayLabel: '日',
-
-					// Identifies the "Month" dropdown
-					monthLabel: '月',
-
-					// Identifies the "Year" dropdown
-					yearLabel: '年',
-					sortYear: 'asc',
-					// Long month dropdown values (can be overridden for internationalisation purposes)
-					monthLongValues: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-
-					// Short month dropdown values (can be overridden for internationalisation purposes)
-					// monthShortValues: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-					monthShortValues: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-
-					// Initial dropdown values (can be overridden for internationalisation purposes)
-					initialDayMonthYearValues: ['Day', 'Month', 'Year'],
-
-					// Ordinal indicators (can be overridden for internationalisation purposes)
-					// daySuffixValues: ['st', 'nd', 'rd', 'th']
-					daySuffixValues: ['日', '日', '日', '日']
-				});
-			}
-
-			createToDate();
-		});
-
 		var form = $("#example-form");
 		form.validate({
 			errorPlacement: function errorPlacement(error, element) { element.before(error); },
@@ -1007,10 +925,6 @@
 		        loading: "Loading ..."
 		    },
 		  	onInit: function(event, currentIndex, newIndex){
-		  		var totalDay  = $('#totalDay').val().length;
-		  		if(totalDay == 0){
-		  			$('#totalDay').val(0);
-		  		}
 		  		if(currentIndex == 4){
 		        	$('.actions > ul > li:nth-child(1)').attr('style', 'display:none;');
 		        	$('.actions > ul > li:nth-child(2)').attr('style', 'display:none;');
@@ -1270,6 +1184,7 @@
 						form.submit()
 					});
     			});
+				$('.actions clearfix').hide();
 		    }
 		});
 
@@ -1309,13 +1224,17 @@
 		];
 
 		$('.add_details').on('click', function(){
+			console.log("Details");
 			var content = $('.details').html();
 			$('.details_container').before(content);
+			console.log(content);
 		});
 
 		$('.add_reward').on('click', function(){
+			console.log("Reward");
 			var content = $('.reward').html();
 			$('.reward_button_area').before(content);
+			console.log(content);
 		});
 
 		$(document).ready(function () {
