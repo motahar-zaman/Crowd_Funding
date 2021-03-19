@@ -584,7 +584,7 @@
 											</div>
 										</div>
 										<div class="col-md-1 form-group pr-0 pl-0" style="width:100px;">
-											<input type="text" class="form-control required totalday" placeholder="" value="" name="total_day" readonly id="totalDays">
+											<input type="text" class="form-control required totalday" placeholder="" value="" name="total_day" readonly id="totalDay">
 										</div>
 									</div>
 								</div>
@@ -1174,7 +1174,6 @@
 				$('#submit-message').modal('show');
 		        form.validate().settings.ignore = ":disabled,:hidden";
         		return form.valid();
-        		// return true;
 		    },
 		    onFinished: function (event, currentIndex)
 		    {
@@ -1189,9 +1188,9 @@
 		});
 
 		var calculateDay = function(){
-			var d1 = $('#from').val()+'T00:00:01';
+			var d1 = $('#fromDate').val()+'T00:00:01';
 			var date1 = new Date(d1);
-			var d2 = $('#to').val()+'T23:59:59';
+			var d2 = $('#toDate').val()+'T23:59:59';
 			var date2 = new Date(d2);
 
 			timeDiff = date2.getTime() - date1.getTime();
@@ -1442,7 +1441,12 @@
 
 				let option = '<option value="">月</option>';
 				for (let i = month_start; i < 13; i++) {
-					option += '<option value="' + i + '">' + i + '月</option>';
+					if(i < 10){
+						option += '<option value="0' + i + '">' + i + '月</option>';
+					}
+					else {
+						option += '<option value="' + i + '">' + i + '月</option>';
+					}
 				}
 				$('#fromMonth').html(option);
 			}
@@ -1474,7 +1478,13 @@
 				}
 				let option = '<option value="">日</option>';
 				for (let i = day_start; i <= day_end; i++) {
-					option += '<option value="' + i + '">' + i + '日</option>';
+					if(i < 10){
+						option += '<option value="0' + i + '">' + i + '日</option>';
+					}
+					else{
+						option += '<option value="' + i + '">' + i + '日</option>';
+					}
+
 				}
 				$('#fromDay').html(option);
 			}
@@ -1495,14 +1505,18 @@
 		function fromDayChange(){
 			from_day_selected = $('#fromDay').find(":selected").val();
 			if(from_day_selected){
+				$.ajaxSetup({async:false});
 				$( "#toYear" ).prop( "disabled", false );
-				setOptionRangeToDate();
 
 				let year_start = from_year_selected;
 				let option = '<option value="">年</option>';
+				setOptionRangeToDate();
+				createYearOption();
 
-				for (let i = year_start; i <= to_year_end; i++) {
-					option += '<option value="' + i + '">' + i + '年</option>';
+				function createYearOption(){
+					for (let i = year_start; i <= to_year_end; i++) {
+						option += '<option value="' + i + '">' + i + '年</option>';
+					}
 				}
 				$('#toYear').html(option);
 			}
@@ -1528,7 +1542,12 @@
 
 				let option = '<option value="">月</option>';
 				for (let i = start_month; i <= end_month; i++) {
-					option += '<option value="' + i + '">' + i + '月</option>';
+					if(i < 10){
+						option += '<option value="0' + i + '">' + i + '月</option>';
+					}
+					else {
+						option += '<option value="' + i + '">' + i + '月</option>';
+					}
 				}
 				$('#toMonth').html(option);
 			}
@@ -1550,7 +1569,12 @@
 				let option = '<option value="">日</option>';
 
 				for (let i = day_start; i <= day_end; i++) {
-					option += '<option value="' + i + '">' + i + '日</option>';
+					if(i < 10) {
+						option += '<option value="0' + i + '">' + i + '日</option>';
+					}
+					else {
+						option += '<option value="' + i + '">' + i + '日</option>';
+					}
 				}
 				$('#toDay').html(option);
 			}
@@ -1567,13 +1591,21 @@
 
 			$("#fromDate").val(fromDate);
 			$("#toDate").val(toDate);
-			$("#totalDays").val(dayCount(fromDate, toDate));
+			calculateDays();
 		}
 
-		function dayCount(fromDate, toDate){
-			let first = new Date(fromDate);
-			let second = new Date(toDate);
-			return Math.round((second-first)/(1000*60*60*24));
+		function calculateDays (){
+			var d1 = $('#fromDate').val()+'T00:00:01';
+			var date1 = new Date(d1);
+			var d2 = $('#toDate').val()+'T00:00:00';
+			var date2 = new Date(d2);
+
+			timeDiff = date2.getTime() - date1.getTime();
+
+			var timeDiff = Math.abs(timeDiff);
+			var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+			$('#totalDay').val(diffDays);
 		}
 
 		function daysInMonth (year, month) {
@@ -1581,12 +1613,21 @@
 		}
 
 		function setOptionRangeToDate(){
-			let fromDate = new Date(getFromDate());
-			let toDateRange = new Date(fromDate.getTime() + (59 * 24 * 60 * 60 * 1000));
-
-			to_year_end = toDateRange.getFullYear();
-			to_month_end = toDateRange.getMonth() + 1;
-			to_day_end = toDateRange.getDate();
+			let fromDate = getFromDate();
+			return $.ajax({
+				type: "POST",
+				url: "{{route('user-project-end-date-range')}}",
+				data: {date: fromDate, dateRange: 59, _token: '{{ csrf_token() }}'},
+				dataType:'JSON',
+				success: function(data){
+					to_year_end = data['targetYear'];
+					to_month_end = data['targetMonth'];
+					to_day_end = data['targetDay'];
+				},
+				error: function (jqXHR, exception){
+					console.log("Error occured");
+				}
+			});
 		}
 
 		function getFromDate(){
