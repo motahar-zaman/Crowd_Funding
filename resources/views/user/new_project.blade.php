@@ -1442,7 +1442,7 @@
 				let option = '<option value="">月</option>';
 				for (let i = month_start; i < 13; i++) {
 					if(i < 10){
-						option += '<option value="0' + i + '">' + i + '月</option>';
+						option += '<option value="0' + parseInt(i) + '">' + parseInt(i) + '月</option>';
 					}
 					else {
 						option += '<option value="' + i + '">' + i + '月</option>';
@@ -1479,7 +1479,7 @@
 				let option = '<option value="">日</option>';
 				for (let i = day_start; i <= day_end; i++) {
 					if(i < 10){
-						option += '<option value="0' + i + '">' + i + '日</option>';
+						option += '<option value="0' + parseInt(i) + '">' + parseInt(i) + '日</option>';
 					}
 					else{
 						option += '<option value="' + i + '">' + i + '日</option>';
@@ -1543,7 +1543,7 @@
 				let option = '<option value="">月</option>';
 				for (let i = start_month; i <= end_month; i++) {
 					if(i < 10){
-						option += '<option value="0' + i + '">' + i + '月</option>';
+						option += '<option value="0' + parseInt(i) + '">' + parseInt(i) + '月</option>';
 					}
 					else {
 						option += '<option value="' + i + '">' + i + '月</option>';
@@ -1570,7 +1570,7 @@
 
 				for (let i = day_start; i <= day_end; i++) {
 					if(i < 10) {
-						option += '<option value="0' + i + '">' + i + '日</option>';
+						option += '<option value="0' + parseInt(i) + '">' + parseInt(i) + '日</option>';
 					}
 					else {
 						option += '<option value="' + i + '">' + i + '日</option>';
