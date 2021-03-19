@@ -82,11 +82,9 @@
                                 </div>
 
                                 <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                    <label for="password" class="control-label">パスワード <a href="#" data-toggle="tooltip" data-html="true" title="パスワードに使用できる文字列は下記になります。 <br> ・8文字以上、アルファベットと数字が混在したパスワード <br> ・英大文字：A～Z，#，@，\ <br> ・英小文字：a～z <br> ・数字：0～9">?</a></label>
-
+                                    <label for="password" class="control-label">パスワード <a href="#" data-toggle="tooltip" data-html="true" title="パスワードに使用できる文字列は下記になります。 <br> ・8文字以上かつ、半角英数字が混在したパスワード <br> ・英大文字：A～Z，#，@，\ <br> ・英小文字：a～z <br> ・数字：0～9">?</a></label>
                                     <div>
                                         <input id="password" type="password" class="form-control"  name="password" value="" required>
-                                        
                                         <span class="help-block text-danger" id="errors_pass"></span>
                                         @if ($errors->has('password'))
                                             <span class="help-block text-danger">
@@ -116,18 +114,6 @@
                                             <b>新規登録する ></b>
                                         </button>
                                     </div>
-                                    <!-- <div class="col-md-12 text-center">
-
-                                        <a class="btn btn-link" href="{{ route('login') }}">
-                                            Login To Your Account
-                                        </a>
-                                    </div> -->
-                                    <!-- <div class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div> -->
                                 </div>
                             </form>
                         </div>
@@ -162,33 +148,14 @@
                     let flag = 0;
                     //password < 8
                     if (password.length < 8 ) {
-                        errors = "8文字以上、アルファベットと数字が混在したパスワードにする必要です。";
+                        errors = "半角英数字</br>8文字以上かつ、半角英数字が混在したパスワードにする必要があります。";
                         flag = 1;
                     }
-                    //password has number and chars
-                    // else if (!password.match(/([a-zA-Z])/)) {
-                    //         errors = "Passwords must contain at least one letter";
-                    //         flag = 1;
-                    // }
-                    // else if (!password.match(/([0-9])/)) {
-                    //     errors = "Passwords must contain at least one number";
-                    //     flag = 1;
-                    // }
-                    // else if (!password.match(/([!,@,#,$,%,^,&,*,?,_,~])/)){
-                    //     errors = "Passwords must contain at least one symbol";
-                    //     flag = 1;
-                    // }
-                    // else if (!password.match(/([A-Z])/)) {
-                    //     errors = "Passwords must contain at least one capitalized letter";
-                    //     flag = 1;
-                    // }
                     if(flag == 1) {
                         $('#errors_pass').html(errors);
-                        // alert('fdssd');
                         return false;
                     }
                 }
-
                 var password = $('#password').val();
                 validPassword(password);
             });
