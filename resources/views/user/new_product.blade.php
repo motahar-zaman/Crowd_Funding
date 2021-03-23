@@ -464,7 +464,7 @@
 				width: 30px;
 				position: absolute;
 				top: 7px;
-				right: -18px;
+				right: -15px;
 				transform: rotate(45deg);
 				z-index: 9;
 			}
