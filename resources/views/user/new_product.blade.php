@@ -699,7 +699,7 @@
     	</div>
     </div>
 </div>
-@include('user.layouts.product_submit_modal');
+@include('user.layouts.product_submit_modal')
 
 @stop
 
