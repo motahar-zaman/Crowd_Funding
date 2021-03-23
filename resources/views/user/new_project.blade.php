@@ -299,8 +299,8 @@
 				height: 43px;
 				width: 45px;
 				position: absolute;
-				top: 8.9px;
-				right: -24px;
+				top: 8px;
+				right: -22px;
 				transform: rotate(45deg);
 				z-index: 9;
 				background-color: #ffffff;
@@ -464,7 +464,7 @@
 				width: 30px;
 				position: absolute;
 				top: 7px;
-				right: -18px;
+				right: -15px;
 				transform: rotate(45deg);
 				z-index: 9;
 			}
@@ -824,7 +824,6 @@
 
 		<div class="col-md-12 mt-3">
 			<div class="row">
-
 				<label for="is_other" class="col-md-12">リターン品名</label>
 				<div class="col-md-4">
 					<span id="" class="text-danger is_other_message"></span>
