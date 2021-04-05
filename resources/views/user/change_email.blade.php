@@ -225,7 +225,7 @@
 					@include('layouts.message')
 						<div class="">
 							@if($user->facebook_id != null || $user->google_id != null || $user->twitter_id !=null || $user->facebook_id != '' || $user->google_id != '' || $user->twitter_id != '')
-								<h4 class="py-2">メールアドレス変更 <span style="font-size:10px;color:red">* SNSを使用してログインされてます!</span></h4>
+								<h4 class="py-2">メールアドレス変更 <span style="font-size:10px;color:red">* SNSを使用してログイン中です!</span></h4>
 							@else
 								<h4 class="py-2">メールアドレス変更</h4>
 							@endif

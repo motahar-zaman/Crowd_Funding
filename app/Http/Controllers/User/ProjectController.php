@@ -282,4 +282,16 @@ class ProjectController extends Controller
     public function payment(Request $request)
     {
     }
+
+    public function dateRangeAction(Request $request){
+	    $dayRange = $request->dateRange;
+	    $fromDate = $request->date;
+
+        $targetDate = date('Y-m-d', strtotime('+'.$dayRange.' days', strtotime($fromDate)));
+        $targetYear = (int)date('Y', strtotime($targetDate));
+        $targetMonth = (int)date('m', strtotime($targetDate));
+        $targetDay = (int)date('d', strtotime($targetDate));
+
+        return json_encode(['targetYear' => $targetYear, 'targetMonth' => $targetMonth, 'targetDay' => $targetDay]);
+    }
 }
