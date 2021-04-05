@@ -464,7 +464,7 @@
 				width: 30px;
 				position: absolute;
 				top: 7px;
-				right: -18px;
+				right: -15px;
 				transform: rotate(45deg);
 				z-index: 9;
 			}
@@ -699,7 +699,7 @@
     	</div>
     </div>
 </div>
-@include('user.layouts.product_submit_modal');
+@include('user.layouts.product_submit_modal')
 
 @stop
 
@@ -714,7 +714,6 @@
 		}
 
 		var form = $("#example-form");
-
 		form.validate({
 			errorPlacement: function errorPlacement(error, element) { element.before(error); },
 			messages: {

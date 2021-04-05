@@ -299,8 +299,8 @@
 				height: 43px;
 				width: 45px;
 				position: absolute;
-				top: 8.9px;
-				right: -24px;
+				top: 8px;
+				right: -22px;
 				transform: rotate(45deg);
 				z-index: 9;
 				background-color: #ffffff;
@@ -464,7 +464,7 @@
 				width: 30px;
 				position: absolute;
 				top: 7px;
-				right: -18px;
+				right: -15px;
 				transform: rotate(45deg);
 				z-index: 9;
 			}
@@ -490,7 +490,11 @@
 				padding-bottom: 3px;
 				position: relative;
 				border-right: none;
-				/* border-left: none; */
+			}
+		}
+		@media (max-width: 768px) {
+			.call-divider{
+				text-align: center !important;
 			}
 		}
 	</style>
@@ -560,19 +564,27 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-										<label for="">募集期間</label>
+									<label for="">募集期間</label>
 									<div class="row" style="margin:0px;">
-										<div class="col">
-											<input type="hidden" id="from" class="calculateDay from_calculate_day" name="from">
+										<div class="col-md-5">
+											<input type="hidden" id="fromDate" class="calculateDay from_calculate_day" name="from">
+											<div class="row">
+												<select class="year col-md-3 form-control mr-4 mb-3" id="fromYear" name="date_[year]" onchange="fromYearChange()"></select>
+												<select class="month col-md-3 form-control mr-4 mb-3" id="fromMonth" name="date_[month]" onchange="fromMonthChange()" disabled></select>
+												<select class="day col-md-3 form-control mr-4 mb-3" id="fromDay" name="date_[day]" onchange="fromDayChange()" disabled></select>
+											</div>
 										</div>
-										<div class="text-center" style="width:50px;">
-											~
+										<div class="col-md-1 text-left call-divider mb-3">~</div>
+										<div class="col-md-5">
+											<input type="hidden" id="toDate" class="calculateDay to_calculate_day" name="to">
+											<div class="row">
+												<select class="year col-md-3 form-control mr-4 mb-3" id="toYear" name="date_[year]" onchange="toYearChange()" disabled></select>
+												<select class="month col-md-3 form-control mr-4 mb-3" id="toMonth" name="date_[month]" onchange="toMonthChange()" disabled></select>
+												<select class="day col-md-3 form-control mr-4 mb-3" id="toDay" name="date_[day]" onchange="toDayChange()" disabled></select>
+											</div>
 										</div>
-										<div class="col">
-											<input type="hidden" id="to" class="calculateDay to_calculate_day" name="to">
-										</div>
-										<div class="form-group" style="width:100px;">
-											<input type="text" class="form-control required totalday" placeholder="" value="0" name="total_day" readonly id="totalDay">
+										<div class="col-md-1 form-group pr-0 pl-0" style="width:100px;">
+											<input type="text" class="form-control required totalday" placeholder="" value="" name="total_day" readonly id="totalDay">
 										</div>
 									</div>
 								</div>
@@ -812,7 +824,6 @@
 
 		<div class="col-md-12 mt-3">
 			<div class="row">
-
 				<label for="is_other" class="col-md-12">リターン品名</label>
 				<div class="col-md-4">
 					<span id="" class="text-danger is_other_message"></span>
@@ -879,9 +890,8 @@
 @section('custom_js')
 	<script src="{{Request::root()}}/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="{{Request::root()}}/js/jquery.validate.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/jquery-dropdown-datepicker@1.3.0/dist/jquery-dropdown-datepicker.min.js"></script>
 
-	 <script>
+	<script>
 		 function closeDiv(section){
 		 	section.style.display = "none";
 		 }
@@ -889,89 +899,6 @@
 		 function numberWithCommas(x) {
 			 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		 }
-
-		$(document).ready(function(){
-			var maxDate = null, minDate = null;
-			$("#from").dropdownDatepicker({
-				displayFormat: 'ymd',
-				wrapperClass: 'row',
-				dropdownClass: 'col form-control',
-				allowPast: false,
-				maxDate: maxDate,
-				monthFormat: 'short',
-				// Identifies the "Day" dropdown
-				dayLabel: '日',
-
-				// Identifies the "Month" dropdown
-				monthLabel: '月',
-
-				// Identifies the "Year" dropdown
-				yearLabel: '年',
-				sortYear: 'asc',
-				// Long month dropdown values (can be overridden for internationalisation purposes)
-				monthLongValues: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-
-				// Short month dropdown values (can be overridden for internationalisation purposes)
-				// monthShortValues: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-				monthShortValues: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-
-				// Initial dropdown values (can be overridden for internationalisation purposes)
-				initialDayMonthYearValues: ['Day', 'Month', 'Year'],
-
-				// Ordinal indicators (can be overridden for internationalisation purposes)
-				// daySuffixValues: ['st', 'nd', 'rd', 'th']
-				daySuffixValues: ['日', '日', '日', '日'],
-				onChange: function(day, month, year){
-					if(day!=null && month!=null && year!=null){
-						$("#to").dropdownDatepicker('destroy');
-						minDate = year+'-'+month+'-'+day;
-						minDate = new Date(minDate);
-						minDate.setDate(minDate.getDate());
-						minDate = minDate.getFullYear()+'-'+(minDate.getMonth()+1)+'-'+minDate.getDate();
-						maxDate = new Date(minDate);
-						maxDate.setDate(maxDate.getDate()+58);
-						maxDate = maxDate.getFullYear()+'-'+(maxDate.getMonth()+1)+'-'+maxDate.getDate();
-						console.log(minDate, maxDate);
-						createToDate();
-					}
-				}
-			});
-			var createToDate = function(){
-				$("#to").dropdownDatepicker({
-					displayFormat: 'ymd',
-					wrapperClass: 'row',
-					dropdownClass: 'col form-control',
-					allowPast: false,
-					minDate: minDate,
-					maxDate: maxDate,
-					monthFormat: 'short',
-					// Identifies the "Day" dropdown
-					dayLabel: '日',
-
-					// Identifies the "Month" dropdown
-					monthLabel: '月',
-
-					// Identifies the "Year" dropdown
-					yearLabel: '年',
-					sortYear: 'asc',
-					// Long month dropdown values (can be overridden for internationalisation purposes)
-					monthLongValues: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-
-					// Short month dropdown values (can be overridden for internationalisation purposes)
-					// monthShortValues: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-					monthShortValues: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-
-					// Initial dropdown values (can be overridden for internationalisation purposes)
-					initialDayMonthYearValues: ['Day', 'Month', 'Year'],
-
-					// Ordinal indicators (can be overridden for internationalisation purposes)
-					// daySuffixValues: ['st', 'nd', 'rd', 'th']
-					daySuffixValues: ['日', '日', '日', '日']
-				});
-			}
-
-			createToDate();
-		});
 
 		var form = $("#example-form");
 		form.validate({
@@ -997,10 +924,6 @@
 		        loading: "Loading ..."
 		    },
 		  	onInit: function(event, currentIndex, newIndex){
-		  		var totalDay  = $('#totalDay').val().length;
-		  		if(totalDay == 0){
-		  			$('#totalDay').val(0);
-		  		}
 		  		if(currentIndex == 4){
 		        	$('.actions > ul > li:nth-child(1)').attr('style', 'display:none;');
 		        	$('.actions > ul > li:nth-child(2)').attr('style', 'display:none;');
@@ -1019,7 +942,6 @@
 						$('#length35_1').html('');
 					}
 
-					console.log($('.length2k_2').val());
 					if ($('.length2k_2').val().length > 2000) {
 						$('#length2k_2').html('2000文字以内でご記入ください  ');
 						check = 1;
@@ -1075,9 +997,7 @@
 					}
 
 					$('.body .reward_file').each(function(i, item){
-						// console.log(i, $(this).val());
 						reward.push($(this).val());
-						// point.push($(this).val())
 					});
 					for(var i=0;i<reward.length;i++){
 						if(reward[i] == '' ){
@@ -1131,7 +1051,6 @@
 					var other_description = [];
 					var other_file = [];
 					$('.amount').each(function(index, value){
-						console.log(value)
 						if($(this).val() != ''){
 							amount.push('<div>'+$(this).val()+'</div>');
 						}
@@ -1189,7 +1108,6 @@
 							other_description[i].split(',').map(function(item){
 								html_return.push('<div class="row">'+'<div class="col-10">'+item+'</div>'+'</div>');
 							})
-							console.log(other_file)
 							html_return.push ('<div class="row preview_area" style="padding:0px">'+'</div>'+'</div>');
 							html_return.push('<div class="row preview_area">'+"<div class=col-3>"+'写真'+'</div>'+'<div class="col-9">'+other_file[i]+'</div>'+'</div>');
 						}
@@ -1208,12 +1126,10 @@
 						if($(this).val() != ''){
 							var additional_details = [];
 							var details=$(this).val().split("\n")
-							console.log(details);
 							details.map(function(index, value){
 								additional_details.push('<span key="value">'+ index +'</span>'+'<br/>')
 							})
 							additional_details_description.push('<div>'+additional_details+'</div>');
-							console.log(additional_details)
 						}
 					});
 					$('.additional_details_file').each(function(index, value){
@@ -1238,9 +1154,7 @@
 							await sleep(500);
 							html_return2.push ('<div class="row preview_area">'+"<div class=col-3>"+'見出しタイトル'+'</div>'+'<div class="col-9">'+additional_details_title[i]+'</div>'+'</div>');
 							html_return2.push ('<div style="padding-bottom:10px">'+'内容'+'</div>');
-							console.log(additional_details_description[i])
 							additional_details_description[i].split(',').map(function(item){
-								console.log(item)
 								html_return2.push('<div class="row">'+'<div class="col-12">'+item+'</div>'+'</div>');
 							})
 							html_return2.push ('<div class="row preview_area" style="padding:0px">'+'</div>'+'</div>');
@@ -1259,7 +1173,6 @@
 				$('#submit-message').modal('show');
 		        form.validate().settings.ignore = ":disabled,:hidden";
         		return form.valid();
-        		// return true;
 		    },
 		    onFinished: function (event, currentIndex)
 		    {
@@ -1269,21 +1182,17 @@
 						form.submit()
 					});
     			});
+				$('.actions clearfix').hide();
 		    }
 		});
 
 		var calculateDay = function(){
-			var d1 = $('#from').val()+'T00:00:01';
-			console.log(d1);
+			var d1 = $('#fromDate').val()+'T00:00:01';
 			var date1 = new Date(d1);
-			// console.log(date1.getTime());
-			var d2 = $('#to').val()+'T23:59:59';
-			console.log(d2);
+			var d2 = $('#toDate').val()+'T23:59:59';
 			var date2 = new Date(d2);
 
 			timeDiff = date2.getTime() - date1.getTime();
-			console.log('timeDiff');
-			console.log(timeDiff);
 
 			if(timeDiff < 0){
 				alert('invalid date');
@@ -1291,8 +1200,6 @@
 			}
 			var timeDiff = Math.abs(timeDiff);
 			var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-			console.log('diffDays');
-			console.log(diffDays);
 			if(diffDays > 59){
 				alert('最大59日まで選択可能です');
 				this.selectedIndex = $(this).data('lastSelectedIndex');
@@ -1315,13 +1222,17 @@
 		];
 
 		$('.add_details').on('click', function(){
+			console.log("Details");
 			var content = $('.details').html();
 			$('.details_container').before(content);
+			console.log(content);
 		});
 
 		$('.add_reward').on('click', function(){
+			console.log("Reward");
 			var content = $('.reward').html();
 			$('.reward_button_area').before(content);
+			console.log(content);
 		});
 
 		$(document).ready(function () {
@@ -1490,5 +1401,240 @@
 				}
 			}
 		});
+	</script>
+
+	<script type="text/javascript">
+		var current_year = (new Date).getFullYear();
+		var current_month = (new Date).getMonth() + 1;
+		var current_day = (new Date).getDate();
+		var from_year_selected = 0;
+		var from_month_selected = 0;
+		var from_day_selected = 0;
+		var to_year_selected = 0;
+		var to_month_selected = 0;
+		var to_day_selected = 0;
+		var to_year_end = 0;
+		var to_month_end = 0;
+		var to_day_end = 0;
+
+		(function () {
+			let year_start = current_year;
+			let year_end =  year_start + 10;
+			let option = '<option value="">年</option>';
+
+			for (let i = year_start; i < year_end; i++) {
+				option += '<option value="' + i + '">' + i + '年</option>';
+			}
+			$('#fromYear').html(option);
+		})();
+
+		function fromYearChange(){
+			from_year_selected = $('#fromYear').find(":selected").val();
+			if(from_year_selected){
+				$( "#fromMonth" ).prop( "disabled", false );
+				let month_start = 1;
+
+				if(from_year_selected == current_year){ //if selected year is current year, start month should not be before than current month
+					month_start = current_month;
+				}
+
+				let option = '<option value="">月</option>';
+				for (let i = month_start; i < 13; i++) {
+					if(i < 10){
+						option += '<option value="0' + parseInt(i) + '">' + parseInt(i) + '月</option>';
+					}
+					else {
+						option += '<option value="' + i + '">' + i + '月</option>';
+					}
+				}
+				$('#fromMonth').html(option);
+			}
+			else{
+				$( "#fromMonth" ).prop( "disabled", true );
+				$('#fromMonth').html("");
+			}
+			$( "#fromDay" ).prop( "disabled", true );
+			$( "#toYear" ).prop( "disabled", true );
+			$( "#toMonth" ).prop( "disabled", true );
+			$( "#toDay" ).prop( "disabled", true );
+
+			$('#fromDay').html("");
+			$('#toYear').html("");
+			$('#toMonth').html("");
+			$('#toDay').html("");
+		}
+
+		function fromMonthChange(){
+			from_month_selected = $('#fromMonth').find(":selected").val();
+
+			if(from_month_selected){
+				$( "#fromDay" ).prop( "disabled", false );
+				let day_start = 1;
+				let day_end = daysInMonth(from_year_selected, from_month_selected);
+
+				if(from_month_selected == current_month && from_year_selected == current_year){	//if selected month and year is current month and year, start day should not be before than today
+					day_start = current_day;
+				}
+				let option = '<option value="">日</option>';
+				for (let i = day_start; i <= day_end; i++) {
+					if(i < 10){
+						option += '<option value="0' + parseInt(i) + '">' + parseInt(i) + '日</option>';
+					}
+					else{
+						option += '<option value="' + i + '">' + i + '日</option>';
+					}
+
+				}
+				$('#fromDay').html(option);
+			}
+			else{
+				$("#fromDay").prop( "disabled", true );
+				$('#fromDay').html("");
+			}
+
+			$( "#toYear" ).prop( "disabled", true );
+			$( "#toMonth" ).prop( "disabled", true );
+			$( "#toDay" ).prop( "disabled", true );
+
+			$('#toYear').html("");
+			$('#toMonth').html("");
+			$('#toDay').html("");
+		}
+
+		function fromDayChange(){
+			from_day_selected = $('#fromDay').find(":selected").val();
+			if(from_day_selected){
+				$.ajaxSetup({async:false});
+				$( "#toYear" ).prop( "disabled", false );
+
+				let year_start = from_year_selected;
+				let option = '<option value="">年</option>';
+				setOptionRangeToDate();
+				createYearOption();
+
+				function createYearOption(){
+					for (let i = year_start; i <= to_year_end; i++) {
+						option += '<option value="' + i + '">' + i + '年</option>';
+					}
+				}
+				$('#toYear').html(option);
+			}
+			else{
+				$( "#toYear" ).prop( "disabled", true );
+				$('#toYear').html("");
+			}
+
+			$( "#toMonth" ).prop( "disabled", true );
+			$( "#toDay" ).prop( "disabled", true );
+
+			$('#toMonth').html("");
+			$('#toDay').html("");
+		}
+
+		function toYearChange(){
+			to_year_selected = $('#toYear').find(":selected").val();
+			if(to_year_selected){
+				$( "#toMonth" ).prop( "disabled", false );
+
+				let start_month = from_year_selected == to_year_selected ? from_month_selected : 1;
+				let end_month = from_year_selected == to_year_selected && from_year_selected != to_year_end ? 12 : to_month_end;
+
+				let option = '<option value="">月</option>';
+				for (let i = start_month; i <= end_month; i++) {
+					if(i < 10){
+						option += '<option value="0' + parseInt(i) + '">' + parseInt(i) + '月</option>';
+					}
+					else {
+						option += '<option value="' + i + '">' + i + '月</option>';
+					}
+				}
+				$('#toMonth').html(option);
+			}
+			else{
+				$( "#toMonth" ).prop( "disabled", true );
+				$('#toMonth').html("");
+			}
+			$( "#toDay" ).prop( "disabled", true );
+			$('#toDay').html("");
+		}
+
+		function toMonthChange(){
+			to_month_selected = $('#toMonth').find(":selected").val();
+
+			if(to_month_selected){
+				$( "#toDay" ).prop( "disabled", false );
+				let day_start = to_month_selected == from_month_selected && to_year_selected == from_year_selected ? from_day_selected : 1;
+				let day_end = to_year_selected == to_year_end && to_month_selected == to_month_end ? to_day_end : daysInMonth(to_year_selected, to_month_selected);
+				let option = '<option value="">日</option>';
+
+				for (let i = day_start; i <= day_end; i++) {
+					if(i < 10) {
+						option += '<option value="0' + parseInt(i) + '">' + parseInt(i) + '日</option>';
+					}
+					else {
+						option += '<option value="' + i + '">' + i + '日</option>';
+					}
+				}
+				$('#toDay').html(option);
+			}
+			else{
+				$( "#toDay" ).prop( "disabled", true );
+				$('#toDay').html("");
+			}
+		}
+
+		function toDayChange(){
+			to_day_selected = $('#toDay').find(":selected").val();
+			let fromDate = getFromDate();
+			let toDate = getToDate();
+
+			$("#fromDate").val(fromDate);
+			$("#toDate").val(toDate);
+			calculateDays();
+		}
+
+		function calculateDays (){
+			var d1 = $('#fromDate').val()+'T00:00:01';
+			var date1 = new Date(d1);
+			var d2 = $('#toDate').val()+'T00:00:00';
+			var date2 = new Date(d2);
+
+			timeDiff = date2.getTime() - date1.getTime();
+
+			var timeDiff = Math.abs(timeDiff);
+			var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+			$('#totalDay').val(diffDays);
+		}
+
+		function daysInMonth (year, month) {
+			return new Date(year, month, 0).getDate();
+		}
+
+		function setOptionRangeToDate(){
+			let fromDate = getFromDate();
+			return $.ajax({
+				type: "POST",
+				url: "{{route('user-project-end-date-range')}}",
+				data: {date: fromDate, dateRange: 59, _token: '{{ csrf_token() }}'},
+				dataType:'JSON',
+				success: function(data){
+					to_year_end = data['targetYear'];
+					to_month_end = data['targetMonth'];
+					to_day_end = data['targetDay'];
+				},
+				error: function (jqXHR, exception){
+					console.log("Error occured");
+				}
+			});
+		}
+
+		function getFromDate(){
+			return from_year_selected+'-'+from_month_selected+'-'+from_day_selected;
+		}
+
+		function getToDate(){
+			return to_year_selected+'-'+to_month_selected+'-'+to_day_selected;
+		}
 	</script>
 @stop

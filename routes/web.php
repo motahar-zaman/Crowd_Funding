@@ -246,6 +246,7 @@ Route::group(['prefix' => 'user'], function () {
 		Route::get('/details/{id}', 'User\ProjectController@details')->name('user-project-details');
 		Route::get('/project-edit/{id}', 'User\ProjectController@edit')->name('user-project-edit');
 		Route::post('/project-edit/{id}', 'User\ProjectController@editAction')->name('user-project-edit-action');
+        Route::post('/project-end-date-range', 'User\ProjectController@dateRangeAction')->name('user-project-end-date-range');
 
 		Route::get('/purchase-list', 'User\ProductController@purchaseList')->name('user-purchase-list');
 		Route::post('/purchase-list', 'User\ProductController@productRating')->name('user-product-rating');
